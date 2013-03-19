@@ -64,7 +64,7 @@
       <AdditionalIncludeDirectories>"..\..\..\..\..\\include";..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cinder_d.lib;%(AdditionalDependencies);comsuppw.lib;Kinect10.lib;..\..\..\lib\msw\assimp3.0.lib</AdditionalDependencies>
+      <AdditionalDependencies>cinder_d.lib;%(AdditionalDependencies);comsuppw.lib;Kinect10.lib;..\..\..\lib\msw\assimp3.0D.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>"..\..\..\..\..\\lib";"..\..\..\..\..\\lib\msw";$(KINECTSDK10_DIR)\lib\x86</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
