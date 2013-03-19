@@ -1,0 +1,310 @@
+﻿Build started 2013-03-18 19:08:31.
+     1>Project "C:\Users\num3ric\Code\Cinder\blocks\Cinder-Skinning\samples\SeymourDemo\vc11\SeymourDemo.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\include /I..\..\..\..\..\\include /I..\..\..\..\..\\boost /I..\..\..\include /I..\..\..\include\assimp /ZI /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D NOMINMAX /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\..\src\ASkinnedMesh.cpp ..\..\..\src\ModelIo.cpp ..\..\..\src\ModelSourceAssimp.cpp ..\..\..\src\ModelTargetSkinnedMesh.cpp ..\..\..\src\ModelTargetSkinnedVboMesh.cpp ..\..\..\src\Node.cpp ..\..\..\src\Skeleton.cpp ..\..\..\src\SkinnedMesh.cpp ..\..\..\src\SkinnedVboMesh.cpp ..\src\SeymourDemoApp.cpp
+     1>cl : Command line warning D9030: '/Gm' is incompatible with multiprocessing; ignoring /MP switch
+         SeymourDemoApp.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(23): error C2864: 'MaterialInfo::mTransparentColor' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(24): error C2864: 'MaterialInfo::mUseAlpha' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(25): error C2864: 'MaterialInfo::mHasMaterial' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(26): error C2864: 'MaterialInfo::mTwoSided' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(35): error C2864: 'BoneWeights::mActiveNbWeights' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(81): error C2864: 'ModelSourceAssimp::ModelInfo::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(82): error C2864: 'ModelSourceAssimp::ModelInfo::mHasSkeleton' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(83): error C2864: 'ModelSourceAssimp::ModelInfo::mHasAnimations' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(84): error C2864: 'ModelSourceAssimp::ModelInfo::mHasMaterials' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(87): error C2864: 'ModelSourceAssimp::ModelInfo::mNumSections' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skeleton.h(45): error C2864: 'Skeleton::mAnimationDuration' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(48): error C2864: 'ASkinnedMesh::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(49): error C2864: 'ASkinnedMesh::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(50): error C2864: 'ASkinnedMesh::mHasDefaultTransformation' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skinnedvbomesh.h(65): warning C4099: 'SkinnedVboMesh::MeshSection' : type name first seen using 'struct' now seen using 'class'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skinnedvbomesh.h(29) : see declaration of 'SkinnedVboMesh::MeshSection'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\samples\seymourdemo\src\seymourdemoapp.cpp(132): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\samples\seymourdemo\src\seymourdemoapp.cpp(133): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\samples\seymourdemo\src\seymourdemoapp.cpp(134): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         SkinnedVboMesh.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skeleton.h(45): error C2864: 'Skeleton::mAnimationDuration' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(23): error C2864: 'MaterialInfo::mTransparentColor' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(24): error C2864: 'MaterialInfo::mUseAlpha' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(25): error C2864: 'MaterialInfo::mHasMaterial' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(26): error C2864: 'MaterialInfo::mTwoSided' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(35): error C2864: 'BoneWeights::mActiveNbWeights' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(48): error C2864: 'ASkinnedMesh::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(49): error C2864: 'ASkinnedMesh::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(50): error C2864: 'ASkinnedMesh::mHasDefaultTransformation' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skinnedvbomesh.h(65): warning C4099: 'SkinnedVboMesh::MeshSection' : type name first seen using 'struct' now seen using 'class'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skinnedvbomesh.h(29) : see declaration of 'SkinnedVboMesh::MeshSection'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modeltargetskinnedvbomesh.h(32): error C2864: 'ModelTargetSkinnedVboMesh::mOffset' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\skinnedvbomesh.cpp(17): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\skinnedvbomesh.cpp(17): error C3861: 'loadResource': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\skinnedvbomesh.cpp(65): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\skinnedvbomesh.cpp(101): warning C4018: '<' : signed/unsigned mismatch
+         SkinnedMesh.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skeleton.h(45): error C2864: 'Skeleton::mAnimationDuration' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(23): error C2864: 'MaterialInfo::mTransparentColor' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(24): error C2864: 'MaterialInfo::mUseAlpha' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(25): error C2864: 'MaterialInfo::mHasMaterial' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(26): error C2864: 'MaterialInfo::mTwoSided' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(35): error C2864: 'BoneWeights::mActiveNbWeights' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(48): error C2864: 'ASkinnedMesh::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(49): error C2864: 'ASkinnedMesh::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(50): error C2864: 'ASkinnedMesh::mHasDefaultTransformation' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\skinnedmesh.cpp(21): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\skinnedmesh.cpp(56): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\skinnedmesh.cpp(76): warning C4018: '<' : signed/unsigned mismatch
+         Skeleton.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skeleton.h(45): error C2864: 'Skeleton::mAnimationDuration' : only static const integral data members can be initialized within a class
+         Node.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+         ModelTargetSkinnedVboMesh.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(23): error C2864: 'MaterialInfo::mTransparentColor' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(24): error C2864: 'MaterialInfo::mUseAlpha' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(25): error C2864: 'MaterialInfo::mHasMaterial' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(26): error C2864: 'MaterialInfo::mTwoSided' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(35): error C2864: 'BoneWeights::mActiveNbWeights' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modeltargetskinnedvbomesh.h(32): error C2864: 'ModelTargetSkinnedVboMesh::mOffset' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skeleton.h(45): error C2864: 'Skeleton::mAnimationDuration' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(48): error C2864: 'ASkinnedMesh::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(49): error C2864: 'ASkinnedMesh::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(50): error C2864: 'ASkinnedMesh::mHasDefaultTransformation' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skinnedvbomesh.h(65): warning C4099: 'SkinnedVboMesh::MeshSection' : type name first seen using 'struct' now seen using 'class'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skinnedvbomesh.h(29) : see declaration of 'SkinnedVboMesh::MeshSection'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modeltargetskinnedvbomesh.cpp(83): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modeltargetskinnedvbomesh.cpp(86): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         ModelTargetSkinnedMesh.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(23): error C2864: 'MaterialInfo::mTransparentColor' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(24): error C2864: 'MaterialInfo::mUseAlpha' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(25): error C2864: 'MaterialInfo::mHasMaterial' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(26): error C2864: 'MaterialInfo::mTwoSided' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(35): error C2864: 'BoneWeights::mActiveNbWeights' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skeleton.h(45): error C2864: 'Skeleton::mAnimationDuration' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(48): error C2864: 'ASkinnedMesh::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(49): error C2864: 'ASkinnedMesh::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(50): error C2864: 'ASkinnedMesh::mHasDefaultTransformation' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modeltargetskinnedmesh.cpp(34): error C2664: 'cinder::TriMesh::appendIndices' : cannot convert parameter 1 from 'const unsigned int *' to 'uint32_t *'
+                 Conversion loses qualifiers
+         ModelSourceAssimp.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(1): error C2871: 'ci' : a namespace with this name does not exist
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(23): error C2864: 'MaterialInfo::mTransparentColor' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(24): error C2864: 'MaterialInfo::mUseAlpha' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(25): error C2864: 'MaterialInfo::mHasMaterial' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(26): error C2864: 'MaterialInfo::mTwoSided' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(35): error C2864: 'BoneWeights::mActiveNbWeights' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(81): error C2864: 'ModelSourceAssimp::ModelInfo::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(82): error C2864: 'ModelSourceAssimp::ModelInfo::mHasSkeleton' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(83): error C2864: 'ModelSourceAssimp::ModelInfo::mHasAnimations' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(84): error C2864: 'ModelSourceAssimp::ModelInfo::mHasMaterials' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(87): error C2864: 'ModelSourceAssimp::ModelInfo::mNumSections' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skeleton.h(45): error C2864: 'Skeleton::mAnimationDuration' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(111): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(112): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(112): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(113): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(117): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(121): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(126): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(126): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(135): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(142): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(151): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(159): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(180): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(180): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(186): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(186): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(195): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(195): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(199): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(199): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(203): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(203): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(207): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(207): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(211): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(211): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(220): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(220): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(234): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(234): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(238): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(238): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(300): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(300): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(314): error C2143: syntax error : missing ')' before '{'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(314): error C2275: 'BoneWeights' : illegal use of this type as an expression
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(29) : see declaration of 'BoneWeights'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(314): error C2143: syntax error : missing ';' before '{'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(314): error C2059: syntax error : ')'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(327): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(367): error C2297: '+=' : illegal, right operand has type 'aiBone **'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(367): error C2040: '+=' : 'unsigned int' differs in levels of indirection from 'aiBone **'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(388): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(400): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(409): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(420): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(424): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(424): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(426): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(426): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(427): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(427): error C3861: 'console': identifier not found
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(428): error C2653: 'app' : is not a class or namespace name
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelsourceassimp.cpp(428): error C3861: 'console': identifier not found
+         ModelIo.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(23): error C2864: 'MaterialInfo::mTransparentColor' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(24): error C2864: 'MaterialInfo::mUseAlpha' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(25): error C2864: 'MaterialInfo::mHasMaterial' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(26): error C2864: 'MaterialInfo::mTwoSided' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(35): error C2864: 'BoneWeights::mActiveNbWeights' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\src\modelio.cpp(22): warning C4554: '&' : check operator precedence for possible error; use parentheses to clarify precedence
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(81): error C2864: 'ModelSourceAssimp::ModelInfo::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(82): error C2864: 'ModelSourceAssimp::ModelInfo::mHasSkeleton' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(83): error C2864: 'ModelSourceAssimp::ModelInfo::mHasAnimations' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(84): error C2864: 'ModelSourceAssimp::ModelInfo::mHasMaterials' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelsourceassimp.h(87): error C2864: 'ModelSourceAssimp::ModelInfo::mNumSections' : only static const integral data members can be initialized within a class
+         ASkinnedMesh.cpp
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2143: syntax error : missing ';' before '<'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(34) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2238: unexpected token(s) preceding ';'
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(31): error C2039: 'map' : is not a member of 'std'
+                 c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\animcurve.h(130) : see reference to class template instantiation 'AnimCurve<T>' being compiled
+                 with
+                 [
+                     T=cinder::Quatf
+                 ]
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(96): error C2864: 'Node::mTime' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(107): error C2864: 'Node::mLevel' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(108): error C2864: 'Node::mBoneIndex' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\node.h(110): error C2864: 'Node::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\skeleton.h(45): error C2864: 'Skeleton::mAnimationDuration' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(23): error C2864: 'MaterialInfo::mTransparentColor' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(24): error C2864: 'MaterialInfo::mUseAlpha' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(25): error C2864: 'MaterialInfo::mHasMaterial' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(26): error C2864: 'MaterialInfo::mTwoSided' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\modelio.h(35): error C2864: 'BoneWeights::mActiveNbWeights' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(48): error C2864: 'ASkinnedMesh::mIsAnimated' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(49): error C2864: 'ASkinnedMesh::mHasNormals' : only static const integral data members can be initialized within a class
+     1>c:\users\num3ric\code\cinder\blocks\cinder-skinning\include\askinnedmesh.h(50): error C2864: 'ASkinnedMesh::mHasDefaultTransformation' : only static const integral data members can be initialized within a class
+         Generating Code...
+     1>Done Building Project "C:\Users\num3ric\Code\Cinder\blocks\Cinder-Skinning\samples\SeymourDemo\vc11\SeymourDemo.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:39.10

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cinder>
+<block
+	name="Skinning"
+	id="org.libcinder.skinning"
+	author="Éric Renaud-Houde"
+	core="true"
+	>
+	<sourcePattern>src/*.cpp</sourcePattern>
+	<headerPattern>include/*.h</headerPattern>
+    <includePath>include/</includePath>
+    <includePath>include/assimp</includePath>
+    <resource>resources/skinning_vert_normals.glsl</resource>
+    <resource>resources/skinning_frag_normals.glsl</resource>
+    
+    <platform os="macosx">
+        <staticLibrary>lib/macosx/libassimp.a</staticLibrary>
+    </platform>
+    <platform os="msw">
+    </platform>
+</block>
+</cinder>
