@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "cinder/app/App.h"
+
 #include "Skeleton.h"
 #include "ASkinnedMesh.h"
 #include "ModelIo.h"
@@ -62,7 +64,7 @@ public:
 	const std::shared_ptr<Skeleton>&	getSkeleton() const { return mActiveSection->getSkeleton(); }
 	void								setSkeleton( const std::shared_ptr<Skeleton>& skeleton ) { mActiveSection->setSkeleton( skeleton ); }
 	
-	friend class SkinnedVboMesh::MeshSection;
+	friend struct SkinnedVboMesh::MeshSection;
 	
 	std::array<Matrix44f, MAXBONES> mBoneMatrices;
 	std::array<Matrix44f, MAXBONES> mInvTransposeMatrices;

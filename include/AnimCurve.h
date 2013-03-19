@@ -6,6 +6,7 @@
 
 #include <limits>
 #include <math.h>
+#include <map>
 #include <assert.h>
 
 using namespace ci;

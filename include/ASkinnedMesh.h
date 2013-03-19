@@ -41,13 +41,17 @@ public:
 	const MaterialInfo&		getMatInfo() const { return mMatInfo; }
 	void					setMatInfo( const MaterialInfo& matInfo ) { mMatInfo = matInfo; }
 protected:
-	ASkinnedMesh() { };
+	ASkinnedMesh()
+	: mIsAnimated( false )
+	, mHasNormals( false )
+	, mHasDefaultTransformation( false )
+	{ };
 	virtual void	drawMesh() = 0;
 	virtual void	updateMesh( float time, bool enableSkinning = true ) = 0;
 	
-	bool		mIsAnimated = false;
-	bool		mHasNormals = false;
-	bool		mHasDefaultTransformation = false;
+	bool		mIsAnimated;
+	bool		mHasNormals;
+	bool		mHasDefaultTransformation;
 	
 	SkeletonRef			mSkeleton;
 	MaterialInfo		mMatInfo;

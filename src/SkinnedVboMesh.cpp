@@ -10,11 +10,13 @@
 #include "ModelTargetSkinnedVboMesh.h"
 
 #include "Skeleton.h"
+#include "Resources.h"
 
 SkinnedVboMesh::MeshSection::MeshSection()
+: ASkinnedMesh()
 {
 	try {
-		mSkinningShader = gl::GlslProg( app::loadResource("skinning_vert_normals.glsl"), app::loadResource("skinning_frag_normals.glsl") );
+		mSkinningShader = gl::GlslProg( cinder::app::loadResource(RES_SKINNING_VERT), cinder::app::loadResource(RES_SKINNING_VERT) );
 	}
 	catch( gl::GlslProgCompileExc &exc ) {
 		std::cout << "Shader compile error: " << std::endl;

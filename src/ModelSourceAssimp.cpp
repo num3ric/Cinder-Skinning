@@ -1,13 +1,14 @@
-using namespace ci;
-
 #include "ModelSourceAssimp.h"
 #include "CustomIOStream.h"
 #include "Skeleton.h"
 
 #include "assimp/postprocess.h"
 #include "cinder/ImageIo.h"
+#include "cinder/app/App.h"
 
 #include <boost/algorithm/string.hpp>
+
+using namespace ci;
 
 namespace ai {
 	unsigned int flags =
@@ -311,7 +312,7 @@ namespace ai {
 		
 		// Create a list of empty bone weights mirroring the # of vertices
 		for( unsigned v=0; v < aimesh->mNumVertices; ++v ) {
-			boneWeights->push_back( BoneWeights{} );
+			boneWeights->push_back( BoneWeights() );
 		}
 		
 		for( unsigned b=0; b < nbBones; ++b ){
@@ -364,7 +365,7 @@ ModelSourceAssimp::ModelSourceAssimp( const fs::path& modelPath, const fs::path&
 	unsigned int numBones = 0;
 	for( unsigned int m=0; m < mAiScene->mNumMeshes; ++m ) {
 		aiMesh * mesh = mAiScene->mMeshes[m];
-		numBones += mesh->mBones;
+		numBones += mesh->mNumBones;
 		mModelInfo.mHasNormals = mModelInfo.mHasNormals || mesh->HasNormals();
 		
 		mModelInfo.mNumVertices.push_back( mesh->mNumVertices );

@@ -18,21 +18,28 @@ using namespace ci;
 
 struct MaterialInfo
 {
+	MaterialInfo() 
+	: mTransparentColor( Color::white() )
+	, mUseAlpha( false )
+	, mHasMaterial( false )
+	, mTwoSided( false )
+	{ }
 	gl::Texture		mTexture;
 	gl::Material	mMaterial;
-	Color			mTransparentColor = Color::white();
-	bool			mUseAlpha = false;
-	bool			mHasMaterial = false;
-	bool			mTwoSided = false;
+	Color			mTransparentColor;
+	bool			mUseAlpha;
+	bool			mHasMaterial;
+	bool			mTwoSided;
 };
 
 class BoneWeights {
 public:
+	BoneWeights() : mActiveNbWeights( 0 ) { }
 	static const int NB_WEIGHTS = 4;
 	void			addWeight( const std::shared_ptr<Node>& bone, float weight );
 	float			getWeight( int index ) const  { return mWeights[index]; }
 	const std::shared_ptr<Node>&	getBone( int index ) const { return mBones[index]; }
-	size_t		mActiveNbWeights = 0;
+	size_t		mActiveNbWeights;
 private:
 	std::array<float, NB_WEIGHTS> mWeights;
 	std::array<std::shared_ptr<Node>, NB_WEIGHTS> mBones;

@@ -19,6 +19,7 @@ class SkinnedMesh
 public:
 	struct MeshSection : public ASkinnedMesh
 	{
+		MeshSection() : ASkinnedMesh() { }
 		void updateMesh( float time, bool enableSkinning = true ) override;
 		void drawMesh() override;
 		

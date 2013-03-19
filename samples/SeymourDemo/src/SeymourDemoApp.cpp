@@ -37,7 +37,8 @@ private:
 	float							rotationRadius;
 	Vec3f							mLightPos;
 	
-	int								mMeshIndex, mFps;
+	int								mMeshIndex;
+	float							mFps;
 	params::InterfaceGl				mParams;
 	bool mUseVbo, mDrawSkeleton, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
 };

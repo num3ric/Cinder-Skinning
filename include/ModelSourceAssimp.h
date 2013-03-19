@@ -78,13 +78,20 @@ typedef std::shared_ptr< class ModelSourceAssimp > ModelSourceAssimpRef;
 class ModelSourceAssimp : public ModelSource {
 	
 	struct ModelInfo {
-		bool mHasNormals	= false;
-		bool mHasSkeleton	= false;
-		bool mHasAnimations	= false;
-		bool mHasMaterials	= false;
+		ModelInfo()
+		:mHasNormals( false )
+		, mHasSkeleton( false )
+		, mHasAnimations( false )
+		, mHasMaterials( false )
+		, mNumSections( 1 )
+		{ }
+		bool mHasNormals;
+		bool mHasSkeleton;
+		bool mHasAnimations;
+		bool mHasMaterials;
 		std::vector<size_t> mNumVertices;
 		std::vector<size_t> mNumIndices;
-		size_t mNumSections = 1;
+		size_t mNumSections;
 	};
 public:
 //	static ModelSourceRef	create( DataSourceRef dataSource );
