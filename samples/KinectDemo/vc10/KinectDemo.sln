@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C++ Express 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KinectDemo", "KinectDemo.vcxproj", "{A1C160E9-615D-4653-B8C0-66FD84803FDC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KinectDemo", "KinectDemo.vcxproj", "{BA013D55-77EE-4388-9843-90EE60696E59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,10 +8,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A1C160E9-615D-4653-B8C0-66FD84803FDC}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A1C160E9-615D-4653-B8C0-66FD84803FDC}.Debug|Win32.Build.0 = Debug|Win32
-		{A1C160E9-615D-4653-B8C0-66FD84803FDC}.Release|Win32.ActiveCfg = Release|Win32
-		{A1C160E9-615D-4653-B8C0-66FD84803FDC}.Release|Win32.Build.0 = Release|Win32
+		{BA013D55-77EE-4388-9843-90EE60696E59}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BA013D55-77EE-4388-9843-90EE60696E59}.Debug|Win32.Build.0 = Debug|Win32
+		{BA013D55-77EE-4388-9843-90EE60696E59}.Release|Win32.ActiveCfg = Release|Win32
+		{BA013D55-77EE-4388-9843-90EE60696E59}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

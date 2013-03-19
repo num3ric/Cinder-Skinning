@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -13,16 +14,22 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
     <Filter Include="Blocks">
-      <UniqueIdentifier>{3148E3B8-E96A-447B-9F7E-917E837361CD}</UniqueIdentifier>
+      <UniqueIdentifier>{C396EB78-23E3-449B-9E94-3D5E8B2325BD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\MSKinect">
+      <UniqueIdentifier>{27B0CC0C-B8BB-4263-BF15-4131C59B4AA3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\MSKinect\src">
+      <UniqueIdentifier>{1F4EA617-3923-4D2F-AE72-AC3061BFB133}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\Skinning">
-      <UniqueIdentifier>{6010F257-5707-4E5C-9798-7EFE2A683313}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Blocks\Skinning\src">
-      <UniqueIdentifier>{9097789B-3148-48E2-AEED-A456358E5790}</UniqueIdentifier>
+      <UniqueIdentifier>{81c860e8-1474-48e1-bbfc-bbb89c19c81e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Blocks\Skinning\include">
-      <UniqueIdentifier>{7E205BF6-DEF4-4300-8982-68076FAAF6DA}</UniqueIdentifier>
+      <UniqueIdentifier>{76d325f0-29bb-4956-9921-d72c14df929c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\Skinning\src">
+      <UniqueIdentifier>{284b65a9-b31d-4cee-8590-e300224f44cc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -35,73 +42,79 @@
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\Cinder-KinectSdk\src\Kinect.h">
+      <Filter>Blocks\MSKinect\src</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\..\..\Cinder-KinectSdk\src\Kinect.cpp">
+      <Filter>Blocks\MSKinect\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\ASkinnedMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\CustomIOStream.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ModelIo.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ModelSourceAssimp.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ModelTargetSkinnedMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ModelTargetSkinnedVboMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Node.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Skeleton.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\SkinnedMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\SkinnedVboMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+      <Filter>Blocks\Skinning\include</Filter>
     </ClCompile>
-    <ClInclude Include="..\..\..\include\AnimCurve.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ASkinnedMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\CustomIOStream.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ModelIo.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ModelSourceAssimp.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ModelTargetSkinnedMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ModelTargetSkinnedVboMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Node.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Skeleton.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\SkinnedMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\SkinnedVboMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\AnimCurve.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ASkinnedMesh.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\CustomIOStream.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ModelIo.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ModelSourceAssimp.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ModelTargetSkinnedMesh.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ModelTargetSkinnedVboMesh.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Node.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Skeleton.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\SkinnedMesh.h">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\SkinnedVboMesh.h">
+      <Filter>Blocks\Skinning\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -10,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{D1158077-1C1E-4EED-A322-B7A82F6A7CB5}</ProjectGuid>
+    <ProjectGuid>{EFD26FD8-E3B8-486E-919D-10434701C637}</ProjectGuid>
     <RootNamespace>KinectDemo</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
@@ -49,7 +50,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\include;"..\..\..\..\..\\include";"..\..\..\..\..\\boost";..\..\..\include;..\..\..\include\assimp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;"..\..\..\..\..\\include";"..\..\..\..\..\\boost";..\..\..\..\Cinder-KinectSdk\src;$(KINECTSDK10_DIR)\inc;..\..\..\include;..\..\..\include\assimp</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -63,8 +64,8 @@
       <AdditionalIncludeDirectories>"..\..\..\..\..\\include";..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cinder_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>"..\..\..\..\..\\lib";"..\..\..\..\..\\lib\msw"</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cinder_d.lib;%(AdditionalDependencies);comsuppw.lib;Kinect10.lib;..\..\..\lib\msw\assimp3.0.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>"..\..\..\..\..\\lib";"..\..\..\..\..\\lib\msw";$(KINECTSDK10_DIR)\lib\x86</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -72,10 +73,13 @@
       <TargetMachine>MachineX86</TargetMachine>
       <IgnoreSpecificDefaultLibraries>LIBCMT;LIBCPMT</IgnoreSpecificDefaultLibraries>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(KINECTSDK10_DIR)\Assemblies\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\include;"..\..\..\..\..\\include";"..\..\..\..\..\\boost";..\..\..\include;..\..\..\include\assimp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;"..\..\..\..\..\\include";"..\..\..\..\..\\boost";..\..\..\..\Cinder-KinectSdk\src;$(KINECTSDK10_DIR)\inc;..\..\..\include;..\..\..\include\assimp</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader />
@@ -90,8 +94,8 @@
       <AdditionalIncludeDirectories>"..\..\..\..\..\\include";..\include</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>cinder.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>"..\..\..\..\..\\lib";"..\..\..\..\..\\lib\msw"</AdditionalLibraryDirectories>
+      <AdditionalDependencies>cinder.lib;%(AdditionalDependencies);comsuppw.lib;Kinect10.lib;..\..\..\lib\msw\assimp3.0.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>"..\..\..\..\..\\lib";"..\..\..\..\..\\lib\msw";$(KINECTSDK10_DIR)\lib\x86</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <SubSystem>Windows</SubSystem>
@@ -101,12 +105,14 @@
       <DataExecutionPrevention />
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "$(KINECTSDK10_DIR)\Assemblies\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\KinectDemoApp.cpp" />
     <ClCompile Include="..\..\..\src\ASkinnedMesh.cpp" />
     <ClCompile Include="..\..\..\src\CustomIOStream.cpp" />
     <ClCompile Include="..\..\..\src\ModelIo.cpp" />
@@ -117,9 +123,10 @@
     <ClCompile Include="..\..\..\src\Skeleton.cpp" />
     <ClCompile Include="..\..\..\src\SkinnedMesh.cpp" />
     <ClCompile Include="..\..\..\src\SkinnedVboMesh.cpp" />
+    <ClCompile Include="..\src\KinectDemoApp.cpp" />
+    <ClCompile Include="..\..\..\..\Cinder-KinectSdk\src\Kinect.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\..\..\include\AnimCurve.h" />
     <ClInclude Include="..\..\..\include\ASkinnedMesh.h" />
     <ClInclude Include="..\..\..\include\CustomIOStream.h" />
@@ -131,6 +138,8 @@
     <ClInclude Include="..\..\..\include\Skeleton.h" />
     <ClInclude Include="..\..\..\include\SkinnedMesh.h" />
     <ClInclude Include="..\..\..\include\SkinnedVboMesh.h" />
+    <ClInclude Include="..\include\Resources.h" />
+    <ClInclude Include="..\..\..\..\Cinder-KinectSdk\src\Kinect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

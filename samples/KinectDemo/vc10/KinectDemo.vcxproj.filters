@@ -13,16 +13,13 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
     <Filter Include="Blocks">
-      <UniqueIdentifier>{5AE2C0BD-A20F-4889-A7B1-3EC6CDEE1894}</UniqueIdentifier>
+      <UniqueIdentifier>{6B9C3CDC-753B-4B4C-B3AA-E9BB2182CBF6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Blocks\Skinning">
-      <UniqueIdentifier>{A57098DC-2507-46CD-B799-BC1D24774721}</UniqueIdentifier>
+    <Filter Include="Blocks\MSKinect">
+      <UniqueIdentifier>{6949A513-68AD-47BD-8914-1925F5974DD0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Blocks\Skinning\src">
-      <UniqueIdentifier>{D3A0FBBA-55FB-4BFF-A4D4-7BFFF511C2E9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Blocks\Skinning\include">
-      <UniqueIdentifier>{3B19BADC-7BDB-4838-831D-72B595EACC67}</UniqueIdentifier>
+    <Filter Include="Blocks\MSKinect\src">
+      <UniqueIdentifier>{723B7154-FD17-42C0-A5FF-1363788F3437}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -35,69 +32,12 @@
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClCompile Include="..\..\..\src\ASkinnedMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
+    <ClInclude Include="..\..\..\..\Cinder-KinectSdk\src\Kinect.h">
+      <Filter>Blocks\MSKinect\src</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\..\..\Cinder-KinectSdk\src\Kinect.cpp">
+      <Filter>Blocks\MSKinect\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\CustomIOStream.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ModelIo.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ModelSourceAssimp.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ModelTargetSkinnedMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ModelTargetSkinnedVboMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Node.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\Skeleton.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\SkinnedMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\SkinnedVboMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
-    <ClInclude Include="..\..\..\include\AnimCurve.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ASkinnedMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\CustomIOStream.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ModelIo.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ModelSourceAssimp.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ModelTargetSkinnedMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\ModelTargetSkinnedVboMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Node.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\Skeleton.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\SkinnedMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\SkinnedVboMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
