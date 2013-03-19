@@ -16,7 +16,7 @@ SkinnedVboMesh::MeshSection::MeshSection()
 : ASkinnedMesh()
 {
 	try {
-		mSkinningShader = gl::GlslProg( cinder::app::loadResource(RES_SKINNING_VERT), cinder::app::loadResource(RES_SKINNING_VERT) );
+		mSkinningShader = gl::GlslProg( ci::app::loadResource(RES_SKINNING_VERT), ci::app::loadResource(RES_SKINNING_FRAG) );
 	}
 	catch( gl::GlslProgCompileExc &exc ) {
 		std::cout << "Shader compile error: " << std::endl;
