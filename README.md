@@ -1,7 +1,7 @@
 
 **Cinder-Skinning Block**
 
-		This (still in development) block aims to facilitate asset loading, skeletal animations and mesh skinning (both on the cpu and and gpu). 
+This (still in development) block aims to facilitate asset loading, skeletal animations and mesh skinning (both on the cpu and and gpu). 
 
 **Installation Instructions:**
 * Clone inside the Cinder block folder.
