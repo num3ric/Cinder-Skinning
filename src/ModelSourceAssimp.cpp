@@ -109,21 +109,21 @@ namespace ai {
 				try {
 					model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
 					float tsecs = ( anim->mTicksPerSecond != 0 ) ? (float) anim->mTicksPerSecond : 25.0f;
-					bone->initAnimation( anim->mDuration, tsecs );
+					bone->initAnimation( float( anim->mDuration ), tsecs );
 					app::console() << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
-					for( int k=0; k < nodeAnim->mNumPositionKeys; ++k) {
+					for( unsigned int k=0; k < nodeAnim->mNumPositionKeys; ++k) {
 						const aiVectorKey& key = nodeAnim->mPositionKeys[k];
 						bone->addTranslationKeyframe( (float) key.mTime, ai::get( key.mValue ) );
 					}
-					for( int k=0; k < nodeAnim->mNumRotationKeys; ++k) {
+					for( unsigned int k=0; k < nodeAnim->mNumRotationKeys; ++k) {
 						const aiQuatKey& key = nodeAnim->mRotationKeys[k];
 						bone->addRotationKeyframe( (float) key.mTime, ai::get( key.mValue ) );
 					}
-					for( int k=0; k < nodeAnim->mNumScalingKeys; ++k) {
+					for( unsigned int k=0; k < nodeAnim->mNumScalingKeys; ++k) {
 						const aiVectorKey& key = nodeAnim->mScalingKeys[k];
 						bone->addScalingKeyframe( (float) key.mTime, ai::get( key.mValue ) );
 					}
-				} catch ( const std::out_of_range& oor) {
+				} catch ( const std::out_of_range& ) {
 					app::console() << "Anim node " << ai::get(nodeAnim->mNodeName) << " is not a bone." << std::endl;
 				}
 			}
@@ -133,14 +133,14 @@ namespace ai {
 	void loadPositions( const aiMesh* aimesh, std::vector<Vec3f>* positions )
 	{
 		std::vector<Vec3f> vertices;
-		for(int i=0; i < aimesh->mNumVertices; ++i) {
+		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
 			positions->push_back( ai::get( aimesh->mVertices[i] ) );
 		}
 	}
 	
 	void loadNormals( const aiMesh* aimesh, std::vector<Vec3f>* normals )
 	{
-		for(int i=0; i < aimesh->mNumVertices; ++i) {
+		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
 			normals->push_back( -ai::get( aimesh->mNormals[i] ) );
 		}
 	}
@@ -149,7 +149,7 @@ namespace ai {
 	
 	void loadTexCoords( const aiMesh* aimesh, std::vector<Vec2f>* texCoords )
 	{
-		for(int i=0; i < aimesh->mNumVertices; ++i) {
+		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
 			texCoords->push_back( Vec2f(aimesh->mTextureCoords[0][i].x,
 									   aimesh->mTextureCoords[0][i].y) );
 		}
@@ -157,7 +157,7 @@ namespace ai {
 	
 	void loadIndices( const aiMesh* aimesh, std::vector<uint32_t>* indices )
 	{
-		for(int i=0; i < aimesh->mNumFaces; ++i) {
+		for( unsigned int i=0; i < aimesh->mNumFaces; ++i ) {
 			aiFace aiface = aimesh->mFaces[i];
 			unsigned numIndices = aiface.mNumIndices;
 			assert( numIndices <= 3 );
@@ -325,7 +325,7 @@ namespace ai {
 			
 			// Add the bone weight information to the correct vertex index
 			aiBone* aibone = aimesh->mBones[b];
-			for(int w=0; w<aibone->mNumWeights; ++w ) {
+			for( unsigned int w=0; w<aibone->mNumWeights; ++w ) {
 				float weight = aibone->mWeights[w].mWeight;
 				int boneWeightIndex = int( aibone->mWeights[w].mVertexId );
 				(*boneWeights)[boneWeightIndex].addWeight( bone, weight );
@@ -388,7 +388,7 @@ ModelSourceAssimpRef ModelSourceAssimp::create( const fs::path& modelPath, const
 size_t getTotal( const std::vector<size_t> v )
 {
 	size_t total = 0;
-	for(int i=0; i< v.size(); ++i ) {
+	for( size_t i=0; i< v.size(); ++i ) {
 		total += v[i];
 	}
 	return total;
@@ -400,7 +400,6 @@ size_t ModelSourceAssimp::getNumVertices( int section ) const
 		return getTotal( mModelInfo.mNumVertices );
 	}
 	
-	assert( section >= 0 && section < mModelInfo.mNumVertices.size() );
 	return mModelInfo.mNumVertices[section];
 }
 size_t ModelSourceAssimp::getNumIndices( int section )  const
@@ -408,8 +407,7 @@ size_t ModelSourceAssimp::getNumIndices( int section )  const
 	if( section == -1 ) {
 		return getTotal( mModelInfo.mNumIndices );
 	}
-	
-	assert( section >= 0 && section < mModelInfo.mNumIndices.size() );
+
 	return mModelInfo.mNumIndices[section];
 }
 
@@ -422,7 +420,7 @@ void ModelSourceAssimp::load( ModelTarget *target )
 		loadSkeleton = true;
 	}
 	
-	for(int i=0; i< mAiScene->mNumMeshes; ++i ) {
+	for( unsigned int i=0; i< mAiScene->mNumMeshes; ++i ) {
 		const aiMesh* aimesh = mAiScene->mMeshes[i];
 		std::string name = ai::get( mAiScene->mMeshes[ i ]->mName );
 		
