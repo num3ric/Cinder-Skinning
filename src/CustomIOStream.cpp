@@ -13,6 +13,8 @@
 
 #include "cinder/Utilities.h"
 
+namespace model {
+
 CustomIOStream::CustomIOStream( FILE *file )
 {
 	mStream = ci::IoStreamFile::create(file);
@@ -85,3 +87,5 @@ void CustomIOSystem::Close( Assimp::IOStream* streamFile)
 {
 	delete streamFile;
 }
+
+} //end namespace model

@@ -15,6 +15,8 @@ using namespace std;
 #include "SkinnedMesh.h"
 #include "SkinnedVboMesh.h"
 
+using namespace model;
+
 class SeymourDemo : public AppNative {
 public:
 	void setup();
@@ -79,7 +81,7 @@ void SeymourDemo::fileDrop( FileDropEvent event )
 {
 	try {
 		fs::path modelFile = event.getFile( 0 );
-		mSkinnedMesh = SkinnedMesh::create( loadModel( modelFile, getFolderPath() ) );
+		mSkinnedMesh = SkinnedMesh::create( loadModel( modelFile ) );
 		mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( modelFile ), mSkinnedMesh->getSkeleton() );
 		console() << *mSkinnedMesh->getSkeleton();
 	}

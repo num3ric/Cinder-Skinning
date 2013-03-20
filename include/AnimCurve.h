@@ -9,7 +9,7 @@
 #include <map>
 #include <assert.h>
 
-using namespace ci;
+namespace model {
 
 template< typename T >
 class AnimCurve {
@@ -128,22 +128,24 @@ inline bool AnimCurve<T>::isfinite( const ci::Vec3f& vec )
 }
 
 template<>
-inline Quatf AnimCurve<Quatf>::lerp( const Quatf& start, const Quatf& end, float time )
+inline ci::Quatf AnimCurve<ci::Quatf>::lerp( const ci::Quatf& start, const ci::Quatf& end, float time )
 {
 	//TODO: find the cause of these numerical errors.
-	Quatf rotation = start.slerp(time, end);
+	ci::Quatf rotation = start.slerp(time, end);
 	if ( !isfinite( rotation.getAxis() ) ) {
-		rotation = Quatf::identity();
+		rotation = ci::Quatf::identity();
 	}
 	return rotation;
 }
 
 template<>
-inline Quatd AnimCurve<Quatd>::lerp( const Quatd& start, const Quatd& end, float time )
+inline ci::Quatd AnimCurve<ci::Quatd>::lerp( const ci::Quatd& start, const ci::Quatd& end, float time )
 {
-	Quatd rotation = start.slerp(time, end);
+	ci::Quatd rotation = start.slerp(time, end);
 	if ( !isfinite( rotation.getAxis() ) ) {
-		rotation = Quatd::identity();
+		rotation = ci::Quatd::identity();
 	}
 	return rotation;
 }
+
+} //end namespace model

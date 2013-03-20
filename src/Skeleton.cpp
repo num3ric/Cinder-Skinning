@@ -10,6 +10,8 @@
 
 #include <assert.h>
 
+namespace model {
+
 Skeleton::Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames )
 : mRootNode( root )
 , mBoneNames( boneNames )
@@ -97,7 +99,7 @@ bool Skeleton::isVisibleNode( const NodeRef& node ) const
 	NodeRef parent = node->getParent();
 	return  parent &&
 			(hasBone( node->getName() ) || hasBone( parent->getName() ) ) &&
-			parent->getInitialTransformation() != Matrix44f::identity();
+			parent->getInitialTransformation() != ci::Matrix44f::identity();
 }
 
 void Skeleton::traverseNodes( const NodeRef& node, std::function<void(NodeRef)> visit ) const
@@ -110,17 +112,17 @@ void Skeleton::traverseNodes( const NodeRef& node, std::function<void(NodeRef)> 
 
 void Skeleton::drawRelative(const NodeRef& node, const NodeRef& parent) const
 {
-	Matrix44f currentTransformation = node->getRelativeTransformation();
+	ci::Matrix44f currentTransformation = node->getRelativeTransformation();
 	
-	gl::pushModelView();	
+	ci::gl::pushModelView();	
 	if( isVisibleNode( node ) ) {
-		gl::drawSkeletonNodeRelative( *node, Node::RenderMode::JOINTS );
+		ci::gl::drawSkeletonNodeRelative( *node, Node::RenderMode::JOINTS );
 	}
-	gl::multModelView( currentTransformation );
+	ci::gl::multModelView( currentTransformation );
 	for( NodeRef child : node->getChildren() ) {
 		drawRelative(child, node);
 	}
-	gl::popModelView();
+	ci::gl::popModelView();
 }
 
 void Skeleton::drawAbsolute( const NodeRef& node ) const
@@ -128,7 +130,7 @@ void Skeleton::drawAbsolute( const NodeRef& node ) const
 	traverseNodes( node,
 				  [=] ( NodeRef n ) {
 					  if( isVisibleNode( n ) ) {
-						  gl::drawSkeletonNode( *n );
+						  ci::gl::drawSkeletonNode( *n );
 					  }
 				  } );
 }
@@ -137,7 +139,7 @@ void Skeleton::draw( bool relative, const std::string& name ) const
 {
 	glPushAttrib( GL_ALL_ATTRIB_BITS );
 	glPushClientAttrib( GL_CLIENT_ALL_ATTRIB_BITS );
-	gl::disable( GL_LIGHTING );	
+	ci::gl::disable( GL_LIGHTING );	
 	NodeRef root = ( !name.empty() && hasBone( name ) ) ? mBoneNames.at(name) : mRootNode;
 	if( relative ) {
 		drawRelative( root );
@@ -163,3 +165,5 @@ std::ostream& operator<<( std::ostream& o, const Skeleton& skeleton )
 						   });
 	return o;
 }
+
+} //end namespace model

@@ -1,16 +1,15 @@
 #pragma once
 
 #include "ASkinnedMesh.h"
-#include "Skeleton.h"
-#include "Node.h"
 
-//#include "cinder/Cinder.h"
 #include "cinder/TriMesh.h"
 
 #include <vector>
 #include <string>
 
-using namespace ci;
+class model::Skeleton;
+
+namespace model {
 
 typedef std::shared_ptr< class SkinnedMesh > SkinnedMeshRef;
 
@@ -24,19 +23,19 @@ public:
 		void drawMesh() override;
 		
 		std::string mName;
-		TriMesh mTriMesh;
-		std::vector< Vec3f > mInitialPositions;
-		std::vector< Vec3f > mInitialNormals;
+		ci::TriMesh mTriMesh;
+		std::vector< ci::Vec3f > mInitialPositions;
+		std::vector< ci::Vec3f > mInitialNormals;
 	};
 	typedef std::shared_ptr< struct SkinnedMesh::MeshSection > MeshSectionRef;
 	
-	static SkinnedMeshRef create( ModelSourceRef modelSource, const SkeletonRef& skeleton = nullptr );
+	static SkinnedMeshRef create( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	void appendSection( const MeshSectionRef& meshSection );
 	void update( float time, bool enableSkinning = true );
 	void draw();
 	
-	SkeletonRef&		getSkeleton() { return mActiveSection->getSkeleton(); }
-	const SkeletonRef&	getSkeleton() const { return mActiveSection->getSkeleton(); }
+	std::shared_ptr<Skeleton>&		getSkeleton() { return mActiveSection->getSkeleton(); }
+	const std::shared_ptr<Skeleton>&	getSkeleton() const { return mActiveSection->getSkeleton(); }
 	
 	MeshSectionRef&			getActiveSection() { return mActiveSection; }
 	const MeshSectionRef&	getActiveSection() const { return mActiveSection; }
@@ -45,10 +44,12 @@ public:
 	const std::vector< MeshSectionRef >&	getSections() const { return mMeshSections; }
 	
 protected:
-	SkinnedMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton = nullptr );
+	SkinnedMesh( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	//add full behavior/functions relating to "active section"
 	MeshSectionRef mActiveSection;
 	std::vector< MeshSectionRef > mMeshSections;
 };
 
 typedef std::shared_ptr< struct SkinnedMesh::MeshSection > MeshSectionRef;
+
+} //end namespace model

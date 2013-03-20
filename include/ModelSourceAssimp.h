@@ -8,7 +8,7 @@
 //#include "assimp/postprocess.h"
 #include "assimp/Importer.hpp"	//OO version Header!
 
-class Node;
+class model::Node;
 
 namespace ai {
 	
@@ -42,36 +42,36 @@ namespace ai {
 	const aiNode* findMeshNode( const std::string& meshName, const aiScene* aiscene, const aiNode* ainode );
 	
 	//FIXME: Move into private namespace?
-	std::shared_ptr<class Skeleton> loadSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root = nullptr );
+	std::shared_ptr<class model::Skeleton> loadSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root = nullptr );
 	
-	std::shared_ptr<Node> generateNodeHierarchy(Skeleton* skeleton,
+	std::shared_ptr<model::Node> generateNodeHierarchy(model::Skeleton* skeleton,
 												const aiNode* ainode,
-												const std::shared_ptr<Node>& parent = nullptr,
+												const std::shared_ptr<model::Node>& parent = nullptr,
 												ci::Matrix44f derivedTransformation = ci::Matrix44f::identity(),
 												int level = 0 );
 	
-	void generateAnimationCurves( Skeleton* skeleton, const aiScene* aiscene );
+	void generateAnimationCurves( model::Skeleton* skeleton, const aiScene* aiscene );
 	
-	void loadPositions( const aiMesh* aimesh, std::vector<Vec3f>* positions );
+	void loadPositions( const aiMesh* aimesh, std::vector<ci::Vec3f>* positions );
 
-	void loadNormals( const aiMesh* aimesh, std::vector<Vec3f>* normals );
+	void loadNormals( const aiMesh* aimesh, std::vector<ci::Vec3f>* normals );
 
-	void loadTexCoords( const aiMesh* aimesh, std::vector<Vec2f>* texCoords );
+	void loadTexCoords( const aiMesh* aimesh, std::vector<ci::Vec2f>* texCoords );
 
 	void loadIndices( const aiMesh* aimesh, std::vector<uint32_t>* indices );
 	
-	void loadTexture( const aiScene* aiscene, const aiMesh *aimesh, MaterialInfo* texInfo, fs::path modelPath, fs::path rootPath = ""  );
+	void loadTexture( const aiScene* aiscene, const aiMesh *aimesh, model::MaterialInfo* texInfo, ci::fs::path modelPath, ci::fs::path rootPath = ""  );
 	
-	void loadBoneWeights( const aiMesh* aimesh, const Skeleton* skeleton, std::vector<BoneWeights>* boneWeights  );
+	void loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton, std::vector<model::BoneWeights>* boneWeights  );
 	
 	//TODO: Use when there is no bones
-	Matrix44f getDefaultTransformation( std::string name, const aiScene* aiscene, Skeleton* skeleton );
+	ci::Matrix44f getDefaultTransformation( std::string name, const aiScene* aiscene, model::Skeleton* skeleton );
 
 }
 
 
 
-using namespace ci;
+namespace model {
 
 typedef std::shared_ptr< class ModelSourceAssimp > ModelSourceAssimpRef;
 
@@ -95,7 +95,7 @@ class ModelSourceAssimp : public ModelSource {
 	};
 public:
 //	static ModelSourceRef	create( DataSourceRef dataSource );
-	static ModelSourceAssimpRef	create( const fs::path& modelPath, const fs::path& rootAssetFolderPath = ""  );
+	static ModelSourceAssimpRef	create( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath = ""  );
 	
 	virtual size_t	getNumSections() const override { return mModelInfo.mNumSections; }
 	virtual size_t	getNumVertices( int section = -1 ) const override;
@@ -109,7 +109,7 @@ public:
 	virtual void	load( ModelTarget *target ) override;
 	
 protected:
-	ModelSourceAssimp( const fs::path& modelPath, const fs::path& rootAssetFolderPath = ""  );
+	ModelSourceAssimp( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath = ""  );
 private:
 	//! Assimp importer instance which cannot be destroyed until the scene loading is complete.
 	std::unique_ptr<Assimp::Importer>	mImporter;
@@ -117,9 +117,11 @@ private:
 	const aiScene*						mAiScene;
 	
 	//! File path to the model.
-	fs::path							mModelPath;
+	ci::fs::path						mModelPath;
 	//! Root asset folder (textures in a model may not reside in the same directory as the model).
-	fs::path							mRootAssetFolderPath;
+	ci::fs::path						mRootAssetFolderPath;
 
 	ModelInfo mModelInfo;
 };
+
+} //end namespace model

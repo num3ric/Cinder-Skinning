@@ -13,6 +13,7 @@
 #include "assimp/IOStream.hpp"
 #include "assimp/IOSystem.hpp"
 
+namespace model {
 
 class CustomIOStream : public Assimp::IOStream
 {
@@ -46,3 +47,5 @@ private:
 	Assimp::IOStream* Open( const char *pFile, const char *pMode) override;
 	void Close( Assimp::IOStream* streamFile) override;
 };
+
+} //end namespace model

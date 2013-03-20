@@ -19,6 +19,7 @@ const int ROW_LEN = 12;
 const int NUM_MONSTERS = ROW_LEN * ROW_LEN;
 const float SPACING = 75.0f;
 
+using namespace model;
 
 class ArmyDemoApp : public AppNative {
 public:

@@ -11,14 +11,11 @@
 #include "AnimCurve.h"
 
 #include "cinder/Matrix.h"
-#include "cinder/gl/gl.h"
-#include "cinder/Color.h"
-#include "cinder/Vector.h"
 
 #include <string>
 #include <vector>
 
-using namespace ci;
+namespace model {
 
 typedef std::shared_ptr<class Node> NodeRef;
 
@@ -26,7 +23,7 @@ class Node {
 public:
 	enum RenderMode { CONNECTED, JOINTS };
 	
-	explicit Node( Matrix44f absoluteTransformation, Matrix44f relativeTransformation, std::string name, NodeRef parent = nullptr, int level = 0 );
+	explicit Node( const ci::Matrix44f& absoluteTransformation, const ci::Matrix44f& relativeTransformation, std::string name, NodeRef parent = nullptr, int level = 0 );
 	
 	NodeRef clone() const;
 	
@@ -46,27 +43,27 @@ public:
 	const std::string&	getName() const { return mName; }
 	void				setName( const std::string& name ) { mName = name; }
 		
-	const Matrix44f&	getRelativeTransformation() const { return mRelativeTransformation; }
-	void				setRelativeTransformation( const Matrix44f& T ) { mRelativeTransformation = T; }
+	const ci::Matrix44f&	getRelativeTransformation() const { return mRelativeTransformation; }
+	void				setRelativeTransformation( const ci::Matrix44f& T ) { mRelativeTransformation = T; }
 	
-	const Matrix44f&	getAbsoluteTransformation() const { return mAbsoluteTransformation; }
-	void				setAbsoluteTransformation( const Matrix44f& T ) { mRelativeTransformation = T;
-																		  mAbsolutePosition = mAbsoluteTransformation * Vec3f::zero(); }
+	const ci::Matrix44f&	getAbsoluteTransformation() const { return mAbsoluteTransformation; }
+	void				setAbsoluteTransformation( const ci::Matrix44f& T ) { mRelativeTransformation = T;
+																		  mAbsolutePosition = mAbsoluteTransformation * ci::Vec3f::zero(); }
 	
-	const Vec3f&		getAbsolutePosition() const { return mAbsolutePosition; }
+	const ci::Vec3f&		getAbsolutePosition() const { return mAbsolutePosition; }
 	
-	const Matrix44f&	getInitialTransformation() const { return mInitialRelativeTransformation; }
-	const Matrix44f&	getInitialAbsoluteTransformation() const { return mInitialAbsoluteTransformation; }
-	const Vec3f&		getInitialAbsolutePosition() const { return mInitialAbsolutePosition; }
+	const ci::Matrix44f&	getInitialTransformation() const { return mInitialRelativeTransformation; }
+	const ci::Matrix44f&	getInitialAbsoluteTransformation() const { return mInitialAbsoluteTransformation; }
+	const ci::Vec3f&		getInitialAbsolutePosition() const { return mInitialAbsolutePosition; }
 	
 	int		getLevel() const { return mLevel; }
 	void	setLevel( int level ) { mLevel = level; }
 	int		getBoneIndex() const { return mBoneIndex; }
 	void	setBoneIndex( int boneIndex ) { mBoneIndex = boneIndex; }
 		
-	void	addTranslationKeyframe( float time, const Vec3f& translation );
-	void	addRotationKeyframe( float time, const Quatf& rotation );
-	void	addScalingKeyframe( float time, const Vec3f& scaling );
+	void	addTranslationKeyframe( float time, const ci::Vec3f& translation );
+	void	addRotationKeyframe( float time, const ci::Quatf& rotation );
+	void	addScalingKeyframe( float time, const ci::Vec3f& scaling );
 	
 	void	initAnimation( float duration, float ticksPerSecond );
 	bool	isAnimated() const { return mIsAnimated; }
@@ -79,15 +76,8 @@ public:
 	 */
 	void	update( float time );
 	
-	/*!
-	 *  Update the absolute transformation (and the convient absolute position) by concatenating
-	 *  its relative transformation with with its parent's absolute transformation. No traversal
-	 *  is done.
-	 */
-	void	updateAbsolute();
-	
-	void		setOffsetMatrix( const Matrix44f& offset ) { mOffset =  std::unique_ptr<Matrix44f>( new Matrix44f(offset) ); }
-	const std::unique_ptr<Matrix44f>& getOffset() { return mOffset; }
+	void		setOffsetMatrix( const ci::Matrix44f& offset ) { mOffset =  std::unique_ptr<ci::Matrix44f>( new ci::Matrix44f(offset) ); }
+	const std::unique_ptr<ci::Matrix44f>& getOffset() { return mOffset; }
 	
 	bool operator==( Node &rhs )
 	{
@@ -100,20 +90,27 @@ public:
 		return !(*this == rhs);
 	}
 protected:
-	Vec3f		getAnimTranslation( float time ) const;
-	Quatf		getAnimRotation( float time ) const;
-	Vec3f		getAnimScaling( float time ) const;
+	/*!
+	 *  Update the absolute transformation (and the convient absolute position) by concatenating
+	 *  its relative transformation with with its parent's absolute transformation. No traversal
+	 *  is done.
+	 */
+	void	updateAbsolute();
 	
-	Matrix44f	mRelativeTransformation;
-	Matrix44f	mAbsoluteTransformation;
-	Vec3f		mAbsolutePosition;
-	float		mTime;
+	ci::Vec3f		getAnimTranslation( float time ) const;
+	ci::Quatf		getAnimRotation( float time ) const;
+	ci::Vec3f		getAnimScaling( float time ) const;
 	
-	Matrix44f	mInitialRelativeTransformation;
-	Matrix44f	mInitialAbsoluteTransformation;
-	Vec3f		mInitialAbsolutePosition;
+	ci::Matrix44f	mRelativeTransformation;
+	ci::Matrix44f	mAbsoluteTransformation;
+	ci::Vec3f		mAbsolutePosition;
+	float			mTime;
 	
-	std::unique_ptr<Matrix44f> mOffset;
+	ci::Matrix44f	mInitialRelativeTransformation;
+	ci::Matrix44f	mInitialAbsoluteTransformation;
+	ci::Vec3f		mInitialAbsolutePosition;
+	
+	std::unique_ptr<ci::Matrix44f> mOffset;
 	
 	NodeRef		mParent;
 	std::vector<NodeRef> mChildren;
@@ -122,18 +119,20 @@ protected:
 	int			mBoneIndex;
 	
 	bool				mIsAnimated;
-	AnimCurve<Vec3f>	mTranslationCurve;
-	AnimCurve<Quatf>	mRotationCurve;
-	AnimCurve<Vec3f>	mScalingCurve;
+	AnimCurve<ci::Vec3f>	mTranslationCurve;
+	AnimCurve<ci::Quatf>	mRotationCurve;
+	AnimCurve<ci::Vec3f>	mScalingCurve;
 private:
 	Node( const Node &rhs ); // private to prevent copying; use clone() method instead
 	Node& operator=( const Node &rhs ); // not defined to prevent copying
 };
+	
+} //end namespace model
 
 namespace cinder {
 	namespace gl {
 		void drawCone( const Vec3f& start, const Vec3f& end );
-		void drawSkeletonNode( const Node& node, Node::RenderMode mode = Node::RenderMode::CONNECTED );
-		void drawSkeletonNodeRelative( const Node& node, Node::RenderMode mode = Node::RenderMode::CONNECTED );
+		void drawSkeletonNode( const model::Node& node, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
+		void drawSkeletonNodeRelative( const model::Node& node, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
 	}
 }

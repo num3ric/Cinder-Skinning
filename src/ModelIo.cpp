@@ -1,6 +1,9 @@
 
 #include "ModelIo.h"
 #include "Node.h"
+#include "ModelSourceAssimp.h"
+
+namespace model {
 
 void BoneWeights::addWeight( const NodeRef& bone, float weight ) {
 	if( mActiveNbWeights == NB_WEIGHTS ) {
@@ -19,7 +22,7 @@ void BoneWeights::addWeight( const NodeRef& bone, float weight ) {
 				sum += mWeights[i];
 			}
 			
-			if( sum < 1.0f - EPSILON & sum !=0 ) {
+			if( sum < 1.0f - ci::EPSILON & sum !=0 ) {
 				for (int i=0; i < NB_WEIGHTS; ++i) {
 					mWeights[i] *= 1.0f / sum;
 				}
@@ -33,18 +36,17 @@ void ModelTarget::setActiveSection( int index ) { }
 
 void ModelTarget::loadName( std::string name ) { }
 
-void ModelTarget::loadTex( const std::vector<Vec2f>& texCoords, const MaterialInfo& texInfo ) { }
+void ModelTarget::loadTex( const std::vector<ci::Vec2f>& texCoords, const MaterialInfo& texInfo ) { }
 
-void ModelTarget::loadVertexNormals( const std::vector<Vec3f>& normals ) { }
+void ModelTarget::loadVertexNormals( const std::vector<ci::Vec3f>& normals ) { }
 
 void ModelTarget::loadSkeleton( const std::shared_ptr<Skeleton>& skeleton ) { }
 
 void ModelTarget::loadBoneWeights( const std::vector<BoneWeights>& boneWeights ) { }
 
-
-#include "ModelSourceAssimp.h"
-
-ModelSourceAssimpRef loadModel( const fs::path& modelPath, const fs::path& rootAssetFolderPath )
+	ModelSourceAssimpRef loadModel( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath )
 {
 	return ModelSourceAssimp::create( modelPath, rootAssetFolderPath );
 }
+
+} //end namespace model

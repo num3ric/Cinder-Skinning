@@ -1,12 +1,13 @@
 #pragma once
 
 #include "cinder/Vector.h"
-#include "cinder/DataSource.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/Material.h"
 
 #include <array>
 
+namespace model {
+	
 class Skeleton;
 class Node;
 class ModelTarget;
@@ -14,19 +15,18 @@ class ModelTarget;
 typedef std::shared_ptr<class ModelSource> ModelSourceRef;
 typedef std::shared_ptr<ModelTarget> ModelTargetRef;
 
-using namespace ci;
 
 struct MaterialInfo
 {
 	MaterialInfo() 
-	: mTransparentColor( Color::white() )
+	: mTransparentColor( ci::Color::white() )
 	, mUseAlpha( false )
 	, mHasMaterial( false )
 	, mTwoSided( false )
 	{ }
-	gl::Texture		mTexture;
-	gl::Material	mMaterial;
-	Color			mTransparentColor;
+	ci::gl::Texture		mTexture;
+	ci::gl::Material	mMaterial;
+	ci::Color			mTransparentColor;
 	bool			mUseAlpha;
 	bool			mHasMaterial;
 	bool			mTwoSided;
@@ -59,7 +59,7 @@ public:
 };
 
 //! Load model with assimp, the only loader we have for now.
-extern std::shared_ptr<class ModelSourceAssimp>	loadModel( const fs::path& modelPath, const fs::path& rootAssetFolderPath = "" )
+	extern std::shared_ptr<class ModelSourceAssimp>	loadModel( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath = "" )
 ;
 
 class ModelTarget {
@@ -68,10 +68,12 @@ public:
 	virtual std::shared_ptr<Skeleton> getSkeleton() const = 0;
 	
 	virtual void	loadName( std::string name );
-	virtual void	loadVertexPositions( const std::vector<Vec3f>& positions ) = 0;
+	virtual void	loadVertexPositions( const std::vector<ci::Vec3f>& positions ) = 0;
 	virtual void	loadIndices( const std::vector<uint32_t>& indices ) = 0;
-	virtual void	loadTex( const std::vector<Vec2f>& texCoords, const MaterialInfo& texInfo );
-  	virtual void	loadVertexNormals( const std::vector<Vec3f>& normals );
+	virtual void	loadTex( const std::vector<ci::Vec2f>& texCoords, const MaterialInfo& texInfo );
+  	virtual void	loadVertexNormals( const std::vector<ci::Vec3f>& normals );
   	virtual void	loadSkeleton( const std::shared_ptr<Skeleton>& skeleton );
 	virtual void	loadBoneWeights( const std::vector<BoneWeights>& boneWeights );	
 };
+
+} //end namespace model

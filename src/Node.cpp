@@ -8,12 +8,15 @@
 
 #include "Node.h"
 
+#include "cinder/Color.h"
 #include "cinder/gl/gl.h"
 #include "cinder/Vector.h"
 
-Node::Node( Matrix44f absoluteTransformation, Matrix44f relativeTransformation, std::string name, NodeRef parent, int level )
+namespace model {
+
+Node::Node( const ci::Matrix44f& absoluteTransformation, const ci::Matrix44f& relativeTransformation, std::string name, NodeRef parent, int level )
 : mInitialAbsoluteTransformation( absoluteTransformation )
-, mInitialAbsolutePosition( absoluteTransformation * Vec3f::zero() )
+, mInitialAbsolutePosition( absoluteTransformation * ci::Vec3f::zero() )
 , mInitialRelativeTransformation( relativeTransformation )
 , mName( name )
 , mParent( parent )
@@ -61,32 +64,32 @@ void Node::initAnimation( float duration, float ticksPerSecond )
 	mIsAnimated = true;
 }
 
-void Node::addTranslationKeyframe(float time, const Vec3f& translation)
+void Node::addTranslationKeyframe(float time, const ci::Vec3f& translation)
 {
 	mTranslationCurve.addKeyframe( time, translation );
 }
 
-void Node::addRotationKeyframe(float time, const Quatf& rotation)
+void Node::addRotationKeyframe(float time, const ci::Quatf& rotation)
 {
 	mRotationCurve.addKeyframe( time, rotation );
 }
 
-void Node::addScalingKeyframe(float time, const Vec3f& scaling)
+void Node::addScalingKeyframe(float time, const ci::Vec3f& scaling)
 {
 	mScalingCurve.addKeyframe( time, scaling );
 }
 
-Vec3f Node::getAnimTranslation( float time ) const
+ci::Vec3f Node::getAnimTranslation( float time ) const
 {
 	return mTranslationCurve.getValue( time );
 }
 
-Quatf Node::getAnimRotation( float time ) const
+ci::Quatf Node::getAnimRotation( float time ) const
 {
 	return mRotationCurve.getValue( time );
 }
 
-Vec3f Node::getAnimScaling( float time ) const
+ci::Vec3f Node::getAnimScaling( float time ) const
 {
 	return mScalingCurve.getValue( time );
 }
@@ -98,14 +101,14 @@ void Node::updateAbsolute()
 	if( hasParent() ) {
 		mAbsoluteTransformation = getParent()->getAbsoluteTransformation() * mAbsoluteTransformation;
 	}
-	mAbsolutePosition = mAbsoluteTransformation * Vec3f::zero();
+	mAbsolutePosition = mAbsoluteTransformation * ci::Vec3f::zero();
 }
 
 
 void Node::update( float time )
 {
 	if( isAnimated() ) {
-		mRelativeTransformation = Matrix44f::createScale( getAnimScaling( time ) );
+		mRelativeTransformation = ci::Matrix44f::createScale( getAnimScaling( time ) );
 		mRelativeTransformation *= getAnimRotation( time ).toMatrix44();
 		mRelativeTransformation.setTranslate( getAnimTranslation( time ) );
 		updateAbsolute();
@@ -114,6 +117,8 @@ void Node::update( float time )
 	}	
 	mTime = time;
 }
+
+} //end namespace model
 
 namespace cinder {
 	namespace gl {
@@ -132,11 +137,11 @@ namespace cinder {
 			Vec3f up = axis.cross( left ).normalized();
 			
 			glVertexPointer( 3, GL_FLOAT, 0, &coneVerts[0].x );
-			coneVerts[0] = Vec3f( end + axis * headLength );
+			coneVerts[0] = ci::Vec3f( end + axis * headLength );
 			for( int s = 0; s <= NUM_SEGMENTS; ++s ) {
 				float t = s / (float)NUM_SEGMENTS;
-				coneVerts[s+1] = Vec3f( end + left * headRadius * math<float>::cos( t * 2 * 3.14159f )
-									   + up * headRadius * math<float>::sin( t * 2 * 3.14159f ) );
+				coneVerts[s+1] = ci::Vec3f( end + left * headRadius * ci::math<float>::cos( t * 2 * 3.14159f )
+									   + up * headRadius * ci::math<float>::sin( t * 2 * 3.14159f ) );
 			}
 			glDrawArrays( GL_TRIANGLE_FAN, 0, NUM_SEGMENTS+2 );
 			
@@ -145,53 +150,52 @@ namespace cinder {
 			coneVerts[0] = end;
 			for( int s = 0; s <= NUM_SEGMENTS; ++s ) {
 				float t = s / (float)NUM_SEGMENTS;
-				coneVerts[s+1] = Vec3f( end - left * headRadius * math<float>::cos( t * 2 * 3.14159f )
-									   + up * headRadius * math<float>::sin( t * 2 * 3.14159f ) );
+				coneVerts[s+1] = ci::Vec3f( end - left * headRadius * ci::math<float>::cos( t * 2 * 3.14159f )
+									   + up * headRadius * ci::math<float>::sin( t * 2 * 3.14159f ) );
 			}
 			glDrawArrays( GL_TRIANGLE_FAN, 0, NUM_SEGMENTS+2 );
 			
 			glDisableClientState( GL_VERTEX_ARRAY );
 		}
 		
-		namespace {
-			void drawConnected( const Vec3f& nodePos, const Vec3f& parentPos ) {
-				gl::drawSphere( nodePos, 0.2f , 4); //TODO: make size relative
-				gl::color( Color::white() );
-				gl::drawCone( nodePos, parentPos );
-			}
-			
-			void drawJoint( const Vec3f& nodePos ) {
-				float size = 0.2f;
-				gl::drawCube( nodePos, Vec3f(size, size, size));
-				size *= 5.0;
-				gl::color( Color::white() );
-				gl::drawLine( nodePos, nodePos + Vec3f(0, size, 0) );
-			}
+		void drawConnected( const Vec3f& nodePos, const Vec3f& parentPos ) {
+			drawSphere( nodePos, 0.2f , 4); //TODO: make size relative
+			color( Color::white() );
+			drawCone( nodePos, parentPos );
 		}
 		
-		void drawSkeletonNode( const Node& node, Node::RenderMode mode )
+		void drawJoint( const Vec3f& nodePos ) {
+			float size = 0.2f;
+			drawCube( nodePos, Vec3f(size, size, size));
+			size *= 5.0;
+			color( Color::white() );
+			drawLine( nodePos, nodePos + Vec3f(0, size, 0) );
+		}
+		
+		void drawSkeletonNode( const model::Node& node, model::Node::RenderMode mode )
 		{
 			if( !node.hasParent() ) return;
 			Vec3f currentPos = node.getAbsolutePosition();
 			Vec3f parentPos = node.getParent()->getAbsolutePosition();
-			gl::color( node.isAnimated() ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
-			if( mode == Node::RenderMode::CONNECTED ) {
+			color( node.isAnimated() ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
+			if( mode == model::Node::RenderMode::CONNECTED ) {
 				drawConnected( currentPos, parentPos);
-			} else if (mode == Node::RenderMode::JOINTS ) {
+			} else if (mode == model::Node::RenderMode::JOINTS ) {
 				drawJoint( currentPos );
 			}
 		}
 		
-		void drawSkeletonNodeRelative( const Node& node, Node::RenderMode mode )
+		void drawSkeletonNodeRelative( const model::Node& node, model::Node::RenderMode mode )
 		{
 			Vec3f currentPos = node.getRelativeTransformation() * Vec3f::zero();
-			Vec3f parentPos = Vec3f::zero();
-			gl::color( node.isAnimated() ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
-			if( mode == Node::RenderMode::CONNECTED ) {
+			Vec3f parentPos = ci::Vec3f::zero();
+			color( node.isAnimated() ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
+			if( mode == model::Node::RenderMode::CONNECTED ) {
 				drawConnected( currentPos, parentPos);
-			} else if (mode == Node::RenderMode::JOINTS ) {
+			} else if (mode == model::Node::RenderMode::JOINTS ) {
 				drawJoint( currentPos );
 			}
 		}
 	}
 }
+

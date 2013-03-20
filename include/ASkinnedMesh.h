@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "Skeleton.h"
 #include "ModelIo.h"
 
 #include "cinder/gl/Material.h"
@@ -16,6 +15,10 @@
 
 #include <vector>
 
+namespace model {
+	
+class Skeleton;
+	
 class ASkinnedMesh
 {
 public:
@@ -30,12 +33,12 @@ public:
 	const std::vector<BoneWeights>&		getBoneWeights() const { return mBoneWeights; }
 	void								setBoneWeights( const std::vector<BoneWeights>& boneWeights ) { mBoneWeights = boneWeights; }
 	
-	void					setDefaultTransformation( const Matrix44f& transformation ) { mDefaultTransformation = transformation; mHasDefaultTransformation = true; }
-	const Matrix44f&		getDefaultTranformation() const { return mDefaultTransformation; }
+	void					setDefaultTransformation( const ci::Matrix44f& transformation ) { mDefaultTransformation = transformation; mHasDefaultTransformation = true; }
+	const ci::Matrix44f&		getDefaultTranformation() const { return mDefaultTransformation; }
 	
-	void					setSkeleton( SkeletonRef skeleton ) { mSkeleton = skeleton; }
-	SkeletonRef&			getSkeleton() { return mSkeleton; }
-	const SkeletonRef&		getSkeleton() const { return mSkeleton; }
+	void								setSkeleton( std::shared_ptr<Skeleton> skeleton ) { mSkeleton = skeleton; }
+	std::shared_ptr<Skeleton>&			getSkeleton() { return mSkeleton; }
+	const std::shared_ptr<Skeleton>&	getSkeleton() const { return mSkeleton; }
 	
 	MaterialInfo&			getMatInfo() { return mMatInfo; }
 	const MaterialInfo&		getMatInfo() const { return mMatInfo; }
@@ -53,10 +56,12 @@ protected:
 	bool		mHasNormals;
 	bool		mHasDefaultTransformation;
 	
-	SkeletonRef			mSkeleton;
-	MaterialInfo		mMatInfo;
-	Matrix44f			mDefaultTransformation;
+	std::shared_ptr<Skeleton>	mSkeleton;
+	MaterialInfo				mMatInfo;
+	ci::Matrix44f				mDefaultTransformation;
 	
 	std::vector<BoneWeights>	mBoneWeights;
 	
 };
+
+} //end namespace model

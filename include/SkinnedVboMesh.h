@@ -10,16 +10,16 @@
 
 #include "cinder/app/App.h"
 
-#include "Skeleton.h"
 #include "ASkinnedMesh.h"
-#include "ModelIo.h"
 
 #include "cinder/gl/Vbo.h"
 #include "cinder/gl/GlslProg.h"
 
-using namespace ci;
+#include <vector>
 
 class Skeleton;
+
+namespace model {
 
 typedef std::shared_ptr<class SkinnedVboMesh> SkinnedVboMeshRef;
 
@@ -34,22 +34,22 @@ public:
 		void updateMesh( float time, bool enableSkinning = true ) override;
 		void drawMesh() override;
 		
-		gl::GlslProg		getShader() { return mSkinningShader; }
-		const gl::GlslProg& getShader() const { return mSkinningShader; }
+		ci::gl::GlslProg		getShader() { return mSkinningShader; }
+		const ci::gl::GlslProg& getShader() const { return mSkinningShader; }
 		
-		gl::VboMesh&		getVboMesh() { return mVboMesh; }
-		const gl::VboMesh&	getVboMesh() const { return mVboMesh; }
-		void				setVboMesh( size_t numVertices, size_t numIndices, gl::VboMesh::Layout layout, GLenum primitiveType );
+		ci::gl::VboMesh&		getVboMesh() { return mVboMesh; }
+		const ci::gl::VboMesh&	getVboMesh() const { return mVboMesh; }
+		void				setVboMesh( size_t numVertices, size_t numIndices, ci::gl::VboMesh::Layout layout, GLenum primitiveType );
 		
-		std::array<Matrix44f, MAXBONES>* boneMatrices;
-		std::array<Matrix44f, MAXBONES>* invTransposeMatrices;
+		std::array<ci::Matrix44f, MAXBONES>* boneMatrices;
+		std::array<ci::Matrix44f, MAXBONES>* invTransposeMatrices;
 	private:
-		gl::VboMesh mVboMesh;
-		gl::GlslProg mSkinningShader;
+		ci::gl::VboMesh mVboMesh;
+		ci::gl::GlslProg mSkinningShader;
 	};
 	typedef std::shared_ptr< struct SkinnedVboMesh::MeshSection > MeshVboSectionRef;
 	
-	static SkinnedVboMeshRef create( ModelSourceRef modelSource, const SkeletonRef& skeleton = nullptr );
+	static SkinnedVboMeshRef create( ModelSourceRef modelSource, const std::shared_ptr<Skeleton>& skeleton = nullptr );
 	
 	void update( float time, bool enableSkinning = true );
 	void draw();
@@ -66,8 +66,8 @@ public:
 	
 	friend struct SkinnedVboMesh::MeshSection;
 	
-	std::array<Matrix44f, MAXBONES> mBoneMatrices;
-	std::array<Matrix44f, MAXBONES> mInvTransposeMatrices;
+	std::array<ci::Matrix44f, MAXBONES> mBoneMatrices;
+	std::array<ci::Matrix44f, MAXBONES> mInvTransposeMatrices;
 protected:
 	SkinnedVboMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton = nullptr );
 	MeshVboSectionRef mActiveSection;
@@ -76,3 +76,5 @@ protected:
 
 
 typedef std::shared_ptr< struct SkinnedVboMesh::MeshSection > MeshVboSectionRef;
+	
+} //end namespace model

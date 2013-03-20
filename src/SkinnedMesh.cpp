@@ -9,22 +9,24 @@
 #include "SkinnedMesh.h"
 #include "ModelTargetSkinnedMesh.h"
 
+namespace model {
+
 void SkinnedMesh::MeshSection::updateMesh( float time, bool enableSkinning )
 {
 	if (enableSkinning) {
 		int vertexId = 0;
 		for( const BoneWeights& boneWeights : getBoneWeights() ) {
-			mTriMesh.getVertices()[vertexId] = Vec3f::zero();
+			mTriMesh.getVertices()[vertexId] = ci::Vec3f::zero();
 			if( hasNormals() )
-				mTriMesh.getNormals()[vertexId] = Vec3f::zero();
+				mTriMesh.getNormals()[vertexId] = ci::Vec3f::zero();
 			
 			for( int i=0; i < boneWeights.mActiveNbWeights; ++i ) {
-				const Vec3f& srcPos = mInitialPositions[vertexId];
-				Vec3f srcNorm;
+				const ci::Vec3f& srcPos = mInitialPositions[vertexId];
+				ci::Vec3f srcNorm;
 				if( hasNormals() )
 					srcNorm = mInitialNormals[vertexId];
 				NodeRef bone = boneWeights.getBone(i);
-				Matrix44f skinningTransfo = bone->getAbsoluteTransformation() * *bone->getOffset();
+				ci::Matrix44f skinningTransfo = bone->getAbsoluteTransformation() * *bone->getOffset();
 				float weight = boneWeights.getWeight(i);
 				
 				mTriMesh.getVertices()[vertexId] += weight * (skinningTransfo * srcPos);
@@ -46,15 +48,15 @@ void SkinnedMesh::MeshSection::updateMesh( float time, bool enableSkinning )
 
 void SkinnedMesh::MeshSection::drawMesh()	
 {
-	gl::draw( mTriMesh );	
+	ci::gl::draw( mTriMesh );	
 }
 
-SkinnedMeshRef SkinnedMesh::create( ModelSourceRef modelSource, const SkeletonRef& skeleton )
+SkinnedMeshRef SkinnedMesh::create( ModelSourceRef modelSource, SkeletonRef skeleton )
 {
 	return SkinnedMeshRef( new SkinnedMesh( modelSource, skeleton ) );
 }
 
-SkinnedMesh::SkinnedMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton )
+SkinnedMesh::SkinnedMesh( ModelSourceRef modelSource, SkeletonRef skeleton )
 {
 	assert( modelSource->getNumSections() > 0 );
 	
@@ -95,3 +97,5 @@ void SkinnedMesh::draw()
 		section->draw();
 	}
 }
+
+} //end namespace model

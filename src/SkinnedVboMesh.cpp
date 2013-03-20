@@ -12,21 +12,23 @@
 #include "Skeleton.h"
 #include "Resources.h"
 
+namespace model {
+
 SkinnedVboMesh::MeshSection::MeshSection()
 : ASkinnedMesh()
 {
 	try {
-		mSkinningShader = gl::GlslProg( ci::app::loadResource(RES_SKINNING_VERT), ci::app::loadResource(RES_SKINNING_FRAG) );
+		mSkinningShader = ci::gl::GlslProg( ci::app::loadResource(RES_SKINNING_VERT), ci::app::loadResource(RES_SKINNING_FRAG) );
 	}
-	catch( gl::GlslProgCompileExc &exc ) {
+	catch( ci::gl::GlslProgCompileExc &exc ) {
 		std::cout << "Shader compile error: " << std::endl;
 		std::cout << exc.what();
 	}
 }
 
-void SkinnedVboMesh::MeshSection::setVboMesh( size_t numVertices, size_t numIndices, gl::VboMesh::Layout layout, GLenum primitiveType )
+void SkinnedVboMesh::MeshSection::setVboMesh( size_t numVertices, size_t numIndices, ci::gl::VboMesh::Layout layout, GLenum primitiveType )
 {
-	mVboMesh = gl::VboMesh( numVertices, numIndices, layout, primitiveType );
+	mVboMesh = ci::gl::VboMesh( numVertices, numIndices, layout, primitiveType );
 }
 
 void SkinnedVboMesh::MeshSection::updateMesh( float time, bool enableSkinning )
@@ -55,8 +57,8 @@ void SkinnedVboMesh::MeshSection::drawMesh()
     mSkinningShader.uniform( "texture", 0 );
     mSkinningShader.uniform( "boneMatrices", boneMatrices->data(), SkinnedVboMesh::MAXBONES );
 	mSkinningShader.uniform( "invTransposeMatrices", invTransposeMatrices->data(), SkinnedVboMesh::MAXBONES );
-    gl::draw( mVboMesh );
-	//    cinder::gl::drawRange(mVbo, 0, mVbo.getNumIndices()*3);
+    ci::gl::draw( mVboMesh );
+	//    ci::gl::drawRange(mVbo, 0, mVbo.getNumIndices()*3);
     mSkinningShader.unbind();
 }
 
@@ -71,30 +73,30 @@ SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, const SkeletonRef& s
 	
 	for(int i = 0; i< modelSource->getNumSections(); ++i ) {
 		MeshVboSectionRef section = std::make_shared<SkinnedVboMesh::MeshSection>();
-		gl::VboMesh::Layout layout;
+		ci::gl::VboMesh::Layout layout;
 		layout.setStaticIndices();
 		//positions
-		layout.mCustomStatic.push_back(std::make_pair(cinder::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT3, 0 ));
+		layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT3, 0 ));
 		
 		if( modelSource->hasNormals() ) {
 			//normals
-			layout.mCustomStatic.push_back(std::make_pair(cinder::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT3, 0 ));
+			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT3, 0 ));
 		}
 		
 		if( modelSource->hasMaterials() ) {
 			//texcoords
-			layout.mCustomStatic.push_back(std::make_pair(cinder::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT2, 0 ));
+			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT2, 0 ));
 		}
 		
 		if( modelSource->hasSkeleton() ) {
 			//boneweights
-			layout.mCustomStatic.push_back(std::make_pair(cinder::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT4, 0 ));
+			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT4, 0 ));
 			//boneindices
-			layout.mCustomStatic.push_back(std::make_pair(cinder::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT4, 0 ));
+			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT4, 0 ));
 		}
 		
 		section->setVboMesh( modelSource->getNumVertices(i), modelSource->getNumIndices(i), layout, GL_TRIANGLES );
-		section->setSkeleton( skeleton );
+		
 		mMeshSections.push_back( section );
 	}
 	mActiveSection = mMeshSections[0];
@@ -124,3 +126,5 @@ void SkinnedVboMesh::draw()
 		section->draw();
 	}
 }
+
+} //end namespace model

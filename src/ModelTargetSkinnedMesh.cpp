@@ -3,6 +3,8 @@
 
 #include "SkinnedMesh.h"
 
+namespace model {
+
 ModelTargetSkinnedMesh::ModelTargetSkinnedMesh( SkinnedMesh *mesh )
 : mSkinnedMesh( mesh )
 { }
@@ -22,7 +24,7 @@ void ModelTargetSkinnedMesh::loadName( std::string name )
 	mSkinnedMesh->getActiveSection()->mName = name;
 }
 
-void ModelTargetSkinnedMesh::loadVertexPositions( const std::vector<Vec3f> &positions )
+void ModelTargetSkinnedMesh::loadVertexPositions( const std::vector<ci::Vec3f> &positions )
 {
 	mSkinnedMesh->getActiveSection()->mInitialPositions = positions;
 	mSkinnedMesh->getActiveSection()->mTriMesh.appendVertices( positions.data(), positions.size() );
@@ -34,13 +36,13 @@ void ModelTargetSkinnedMesh::loadIndices( const std::vector<uint32_t>& indices )
 	mSkinnedMesh->getActiveSection()->mTriMesh.appendIndices( indices.data(), indices.size() );
 }
 
-void ModelTargetSkinnedMesh::loadTex( const std::vector<Vec2f>& texCoords, const MaterialInfo& matInfo )
+void ModelTargetSkinnedMesh::loadTex( const std::vector<ci::Vec2f>& texCoords, const MaterialInfo& matInfo )
 {
 	mSkinnedMesh->getActiveSection()->mTriMesh.appendTexCoords( texCoords.data(), texCoords.size() );
 	mSkinnedMesh->getActiveSection()->setMatInfo( matInfo );
 }
 
-void ModelTargetSkinnedMesh::loadVertexNormals( const std::vector<Vec3f>& normals )
+void ModelTargetSkinnedMesh::loadVertexNormals( const std::vector<ci::Vec3f>& normals )
 {
 	mSkinnedMesh->getActiveSection()->mInitialNormals = normals;
 	mSkinnedMesh->getActiveSection()->mTriMesh.appendNormals( normals.data(), normals.size() );
@@ -56,3 +58,5 @@ void ModelTargetSkinnedMesh::loadBoneWeights( const std::vector<BoneWeights>& bo
 {
 	mSkinnedMesh->getActiveSection()->setBoneWeights( boneWeights );
 }
+
+} //end namespace model

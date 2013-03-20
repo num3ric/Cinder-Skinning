@@ -8,11 +8,13 @@
 
 #include "ASkinnedMesh.h"
 
+namespace model {
+
 void ASkinnedMesh::draw()
 {
 	if( mHasDefaultTransformation ) {
-		gl::pushModelView();
-		gl::multModelView( mDefaultTransformation );
+		ci::gl::pushModelView();
+		ci::gl::multModelView( mDefaultTransformation );
 	}
 	
 	if ( mMatInfo.mTexture ) {
@@ -22,9 +24,9 @@ void ASkinnedMesh::draw()
 	
 	// Culling
 	if (  mMatInfo.mTwoSided ) {
-		gl::disable( GL_CULL_FACE );
+		ci::gl::disable( GL_CULL_FACE );
 	} else {
-		gl::enable( GL_CULL_FACE );
+		ci::gl::enable( GL_CULL_FACE );
 	}
 	
 	drawMesh();
@@ -35,6 +37,8 @@ void ASkinnedMesh::draw()
 	}
 	
 	if( mHasDefaultTransformation ) {
-		gl::popModelView();
+		ci::gl::popModelView();
 	}
 }
+
+} //end namespace model

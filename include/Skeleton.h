@@ -13,9 +13,7 @@
 #include <vector>
 #include <map>
 
-using namespace ci;
-
-class Anim;
+namespace model {
 
 typedef std::shared_ptr< class Skeleton> SkeletonRef;
 
@@ -83,3 +81,5 @@ private:
 };
 
 extern std::ostream& operator<<( std::ostream& lhs, const Skeleton& rhs );
+
+} //end namespace model

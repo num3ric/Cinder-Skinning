@@ -49,9 +49,9 @@ namespace ai {
 		return nullptr;
 	}
 	
-	SkeletonRef loadSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root )
+	model::SkeletonRef loadSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root )
 	{
-		SkeletonRef skeleton = Skeleton::create();
+		model::SkeletonRef skeleton = model::Skeleton::create();
 		
 		root = ( root ) ? root : aiscene->mRootNode;
 		
@@ -71,7 +71,7 @@ namespace ai {
 		return skeleton;
 	}
 	
-	NodeRef generateNodeHierarchy( Skeleton* skeleton, const aiNode* ainode, const NodeRef& parent, Matrix44f derivedTransformation, int level )
+	model::NodeRef generateNodeHierarchy( model::Skeleton* skeleton, const aiNode* ainode, const model::NodeRef& parent, Matrix44f derivedTransformation, int level )
 	{
 		if( !ainode )
 			throw "Invalid ainode";
@@ -79,7 +79,7 @@ namespace ai {
 		derivedTransformation *= ai::get( ainode->mTransformation );
 		std::string name = ai::get( ainode->mName );
 		
-		NodeRef node = NodeRef( new Node( derivedTransformation, ai::get( ainode->mTransformation ), name, parent, level ) );
+		model::NodeRef node = model::NodeRef( new model::Node( derivedTransformation, ai::get( ainode->mTransformation ), name, parent, level ) );
 		
 		if( skeleton->hasBone( name ) ) {
 			int index = skeleton->getBoneIndex( name );
@@ -88,14 +88,14 @@ namespace ai {
 		}
 		
 		for( unsigned int c=0; c < ainode->mNumChildren; ++c) {
-			NodeRef child = generateNodeHierarchy( skeleton, ainode->mChildren[c], node, derivedTransformation, level + 1);
+			model::NodeRef child = generateNodeHierarchy( skeleton, ainode->mChildren[c], node, derivedTransformation, level + 1);
 			node->addChild( child );
 		}
 		return node;
 	}
 	
 	
-	void generateAnimationCurves( Skeleton* skeleton, const aiScene* aiscene )
+	void generateAnimationCurves( model::Skeleton* skeleton, const aiScene* aiscene )
 	{
 		//TODO: Handle multiple animations correctly, right now this actually works only for one aiAnimation
 		for( unsigned int a=0; a < aiscene->mNumAnimations; ++a) {
@@ -107,7 +107,7 @@ namespace ai {
 				aiNodeAnim* nodeAnim = anim->mChannels[c];
 				
 				try {
-					NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
+					model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
 					float tsecs = ( anim->mTicksPerSecond != 0 ) ? (float) anim->mTicksPerSecond : 25.0f;
 					bone->initAnimation( anim->mDuration, tsecs );
 					app::console() << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
@@ -171,7 +171,7 @@ namespace ai {
 		}
 	}
 	
-	void loadTexture( const aiScene* aiscene, const aiMesh *aimesh, MaterialInfo* matInfo, fs::path modelPath, fs::path rootPath )
+	void loadTexture( const aiScene* aiscene, const aiMesh *aimesh, model::MaterialInfo* matInfo, fs::path modelPath, fs::path rootPath )
 	{
 		// Handle material info
 		aiMaterial *mtl = aiscene->mMaterials[ aimesh->mMaterialIndex ];
@@ -305,18 +305,18 @@ namespace ai {
 		}
 	}
 	
-	void loadBoneWeights( const aiMesh* aimesh, const Skeleton* skeleton, std::vector<BoneWeights>* boneWeights  )
+	void loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton, std::vector<model::BoneWeights>* boneWeights  )
 	{
 		unsigned int nbBones = aimesh->mNumBones;
 		std::string name = ai::get( aimesh->mName );
 		
 		// Create a list of empty bone weights mirroring the # of vertices
 		for( unsigned v=0; v < aimesh->mNumVertices; ++v ) {
-			boneWeights->push_back( BoneWeights() );
+			boneWeights->push_back( model::BoneWeights() );
 		}
 		
 		for( unsigned b=0; b < nbBones; ++b ){
-			NodeRef bone = skeleton->getBone( ai::get( aimesh->mBones[b]->mName ) );
+			model::NodeRef bone = skeleton->getBone( ai::get( aimesh->mBones[b]->mName ) );
 			
 			// Set the bone offset matrix if it hasn't been already
 			if( bone->getOffset() == nullptr ) {
@@ -333,7 +333,7 @@ namespace ai {
 		}
 	}
 	
-	Matrix44f getDefaultTransformation( std::string name, const aiScene* aiscene, Skeleton* skeleton )
+	Matrix44f getDefaultTransformation( std::string name, const aiScene* aiscene, model::Skeleton* skeleton )
 	{
 		const aiNode* ainode = ai::findMeshNode( name, aiscene, aiscene->mRootNode );
 		if( ainode ) {
@@ -345,6 +345,8 @@ namespace ai {
 	}
 
 }
+
+namespace model {
 
 ModelSourceAssimp::ModelSourceAssimp( const fs::path& modelPath, const fs::path& rootAssetFolderPath )
 {
@@ -464,3 +466,5 @@ void ModelSourceAssimp::load( ModelTarget *target )
 		}		
 	}
 }
+
+} //end namespace model
