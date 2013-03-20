@@ -1,7 +1,7 @@
 
 #include "ModelTargetSkinnedMesh.h"
-
 #include "SkinnedMesh.h"
+#include "Skeleton.h"
 
 namespace model {
 

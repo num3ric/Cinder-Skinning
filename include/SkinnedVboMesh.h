@@ -8,10 +8,9 @@
 
 #pragma once
 
-#include "cinder/app/App.h"
-
 #include "ASkinnedMesh.h"
 
+#include "cinder/app/App.h"
 #include "cinder/gl/Vbo.h"
 #include "cinder/gl/GlslProg.h"
 
@@ -69,7 +68,7 @@ public:
 	std::array<ci::Matrix44f, MAXBONES> mBoneMatrices;
 	std::array<ci::Matrix44f, MAXBONES> mInvTransposeMatrices;
 protected:
-	SkinnedVboMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton = nullptr );
+	SkinnedVboMesh( ModelSourceRef modelSource, const std::shared_ptr<Skeleton>& skeleton = nullptr );
 	MeshVboSectionRef mActiveSection;
 	std::vector< MeshVboSectionRef > mMeshSections;
 };

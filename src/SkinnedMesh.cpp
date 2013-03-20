@@ -8,6 +8,8 @@
 
 #include "SkinnedMesh.h"
 #include "ModelTargetSkinnedMesh.h"
+#include "Node.h"
+#include "Skeleton.h"
 
 namespace model {
 

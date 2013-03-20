@@ -14,6 +14,7 @@ using namespace std;
 #include "ModelSourceAssimp.h" //FIXME: including ModelIo.h only breaks the build
 #include "SkinnedMesh.h"
 #include "SkinnedVboMesh.h"
+#include "Skeleton.h"
 
 using namespace model;
 

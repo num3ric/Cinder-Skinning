@@ -14,6 +14,7 @@ using namespace std;
 #include "ModelSourceAssimp.h" //FIXME: including ModelIo.h only breaks the build
 #include "SkinnedMesh.h"
 #include "SkinnedVboMesh.h"
+#include "Skeleton.h"
 
 const int ROW_LEN = 12;
 const int NUM_MONSTERS = ROW_LEN * ROW_LEN;
@@ -70,7 +71,7 @@ void ArmyDemoApp::setup()
 	mEnableWireframe = false;
 	mParams.addParam( "Wireframe", &mEnableWireframe );
 	
-	//	gl::enableDepthWrite();
+	gl::enableDepthWrite();
 	gl::enableDepthRead();
 	gl::enableAlphaBlending();
 	

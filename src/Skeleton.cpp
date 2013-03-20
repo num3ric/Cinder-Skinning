@@ -7,6 +7,7 @@
 //
 
 #include "Skeleton.h"
+#include "cinder/gl/gl.h"
 
 #include <assert.h>
 
