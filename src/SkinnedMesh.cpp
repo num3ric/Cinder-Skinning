@@ -49,6 +49,11 @@ void SkinnedMesh::MeshSection::drawMesh()
 	gl::draw( mTriMesh );	
 }
 
+SkinnedMeshRef SkinnedMesh::create( ModelSourceRef modelSource, const SkeletonRef& skeleton )
+{
+	return SkinnedMeshRef( new SkinnedMesh( modelSource, skeleton ) );
+}
+
 SkinnedMesh::SkinnedMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton )
 {
 	assert( modelSource->getNumSections() > 0 );

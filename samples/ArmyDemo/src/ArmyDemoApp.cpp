@@ -15,6 +15,11 @@ using namespace std;
 #include "SkinnedMesh.h"
 #include "SkinnedVboMesh.h"
 
+const int ROW_LEN = 12;
+const int NUM_MONSTERS = ROW_LEN * ROW_LEN;
+const float SPACING = 75.0f;
+
+
 class ArmyDemoApp : public AppNative {
 public:
 	void setup();
@@ -40,10 +45,12 @@ private:
 	float							mTime, mFps;
 	params::InterfaceGl				mParams;
 	bool mDrawSkeleton, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
+	bool mIsFullScreen;
 };
 
 void ArmyDemoApp::setup()
 {
+	mIsFullScreen = false;
 	rotationRadius = 20.0f;
 	mLightPos = Vec3f(0, 20.0f, 0);
 	mMouseHorizontalPos = 0;
@@ -66,14 +73,14 @@ void ArmyDemoApp::setup()
 	gl::enableDepthRead();
 	gl::enableAlphaBlending();
 	
-	mSkinnedVboMesh = make_shared<SkinnedVboMesh>( loadModel( getAssetPath( "maggot3.md5mesh" ) ) );
+	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "maggot3.md5mesh" ) ) );
 }
 
 void ArmyDemoApp::fileDrop( FileDropEvent event )
 {
 	try {
 		fs::path modelFile = event.getFile( 0 );
-		mSkinnedVboMesh = make_shared<SkinnedVboMesh>( loadModel( modelFile ) );
+		mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( modelFile ) );
 	}
 	catch( ... ) {
 		console() << "unable to load the asset!" << std::endl;
@@ -90,6 +97,9 @@ void ArmyDemoApp::keyDown( KeyEvent event )
 		mMeshIndex++;
 	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
 		mMeshIndex = math<int>::max(mMeshIndex - 1, 0);
+	} else if( event.getCode() == KeyEvent::KEY_f ) {
+		mIsFullScreen = !mIsFullScreen;
+		app::setFullScreen(mIsFullScreen);
 	}
 }
 
@@ -117,7 +127,7 @@ void ArmyDemoApp::resize()
 
 void ArmyDemoApp::update()
 {
-//	mSkinnedVboMesh->update( time, mEnableSkinning );
+	//	mSkinnedVboMesh->update( time, mEnableSkinning );
 	mFps = getAverageFps();
 	mTime = mSkinnedVboMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
 	
@@ -139,36 +149,36 @@ void ArmyDemoApp::draw()
 	light.lookAt( mLightPos, Vec3f::zero() );
 	light.update( mMayaCam.getCamera() );
 	light.enable();
-//
-//	
-//	gl::drawVector(mLightPos, Vec3f::zero() );
-//	
+	//
+	//
+	//	gl::drawVector(mLightPos, Vec3f::zero() );
+	//
 	gl::enable( GL_LIGHTING );
 	gl::enable( GL_NORMALIZE );
 	
 	gl::scale(0.1f, 0.1f, 0.1f);
-
+	
 	
 	if ( mEnableWireframe )
 		gl::enableWireframe();
-	if( mDrawMesh ) {
-		for(int i=-10; i<=10; i+=2) {
-			for(int j=-10; j<=10; j+=2 ) {
-				gl::pushModelView();
-				gl::translate(40.0f*i, 0, 40.0f*j);
-				mSkinnedVboMesh->update( mTime + 2.0f*( i*20.0f + j*20.0f )/400.0f, mEnableSkinning );
+	for(int i=0; i<=(ROW_LEN-1); ++i) {
+		for(int j=0; j<=(ROW_LEN-1); ++j ) {
+			gl::pushModelView();
+			gl::translate(SPACING * (i - 0.5f * ROW_LEN), 0, SPACING * (j - 0.5f * ROW_LEN));
+			mSkinnedVboMesh->update( mTime + 2.0f*( i*20.0f + j*20.0f )/400.0f, mEnableSkinning );
+			if( mDrawMesh ) {
 				mSkinnedVboMesh->draw();
-				gl::popModelView();
 			}
+			if( mDrawSkeleton) {
+				mSkinnedVboMesh->getSkeleton()->draw(mDrawRelative);
+			}
+			gl::popModelView();
 		}
-//		mSkinnedVboMesh->draw();
 	}
 	if ( mEnableWireframe )
 		gl::disableWireframe();
 	
-	if( mDrawSkeleton) {
-		mSkinnedVboMesh->getSkeleton()->draw(mDrawRelative);
-	}
+	
 	
 	params::InterfaceGl::draw();
 	

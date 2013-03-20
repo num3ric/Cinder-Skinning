@@ -30,7 +30,7 @@ public:
 	};
 	typedef std::shared_ptr< struct SkinnedMesh::MeshSection > MeshSectionRef;
 	
-	SkinnedMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton = nullptr );
+	static SkinnedMeshRef create( ModelSourceRef modelSource, const SkeletonRef& skeleton = nullptr );
 	void appendSection( const MeshSectionRef& meshSection );
 	void update( float time, bool enableSkinning = true );
 	void draw();
@@ -44,7 +44,8 @@ public:
 	std::vector< MeshSectionRef >&			getSections() { return mMeshSections; }
 	const std::vector< MeshSectionRef >&	getSections() const { return mMeshSections; }
 	
-private:
+protected:
+	SkinnedMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton = nullptr );
 	//add full behavior/functions relating to "active section"
 	MeshSectionRef mActiveSection;
 	std::vector< MeshSectionRef > mMeshSections;

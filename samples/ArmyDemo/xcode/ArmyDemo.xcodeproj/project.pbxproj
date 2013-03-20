@@ -15,7 +15,6 @@
 		07DA3799E6924ABEBFAA9AC1 /* ArmyDemoApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 510E148E3CF84DCB99B65666 /* ArmyDemoApp.cpp */; };
 		1D2C7909D1B04A6DB864FA69 /* ModelTargetSkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 090BF6505CD74F18ADB12427 /* ModelTargetSkinnedVboMesh.cpp */; };
 		1F873A0D22064B2A88210FA9 /* ModelTargetSkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6FDCC2B20C2B49689B0AEE40 /* ModelTargetSkinnedMesh.cpp */; };
-		2BD5F1C2C5794619B1EB5C9B /* skinning_frag_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 372C8BEB10564A71B4D2E025 /* skinning_frag_normals.glsl */; };
 		4C4E0FADC1E541DD961D93F0 /* CustomIOStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0FC9FBCFAB234C5CB8CCF7B4 /* CustomIOStream.cpp */; };
 		50EC2807172E4FEEA2D95619 /* ModelIo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52DCCC9E63A431EA0E04693 /* ModelIo.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
@@ -24,11 +23,10 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		96EAC00FC34D4E4DA997B66F /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DBC53518CB34DF1BE988F38 /* Skeleton.cpp */; };
 		A2EE3622016F441091A5976C /* SkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6075DFDA442546D7B9A2AE29 /* SkinnedMesh.cpp */; };
-		B0E7FAE816F8E65E00A2B16F /* skinning_frag_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B0E7FAE616F8E65E00A2B16F /* skinning_frag_normals.glsl */; };
-		B0E7FAE916F8E65E00A2B16F /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B0E7FAE716F8E65E00A2B16F /* skinning_vert_normals.glsl */; };
+		B035755216F92F8D006B03A1 /* skinning_frag_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B035755016F92F8D006B03A1 /* skinning_frag_normals.glsl */; };
+		B035755316F92F8D006B03A1 /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */; };
 		B26EBCEF443240DDB72B12B1 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D107FE7788D34B7B9C87A59B /* Node.cpp */; };
 		B900D226E3E04DBF987C6AE0 /* SkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFF3C5F017C46DB856C4859 /* SkinnedVboMesh.cpp */; };
-		C905EED4833645E0BB6A6D2C /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DDC444F0D7C9477C8C8B3A94 /* skinning_vert_normals.glsl */; };
 		D43F588027774FB4BBB89DB6 /* ModelSourceAssimp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E81F2E5AEB41A48903F135 /* ModelSourceAssimp.cpp */; };
 		FABF96A29C2E4EAA886FA030 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 5DF7A028D1CA494BBE54058D /* CinderApp.icns */; };
 /* End PBXBuildFile section */
@@ -61,6 +59,8 @@
 		8AE11FB8D45E40B080316092 /* CustomIOStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomIOStream.h; path = ../../../include/CustomIOStream.h; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* ArmyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArmyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2A26E6655E44BD289C6E43D /* ModelSourceAssimp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelSourceAssimp.h; path = ../../../include/ModelSourceAssimp.h; sourceTree = "<group>"; };
+		B035755016F92F8D006B03A1 /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_frag_normals.glsl; path = ../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
+		B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_vert_normals.glsl; path = ../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
 		B0E7FAD416F8E5D000A2B16F /* mageyes_d.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = mageyes_d.tga; path = ../assets/mageyes_d.tga; sourceTree = "<group>"; };
 		B0E7FAD516F8E5D000A2B16F /* mageyes.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = mageyes.tga; path = ../assets/mageyes.tga; sourceTree = "<group>"; };
 		B0E7FAD616F8E5D000A2B16F /* maggot3_d.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = maggot3_d.tga; path = ../assets/maggot3_d.tga; sourceTree = "<group>"; };
@@ -79,8 +79,6 @@
 		B0E7FAE316F8E5D000A2B16F /* magtongue_local.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magtongue_local.tga; path = ../assets/magtongue_local.tga; sourceTree = "<group>"; };
 		B0E7FAE416F8E5D000A2B16F /* magtongue_s.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magtongue_s.tga; path = ../assets/magtongue_s.tga; sourceTree = "<group>"; };
 		B0E7FAE516F8E5D000A2B16F /* magtongue.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magtongue.tga; path = ../assets/magtongue.tga; sourceTree = "<group>"; };
-		B0E7FAE616F8E65E00A2B16F /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_frag_normals.glsl; path = ../../../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
-		B0E7FAE716F8E65E00A2B16F /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_vert_normals.glsl; path = ../../../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
 		BC4743FF12854AF5B25D0C11 /* Skeleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Skeleton.h; path = ../../../include/Skeleton.h; sourceTree = "<group>"; };
 		D010C50CFDC249AB96C6311C /* ModelTargetSkinnedVboMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelTargetSkinnedVboMesh.h; path = ../../../include/ModelTargetSkinnedVboMesh.h; sourceTree = "<group>"; };
 		D107FE7788D34B7B9C87A59B /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Node.cpp; path = ../../../src/Node.cpp; sourceTree = "<group>"; };
@@ -214,8 +212,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B0E7FAE616F8E65E00A2B16F /* skinning_frag_normals.glsl */,
-				B0E7FAE716F8E65E00A2B16F /* skinning_vert_normals.glsl */,
+				B035755016F92F8D006B03A1 /* skinning_frag_normals.glsl */,
+				B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */,
 				5DF7A028D1CA494BBE54058D /* CinderApp.icns */,
 				FD1F82670961432DA0099F73 /* Info.plist */,
 			);
@@ -335,10 +333,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FABF96A29C2E4EAA886FA030 /* CinderApp.icns in Resources */,
-				C905EED4833645E0BB6A6D2C /* skinning_vert_normals.glsl in Resources */,
-				2BD5F1C2C5794619B1EB5C9B /* skinning_frag_normals.glsl in Resources */,
-				B0E7FAE816F8E65E00A2B16F /* skinning_frag_normals.glsl in Resources */,
-				B0E7FAE916F8E65E00A2B16F /* skinning_vert_normals.glsl in Resources */,
+				B035755216F92F8D006B03A1 /* skinning_frag_normals.glsl in Resources */,
+				B035755316F92F8D006B03A1 /* skinning_vert_normals.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

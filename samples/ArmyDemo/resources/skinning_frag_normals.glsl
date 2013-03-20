@@ -21,5 +21,5 @@ void main (void)
 		
 	vec4 Ispec = gl_FrontLightProduct[0].specular * pow( max( dot(R, E), 0.0 ), gl_FrontMaterial.shininess );
 		
-	gl_FragColor = gl_FrontMaterial.emission + Iamb + Idiff + Ispec;
+	gl_FragColor = gl_FrontMaterial.emission + 2.0*(Iamb + Idiff + Ispec);
 }

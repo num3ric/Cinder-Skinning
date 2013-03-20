@@ -17,6 +17,13 @@
         <staticLibrary>lib/macosx/libassimp.a</staticLibrary>
     </platform>
     <platform os="msw">
+        <platform config="debug">
+            <staticLibrary>lib/msw/assimp3.0D.lib</staticLibrary>
+        </platform>
+
+        <platform config="release">
+            <staticLibrary>lib/msw/assimp3.0.lib<</staticLibrary>
+        </platform>
     </platform>
 </block>
 </cinder>

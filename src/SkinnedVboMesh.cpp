@@ -60,6 +60,11 @@ void SkinnedVboMesh::MeshSection::drawMesh()
     mSkinningShader.unbind();
 }
 
+SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, const SkeletonRef& skeleton )
+{
+	return SkinnedVboMeshRef( new SkinnedVboMesh( modelSource, skeleton ) );
+}
+
 SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton )
 {
 	assert( modelSource->getNumSections() > 0 );

@@ -13,8 +13,6 @@
 		00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
 		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
 		0F4795547ED4410E962DE84E /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2BC98BCB55134B558109EC71 /* CinderApp.icns */; };
-		20BAE4F0FECE475C8C82C5EE /* skinning_frag_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 096A2308253947D196B9C175 /* skinning_frag_normals.glsl */; };
-		34058E2C377E4FC7B1106C36 /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 32965ED2C38440DDA60ADA47 /* skinning_vert_normals.glsl */; };
 		385A3C3F058344979B97FAD2 /* SkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A66D6B57DF14AE1B5689A8C /* SkinnedVboMesh.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
@@ -24,6 +22,8 @@
 		6C8E324B3086412F803F37D8 /* SeymourDemoApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 344C88BFFC2246ADB469B8F4 /* SeymourDemoApp.cpp */; };
 		8923985536A24AD988BDFDCE /* SkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A5489D5A5BA4E5DBC831B9B /* SkinnedMesh.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		B035754E16F92F41006B03A1 /* skinning_frag_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B035754C16F92F41006B03A1 /* skinning_frag_normals.glsl */; };
+		B035754F16F92F41006B03A1 /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B035754D16F92F41006B03A1 /* skinning_vert_normals.glsl */; };
 		B999A80CA3924F5A9E8F61DC /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9DDE6E7EAA6496D8D7E3844 /* Skeleton.cpp */; };
 		BFB888FB70554572B0D0D39A /* ModelTargetSkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05F4ABBFD6AC47A2A3C7D2D6 /* ModelTargetSkinnedMesh.cpp */; };
 		D1AE18B1746240DFB8BC018E /* ModelTargetSkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2BC06C948E8B4006AD29A071 /* ModelTargetSkinnedVboMesh.cpp */; };
@@ -38,7 +38,6 @@
 		00B784B10FF439BC000DE1D7 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		05F4ABBFD6AC47A2A3C7D2D6 /* ModelTargetSkinnedMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ModelTargetSkinnedMesh.cpp; path = ../../../src/ModelTargetSkinnedMesh.cpp; sourceTree = "<group>"; };
-		096A2308253947D196B9C175 /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; name = skinning_frag_normals.glsl; path = ../../../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
 		0E1BE547961C4AA2A48E98A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1A66D6B57DF14AE1B5689A8C /* SkinnedVboMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SkinnedVboMesh.cpp; path = ../../../src/SkinnedVboMesh.cpp; sourceTree = "<group>"; };
@@ -47,7 +46,6 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		2BC06C948E8B4006AD29A071 /* ModelTargetSkinnedVboMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ModelTargetSkinnedVboMesh.cpp; path = ../../../src/ModelTargetSkinnedVboMesh.cpp; sourceTree = "<group>"; };
 		2BC98BCB55134B558109EC71 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
-		32965ED2C38440DDA60ADA47 /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; name = skinning_vert_normals.glsl; path = ../../../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
 		344C88BFFC2246ADB469B8F4 /* SeymourDemoApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SeymourDemoApp.cpp; path = ../src/SeymourDemoApp.cpp; sourceTree = "<group>"; };
 		350574BBD98B4A5A82831F90 /* ModelIo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelIo.h; path = ../../../include/ModelIo.h; sourceTree = "<group>"; };
 		45538915D38B47C28BE8501C /* AnimCurve.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimCurve.h; path = ../../../include/AnimCurve.h; sourceTree = "<group>"; };
@@ -64,6 +62,8 @@
 		8D1107320486CEB800E47090 /* SeymourDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeymourDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		98A679D611274BCE9FE4696C /* ModelTargetSkinnedVboMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelTargetSkinnedVboMesh.h; path = ../../../include/ModelTargetSkinnedVboMesh.h; sourceTree = "<group>"; };
 		A9DDE6E7EAA6496D8D7E3844 /* Skeleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Skeleton.cpp; path = ../../../src/Skeleton.cpp; sourceTree = "<group>"; };
+		B035754C16F92F41006B03A1 /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_frag_normals.glsl; path = ../../../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
+		B035754D16F92F41006B03A1 /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_vert_normals.glsl; path = ../../../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
 		BBEA026A1577471A89F8FB62 /* ModelTargetSkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelTargetSkinnedMesh.h; path = ../../../include/ModelTargetSkinnedMesh.h; sourceTree = "<group>"; };
 		C51E03FB6BB14738840BBD7D /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Node.cpp; path = ../../../src/Node.cpp; sourceTree = "<group>"; };
 		CCE6160D84AB4309962A6988 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
@@ -218,8 +218,8 @@
 		4D9769CC73854B94826B2591 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				32965ED2C38440DDA60ADA47 /* skinning_vert_normals.glsl */,
-				096A2308253947D196B9C175 /* skinning_frag_normals.glsl */,
+				B035754C16F92F41006B03A1 /* skinning_frag_normals.glsl */,
+				B035754D16F92F41006B03A1 /* skinning_vert_normals.glsl */,
 			);
 			name = resources;
 			sourceTree = "<group>";
@@ -285,8 +285,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F4795547ED4410E962DE84E /* CinderApp.icns in Resources */,
-				34058E2C377E4FC7B1106C36 /* skinning_vert_normals.glsl in Resources */,
-				20BAE4F0FECE475C8C82C5EE /* skinning_frag_normals.glsl in Resources */,
+				B035754E16F92F41006B03A1 /* skinning_frag_normals.glsl in Resources */,
+				B035754F16F92F41006B03A1 /* skinning_vert_normals.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -41,6 +41,7 @@ private:
 	float							mFps;
 	params::InterfaceGl				mParams;
 	bool mUseVbo, mDrawSkeleton, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
+	bool mIsFullScreen;
 };
 
 void SeymourDemo::setup()
@@ -69,17 +70,17 @@ void SeymourDemo::setup()
 	gl::enableDepthRead();
 	gl::enableAlphaBlending();
 	
-	mSkinnedMesh = make_shared<SkinnedMesh>( loadModel( getAssetPath( "astroboy_walk.dae" ) ) );
+	mSkinnedMesh = SkinnedMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ) );
 	app::console() << *mSkinnedMesh->getSkeleton();
-	mSkinnedVboMesh = make_shared<SkinnedVboMesh>( loadModel( getAssetPath( "astroboy_walk.dae" ) ), mSkinnedMesh->getSkeleton() );
+	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ), mSkinnedMesh->getSkeleton() );
 }
 
 void SeymourDemo::fileDrop( FileDropEvent event )
 {
 	try {
 		fs::path modelFile = event.getFile( 0 );
-		mSkinnedMesh = make_shared<SkinnedMesh>( loadModel( modelFile, getFolderPath() ) );
-		mSkinnedVboMesh = make_shared<SkinnedVboMesh>( loadModel( modelFile ), mSkinnedMesh->getSkeleton() );
+		mSkinnedMesh = SkinnedMesh::create( loadModel( modelFile, getFolderPath() ) );
+		mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( modelFile ), mSkinnedMesh->getSkeleton() );
 		console() << *mSkinnedMesh->getSkeleton();
 	}
 	catch( ... ) {
@@ -97,12 +98,15 @@ void SeymourDemo::keyDown( KeyEvent event )
 		mMeshIndex++;
 	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
 		mMeshIndex = math<int>::max(mMeshIndex - 1, 0);
+	} else if( event.getCode() == KeyEvent::KEY_f ) {
+		mIsFullScreen = !mIsFullScreen;
+		app::setFullScreen(mIsFullScreen);
 	}
 }
 
 void SeymourDemo::mouseMove( MouseEvent event )
 {
-	mMouseHorizontalPos = float( event.getX() );
+	mMouseHorizontalPos = float( event.getX() );	
 }
 
 void SeymourDemo::mouseDown( MouseEvent event )
