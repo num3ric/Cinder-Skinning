@@ -19,7 +19,9 @@ void main (void)
 	
 	vec4 Idiff = gl_FrontLightProduct[0].diffuse * max(dot(N, L), 0.0) * Dm;
 		
-	vec4 Ispec = gl_FrontLightProduct[0].specular * pow( max( dot(R, E), 0.0 ), gl_FrontMaterial.shininess );
-		
+//	vec4 Ispec =  gl_FrontLightProduct[0].specular * pow( max( dot(R, E), 0.0 ), 0.95 );
+	vec4 Ispec = 0.2*gl_LightSource[0].specular * pow( max( dot(R, E), 0.0 ), 0.95 );
+	
+//	gl_FragColor = gl_FrontMaterial.emission + Iamb + Idiff + Ispec;
 	gl_FragColor = gl_FrontMaterial.emission + 2.0*(Iamb + Idiff + Ispec);
 }

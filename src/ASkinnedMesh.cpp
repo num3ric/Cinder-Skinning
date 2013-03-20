@@ -27,13 +27,6 @@ void ASkinnedMesh::draw()
 		gl::enable( GL_CULL_FACE );
 	}
 	
-	if( mMatInfo.mUseAlpha ) {
-		gl::disable( GL_CULL_FACE );
-//		gl::enableAlphaBlending();
-	} else {
-//		gl::disableAlphaBlending();
-	}
-	
 	drawMesh();
 	
 	// Texture Binding

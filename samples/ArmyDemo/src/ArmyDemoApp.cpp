@@ -52,7 +52,7 @@ void ArmyDemoApp::setup()
 {
 	mIsFullScreen = false;
 	rotationRadius = 20.0f;
-	mLightPos = Vec3f(0, 20.0f, 0);
+	mLightPos = Vec3f(10.0f, 20.0f, 20.0f);
 	mMouseHorizontalPos = 0;
 	mMeshIndex = 0;
 	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
@@ -130,9 +130,6 @@ void ArmyDemoApp::update()
 	//	mSkinnedVboMesh->update( time, mEnableSkinning );
 	mFps = getAverageFps();
 	mTime = mSkinnedVboMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
-	
-	mLightPos.x = rotationRadius * math<float>::sin( app::getElapsedSeconds() );
-	mLightPos.z = rotationRadius * math<float>::cos( app::getElapsedSeconds() );
 }
 
 void ArmyDemoApp::draw()
@@ -149,10 +146,7 @@ void ArmyDemoApp::draw()
 	light.lookAt( mLightPos, Vec3f::zero() );
 	light.update( mMayaCam.getCamera() );
 	light.enable();
-	//
-	//
-	//	gl::drawVector(mLightPos, Vec3f::zero() );
-	//
+
 	gl::enable( GL_LIGHTING );
 	gl::enable( GL_NORMALIZE );
 	
@@ -165,7 +159,7 @@ void ArmyDemoApp::draw()
 		for(int j=0; j<=(ROW_LEN-1); ++j ) {
 			gl::pushModelView();
 			gl::translate(SPACING * (i - 0.5f * ROW_LEN), 0, SPACING * (j - 0.5f * ROW_LEN));
-			mSkinnedVboMesh->update( mTime + 2.0f*( i*20.0f + j*20.0f )/400.0f, mEnableSkinning );
+			mSkinnedVboMesh->update( mTime + 2.0f*( i * j )/NUM_MONSTERS, mEnableSkinning );
 			if( mDrawMesh ) {
 				mSkinnedVboMesh->draw();
 			}
@@ -177,8 +171,6 @@ void ArmyDemoApp::draw()
 	}
 	if ( mEnableWireframe )
 		gl::disableWireframe();
-	
-	
 	
 	params::InterfaceGl::draw();
 	
