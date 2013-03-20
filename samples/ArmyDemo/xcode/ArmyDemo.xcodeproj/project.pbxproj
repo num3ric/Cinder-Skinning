@@ -61,24 +61,24 @@
 		A2A26E6655E44BD289C6E43D /* ModelSourceAssimp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelSourceAssimp.h; path = ../../../include/ModelSourceAssimp.h; sourceTree = "<group>"; };
 		B035755016F92F8D006B03A1 /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_frag_normals.glsl; path = ../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
 		B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_vert_normals.glsl; path = ../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
-		B0E7FAD416F8E5D000A2B16F /* mageyes_d.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = mageyes_d.tga; path = ../assets/mageyes_d.tga; sourceTree = "<group>"; };
-		B0E7FAD516F8E5D000A2B16F /* mageyes.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = mageyes.tga; path = ../assets/mageyes.tga; sourceTree = "<group>"; };
-		B0E7FAD616F8E5D000A2B16F /* maggot3_d.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = maggot3_d.tga; path = ../assets/maggot3_d.tga; sourceTree = "<group>"; };
-		B0E7FAD716F8E5D000A2B16F /* maggot3_dis.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = maggot3_dis.tga; path = ../assets/maggot3_dis.tga; sourceTree = "<group>"; };
-		B0E7FAD816F8E5D000A2B16F /* maggot3_h.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = maggot3_h.tga; path = ../assets/maggot3_h.tga; sourceTree = "<group>"; };
-		B0E7FAD916F8E5D000A2B16F /* maggot3_local.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = maggot3_local.tga; path = ../assets/maggot3_local.tga; sourceTree = "<group>"; };
-		B0E7FADA16F8E5D000A2B16F /* maggot3_s.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = maggot3_s.tga; path = ../assets/maggot3_s.tga; sourceTree = "<group>"; };
 		B0E7FADB16F8E5D000A2B16F /* maggot3.md5anim */ = {isa = PBXFileReference; lastKnownFileType = text; name = maggot3.md5anim; path = ../assets/maggot3.md5anim; sourceTree = "<group>"; };
 		B0E7FADC16F8E5D000A2B16F /* maggot3.md5mesh */ = {isa = PBXFileReference; lastKnownFileType = text; name = maggot3.md5mesh; path = ../assets/maggot3.md5mesh; sourceTree = "<group>"; };
-		B0E7FADD16F8E5D000A2B16F /* magspine_d.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magspine_d.tga; path = ../assets/magspine_d.tga; sourceTree = "<group>"; };
-		B0E7FADE16F8E5D000A2B16F /* magspine_local.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magspine_local.tga; path = ../assets/magspine_local.tga; sourceTree = "<group>"; };
-		B0E7FADF16F8E5D000A2B16F /* magspine_s.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magspine_s.tga; path = ../assets/magspine_s.tga; sourceTree = "<group>"; };
-		B0E7FAE016F8E5D000A2B16F /* magspine.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magspine.tga; path = ../assets/magspine.tga; sourceTree = "<group>"; };
-		B0E7FAE116F8E5D000A2B16F /* magtongue_d.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magtongue_d.tga; path = ../assets/magtongue_d.tga; sourceTree = "<group>"; };
-		B0E7FAE216F8E5D000A2B16F /* magtongue_h.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magtongue_h.tga; path = ../assets/magtongue_h.tga; sourceTree = "<group>"; };
-		B0E7FAE316F8E5D000A2B16F /* magtongue_local.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magtongue_local.tga; path = ../assets/magtongue_local.tga; sourceTree = "<group>"; };
-		B0E7FAE416F8E5D000A2B16F /* magtongue_s.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magtongue_s.tga; path = ../assets/magtongue_s.tga; sourceTree = "<group>"; };
-		B0E7FAE516F8E5D000A2B16F /* magtongue.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = magtongue.tga; path = ../assets/magtongue.tga; sourceTree = "<group>"; };
+		B0EFE2D416FA1E84005953E3 /* magtongue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magtongue.png; path = ../assets/magtongue.png; sourceTree = "<group>"; };
+		B0EFE2D516FA1E84005953E3 /* magtongue_s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magtongue_s.png; path = ../assets/magtongue_s.png; sourceTree = "<group>"; };
+		B0EFE2D616FA1E84005953E3 /* magtongue_local.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magtongue_local.png; path = ../assets/magtongue_local.png; sourceTree = "<group>"; };
+		B0EFE2D716FA1E84005953E3 /* magtongue_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magtongue_h.png; path = ../assets/magtongue_h.png; sourceTree = "<group>"; };
+		B0EFE2D816FA1E84005953E3 /* magtongue_d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magtongue_d.png; path = ../assets/magtongue_d.png; sourceTree = "<group>"; };
+		B0EFE2D916FA1E84005953E3 /* magspine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magspine.png; path = ../assets/magspine.png; sourceTree = "<group>"; };
+		B0EFE2DA16FA1E84005953E3 /* magspine_s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magspine_s.png; path = ../assets/magspine_s.png; sourceTree = "<group>"; };
+		B0EFE2DB16FA1E84005953E3 /* magspine_local.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magspine_local.png; path = ../assets/magspine_local.png; sourceTree = "<group>"; };
+		B0EFE2DC16FA1E84005953E3 /* magspine_d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magspine_d.png; path = ../assets/magspine_d.png; sourceTree = "<group>"; };
+		B0EFE2DD16FA1E84005953E3 /* maggot3_s.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = maggot3_s.png; path = ../assets/maggot3_s.png; sourceTree = "<group>"; };
+		B0EFE2DE16FA1E84005953E3 /* maggot3_local.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = maggot3_local.png; path = ../assets/maggot3_local.png; sourceTree = "<group>"; };
+		B0EFE2DF16FA1E84005953E3 /* maggot3_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = maggot3_h.png; path = ../assets/maggot3_h.png; sourceTree = "<group>"; };
+		B0EFE2E016FA1E84005953E3 /* maggot3_dis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = maggot3_dis.png; path = ../assets/maggot3_dis.png; sourceTree = "<group>"; };
+		B0EFE2E116FA1E84005953E3 /* maggot3_d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = maggot3_d.png; path = ../assets/maggot3_d.png; sourceTree = "<group>"; };
+		B0EFE2E216FA1E84005953E3 /* mageyes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mageyes.png; path = ../assets/mageyes.png; sourceTree = "<group>"; };
+		B0EFE2E316FA1E84005953E3 /* mageyes_d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mageyes_d.png; path = ../assets/mageyes_d.png; sourceTree = "<group>"; };
 		BC4743FF12854AF5B25D0C11 /* Skeleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Skeleton.h; path = ../../../include/Skeleton.h; sourceTree = "<group>"; };
 		D010C50CFDC249AB96C6311C /* ModelTargetSkinnedVboMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelTargetSkinnedVboMesh.h; path = ../../../include/ModelTargetSkinnedVboMesh.h; sourceTree = "<group>"; };
 		D107FE7788D34B7B9C87A59B /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Node.cpp; path = ../../../src/Node.cpp; sourceTree = "<group>"; };
@@ -242,24 +242,24 @@
 		B0E7FAD316F8E5B400A2B16F /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				B0E7FAD416F8E5D000A2B16F /* mageyes_d.tga */,
-				B0E7FAD516F8E5D000A2B16F /* mageyes.tga */,
-				B0E7FAD616F8E5D000A2B16F /* maggot3_d.tga */,
-				B0E7FAD716F8E5D000A2B16F /* maggot3_dis.tga */,
-				B0E7FAD816F8E5D000A2B16F /* maggot3_h.tga */,
-				B0E7FAD916F8E5D000A2B16F /* maggot3_local.tga */,
-				B0E7FADA16F8E5D000A2B16F /* maggot3_s.tga */,
 				B0E7FADB16F8E5D000A2B16F /* maggot3.md5anim */,
 				B0E7FADC16F8E5D000A2B16F /* maggot3.md5mesh */,
-				B0E7FADD16F8E5D000A2B16F /* magspine_d.tga */,
-				B0E7FADE16F8E5D000A2B16F /* magspine_local.tga */,
-				B0E7FADF16F8E5D000A2B16F /* magspine_s.tga */,
-				B0E7FAE016F8E5D000A2B16F /* magspine.tga */,
-				B0E7FAE116F8E5D000A2B16F /* magtongue_d.tga */,
-				B0E7FAE216F8E5D000A2B16F /* magtongue_h.tga */,
-				B0E7FAE316F8E5D000A2B16F /* magtongue_local.tga */,
-				B0E7FAE416F8E5D000A2B16F /* magtongue_s.tga */,
-				B0E7FAE516F8E5D000A2B16F /* magtongue.tga */,
+				B0EFE2D416FA1E84005953E3 /* magtongue.png */,
+				B0EFE2D516FA1E84005953E3 /* magtongue_s.png */,
+				B0EFE2D616FA1E84005953E3 /* magtongue_local.png */,
+				B0EFE2D716FA1E84005953E3 /* magtongue_h.png */,
+				B0EFE2D816FA1E84005953E3 /* magtongue_d.png */,
+				B0EFE2D916FA1E84005953E3 /* magspine.png */,
+				B0EFE2DA16FA1E84005953E3 /* magspine_s.png */,
+				B0EFE2DB16FA1E84005953E3 /* magspine_local.png */,
+				B0EFE2DC16FA1E84005953E3 /* magspine_d.png */,
+				B0EFE2DD16FA1E84005953E3 /* maggot3_s.png */,
+				B0EFE2DE16FA1E84005953E3 /* maggot3_local.png */,
+				B0EFE2DF16FA1E84005953E3 /* maggot3_h.png */,
+				B0EFE2E016FA1E84005953E3 /* maggot3_dis.png */,
+				B0EFE2E116FA1E84005953E3 /* maggot3_d.png */,
+				B0EFE2E216FA1E84005953E3 /* mageyes.png */,
+				B0EFE2E316FA1E84005953E3 /* mageyes_d.png */,
 			);
 			name = assets;
 			sourceTree = "<group>";

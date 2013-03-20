@@ -94,7 +94,8 @@ joints {
 mesh {
 	// meshes: Thornmesh
 	//shader "models/monsters/maggot/magspine"
-	shader "magspine"
+	//shader "magspine"
+	shader "magspine.png"
 
 	numverts 112
 	vert 0 ( -0.0000001192 0.0000002384 ) 4 2
@@ -392,7 +393,8 @@ mesh {
 mesh {
 	// meshes: Ltonguemesh, Rtonguemesh
 	// shader "models/monsters/maggot/magtongue"
-	shader "magtongue"
+	// shader "magtongue"
+	shader "magtongue.png"
 
 	numverts 32
 	vert 0 ( 0.2152814865 0.8534296751 ) 4 2
@@ -543,7 +545,8 @@ mesh {
 mesh {
 	// meshes: maggot3mesh
 	// shader "models/monsters/maggot/maggot3"
-	shader "maggot3"
+	// shader "maggot3"
+	shader "maggot3.png"
 
 	numverts 830
 	vert 0 ( 0.2177598774 0.1776313186 ) 6 1
@@ -4178,7 +4181,8 @@ mesh {
 mesh {
 	// meshes: polySurface2, polySurface1
 	// shader "models/monsters/maggot/mageyes"
-	shader "mageyes"
+	// shader "mageyes"
+	shader "mageyes.png"
 
 	numverts 16
 	vert 0 ( 0.4806037247 0.572039485 ) 4 2
