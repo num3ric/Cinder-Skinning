@@ -6,6 +6,8 @@
 //
 //
 
+#include "cinder/app/AppNative.h"
+
 #include "Node.h"
 
 #include "cinder/Color.h"
@@ -159,7 +161,9 @@ namespace cinder {
 		}
 		
 		void drawConnected( const Vec3f& nodePos, const Vec3f& parentPos ) {
-			drawSphere( nodePos, 0.2f , 4); //TODO: make size relative
+			// FIXME: Distance is expensive, maybe use skeleton bounding box.
+			float distSq = nodePos.distance( parentPos );
+			drawSphere( nodePos, 0.1f*distSq , 4);
 			color( Color::white() );
 			drawCone( nodePos, parentPos );
 		}

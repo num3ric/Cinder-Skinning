@@ -27,6 +27,16 @@ typedef std::shared_ptr< class Skeleton> SkeletonRef;
  **/
 class Skeleton {
 public:
+	/** 
+	  * FULL RenderMode draws every single node in the node hierarchy, even if it's not a bone.
+	  * CLEANED applies several (seemingly arbitrary conditions for a node to be a visible part 
+	  *         of the skeleton: such as being in the bone map, having bone parents whose initial
+	  *         transformation are not the identity matrix.
+	  * By default, FULL is applied.
+	  */
+	enum RenderMode { FULL, CLEANED };
+	static enum RenderMode mRenderMode;
+
 	static SkeletonRef create() { return SkeletonRef( new Skeleton() ); }
 	static SkeletonRef create( NodeRef root, std::map<std::string, NodeRef> boneNames ) { return SkeletonRef( new Skeleton( root, boneNames ) ); }
 	

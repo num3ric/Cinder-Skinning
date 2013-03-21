@@ -52,6 +52,8 @@ private:
 
 void ArmyDemoApp::setup()
 {
+	model::Skeleton::mRenderMode = model::Skeleton::RenderMode::CLEANED;
+
 	mIsFullScreen = false;
 	rotationRadius = 20.0f;
 	mLightPos = Vec3f(10.0f, 20.0f, 20.0f);

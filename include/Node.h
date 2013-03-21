@@ -44,12 +44,12 @@ public:
 	void				setName( const std::string& name ) { mName = name; }
 		
 	const ci::Matrix44f&	getRelativeTransformation() const { return mRelativeTransformation; }
-	void				setRelativeTransformation( const ci::Matrix44f& T ) { mRelativeTransformation = T; }
+	void					setRelativeTransformation( const ci::Matrix44f& T ) { mRelativeTransformation = T; }
 	
 	const ci::Matrix44f&	getAbsoluteTransformation() const { return mAbsoluteTransformation; }
-	void				setAbsoluteTransformation( const ci::Matrix44f& T ) { mRelativeTransformation = T;
+	void					setAbsoluteTransformation( const ci::Matrix44f& T ) { mRelativeTransformation = T;
 																		  mAbsolutePosition = mAbsoluteTransformation * ci::Vec3f::zero(); }
-	
+	void					setAbsolutePosition( const ci::Vec3f& P ) { mAbsolutePosition = P; }
 	const ci::Vec3f&		getAbsolutePosition() const { return mAbsolutePosition; }
 	
 	const ci::Matrix44f&	getInitialTransformation() const { return mInitialRelativeTransformation; }

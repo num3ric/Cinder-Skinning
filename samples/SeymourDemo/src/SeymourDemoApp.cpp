@@ -49,6 +49,8 @@ private:
 
 void SeymourDemo::setup()
 {
+	model::Skeleton::mRenderMode = model::Skeleton::RenderMode::CLEANED;
+
 	rotationRadius = 20.0f;
 	mLightPos = Vec3f(0, 20.0f, 0);
 	mMouseHorizontalPos = 0;

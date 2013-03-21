@@ -5,14 +5,17 @@
 #include "cinder/params/Params.h"
 
 #include "Kinect.h"
+#include "Node.h"
 #include "Skeleton.h"
 #include "ModelSourceAssimp.h"
+
+#include <string>
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-using namespace KinectSdk;
+using namespace model;
 
 class KinectDemoApp : public AppNative {
   public:
@@ -25,16 +28,23 @@ private:
 	// Kinect
 	uint32_t							mCallbackId;
 	KinectSdk::KinectRef				mKinect;
-	std::vector<KinectSdk::Skeleton>	mSkeletons;
+	std::vector<KinectSdk::Skeleton>	mKinectSkeletons;
 	void								onSkeletonData( std::vector<KinectSdk::Skeleton> skeletons, 
 		const KinectSdk::DeviceOptions &deviceOptions );
 
 	// Camera
 	ci::CameraPersp						mCamera;
+	Colorf								mColor;
+
+	void createKinectSkeleton( const KinectSdk::Skeleton& kSkeleton );
+
+	//
+	SkeletonRef mSkeleton;
 };
 
 void KinectDemoApp::setup()
 {
+	mSkeleton = nullptr;
 	// Start Kinect
 	mKinect = KinectSdk::Kinect::create();
 	mKinect->start( KinectSdk::DeviceOptions().enableDepth( false ).enableColor( false ) );
@@ -56,10 +66,67 @@ void KinectDemoApp::mouseDown( MouseEvent event )
 {
 }
 
+void KinectDemoApp::createKinectSkeleton( const KinectSdk::Skeleton& kSkeleton )
+{
+	assert( kSkeleton.size() == 20 && mSkeleton->getNumBones() == 0 );
+	
+	// First pass, fill all the names matching the joint indices
+	for( const auto& entry : kSkeleton ) {
+		const KinectSdk::Bone& kBone = entry.second;
+		std::string id = std::to_string( kBone.getEndJoint() );
+		NodeRef newNode = make_shared<Node>( Matrix44f::identity(), Matrix44f::identity(), id );
+		mSkeleton->insertBone( id, newNode );
+	}
+
+	// Second pass, construct the hierarchy and set the root node
+	for( const auto& entry : kSkeleton ) {
+		const KinectSdk::Bone& kBone = entry.second;
+		std::string id = std::to_string( kBone.getEndJoint() );
+		std::string parentId = std::to_string( kBone.getStartJoint() );
+		if( id != parentId ) {
+			try {
+				NodeRef child = mSkeleton->getBone( id );
+				NodeRef parent = mSkeleton->getBone( parentId );
+				child->setParent( parent );
+				parent->addChild( child );
+				
+			} catch ( const std::out_of_range& ) {
+				app::console() << "No parent:" << parentId << std::endl;
+			}
+		} else if ( id == "0" ) {
+			mSkeleton->setRootNode( mSkeleton->getBone( id ) );
+		}
+	}
+}
+
 void KinectDemoApp::update()
 {
 	if ( mKinect->isCapturing() ) {
 		mKinect->update();
+		if( mKinectSkeletons.size() > 0 ) {
+			const KinectSdk::Skeleton& kSkeleton = *mKinectSkeletons.begin();
+			if( kSkeleton.size() == 20 ) {
+				if( mSkeleton != nullptr ) {
+					for(auto entry : kSkeleton ) {
+						const KinectSdk::Bone& kBone = entry.second;
+						NodeRef bone = mSkeleton->getBone( std::to_string( kBone.getEndJoint() ) );
+						Vec3f pos = kBone.getPosition();
+						pos.z *= -1.0f;
+						bone->setAbsolutePosition( pos );
+					}
+					int i = 0;
+				} else { 
+					app::console() << "Skeleton created." << std::endl;
+					mSkeleton = Skeleton::create();
+					createKinectSkeleton( kSkeleton );
+				}
+			} else {
+				app::console() << "Missing bones." << std::endl;
+			}
+		}
+
+		mColor = mKinect->getUserColor( 0 );
+
 	} else {
 		// If Kinect initialization failed, try again every 90 frames
 		if ( getElapsedFrames() % 90 == 0 ) {
@@ -76,59 +143,20 @@ void KinectDemoApp::draw()
 
 	// We're capturing
 	if ( mKinect->isCapturing() ) {
-
 		// Set up 3D view
 		gl::setMatrices( mCamera );
+		gl::color( mColor );
 
-		// Iterate through skeletons
-		uint32_t i = 0;
-		for ( vector<KinectSdk::Skeleton>::const_iterator skeletonIt = mSkeletons.cbegin(); skeletonIt != mSkeletons.cend(); ++skeletonIt, i++ ) {
-
-			// Set color
-			Colorf color = mKinect->getUserColor( i );
-
-			// Iterate through joints
-			for ( KinectSdk::Skeleton::const_iterator boneIt = skeletonIt->cbegin(); boneIt != skeletonIt->cend(); ++boneIt ) {
-
-				// Set user color
-				gl::color( color );
-
-				// Get position and rotation
-				const Bone& bone	= boneIt->second;
-				Vec3f position		= bone.getPosition();
-				Matrix44f transform	= bone.getAbsoluteRotationMatrix();
-				Vec3f direction		= transform.transformPoint( position ).normalized();
-				direction			*= 0.05f;
-				position.z			*= -1.0f;
-
-				// Draw bone
-				glLineWidth( 2.0f );
-				JointName startJoint = bone.getStartJoint();
-				if ( skeletonIt->find( startJoint ) != skeletonIt->end() ) {
-					Vec3f destination	= skeletonIt->find( startJoint )->second.getPosition();
-					destination.z		*= -1.0f;
-					gl::drawLine( position, destination );
-				}
-
-				// Draw joint
-				gl::drawSphere( position, 0.025f, 16 );
-
-				// Draw joint orientation
-				glLineWidth( 0.5f );
-				gl::color( ColorAf::white() );
-				gl::drawVector( position, position + direction, 0.05f, 0.01f );
-
-			}
-
+		if( mSkeleton ) {
+			mSkeleton->draw();
 		}
-
 	}
 }
 
 // Receives skeleton data
-void KinectDemoApp::onSkeletonData( vector<KinectSdk::Skeleton> skeletons, const DeviceOptions &deviceOptions )
+void KinectDemoApp::onSkeletonData( vector<KinectSdk::Skeleton> skeletons, const KinectSdk::DeviceOptions &deviceOptions )
 {
-	mSkeletons = skeletons;
+	mKinectSkeletons = skeletons;
 }
 
 void KinectDemoApp::shutdown()

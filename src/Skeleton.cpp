@@ -13,6 +13,8 @@
 
 namespace model {
 
+Skeleton::RenderMode Skeleton::mRenderMode = Skeleton::RenderMode::FULL;
+
 Skeleton::Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames )
 : mRootNode( root )
 , mBoneNames( boneNames )
@@ -97,15 +99,19 @@ NodeRef Skeleton::findNode( const std::string& name, const NodeRef& node ) const
 
 bool Skeleton::isVisibleNode( const NodeRef& node ) const
 {
-	NodeRef parent = node->getParent();
-	return  parent &&
-			(hasBone( node->getName() ) || hasBone( parent->getName() ) ) &&
-			parent->getInitialTransformation() != ci::Matrix44f::identity();
+	if( mRenderMode == RenderMode::CLEANED) {
+		NodeRef parent = node->getParent();
+		return  parent &&
+				(hasBone( node->getName() ) || hasBone( parent->getName() ) ) &&
+				parent->getInitialTransformation() != ci::Matrix44f::identity();
+	} else {
+		return true;
+	}
 }
 
 void Skeleton::traverseNodes( const NodeRef& node, std::function<void(NodeRef)> visit ) const
 {
-	visit( node );	
+	visit( node );
 	for( NodeRef child : node->getChildren() ) {
 		traverseNodes(child, visit);
 	}
@@ -115,7 +121,7 @@ void Skeleton::drawRelative(const NodeRef& node, const NodeRef& parent) const
 {
 	ci::Matrix44f currentTransformation = node->getRelativeTransformation();
 	
-	ci::gl::pushModelView();	
+	ci::gl::pushModelView();
 	if( isVisibleNode( node ) ) {
 		ci::gl::drawSkeletonNodeRelative( *node, Node::RenderMode::JOINTS );
 	}
