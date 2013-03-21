@@ -64,6 +64,9 @@ public:
 	void								setSkeleton( const std::shared_ptr<Skeleton>& skeleton ) { mActiveSection->setSkeleton( skeleton ); }
 	bool								hasSkeleton() const { return mActiveSection->getSkeleton() != nullptr; }
 	
+	void						setDefaultTransformation( const ci::Matrix44f& transformation ) { mActiveSection->setDefaultTransformation( transformation ); }
+	const ci::Matrix44f&		getDefaultTranformation() const { return mActiveSection->getDefaultTranformation(); }
+	
 	friend struct SkinnedVboMesh::MeshSection;
 	
 	std::array<ci::Matrix44f, MAXBONES> mBoneMatrices;

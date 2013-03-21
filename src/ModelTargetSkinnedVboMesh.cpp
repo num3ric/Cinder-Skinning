@@ -103,5 +103,10 @@ void ModelTargetSkinnedVboMesh::loadBoneWeights( const std::vector<BoneWeights>&
 	mSkinnedVboMesh->getActiveSection()->boneMatrices = &mSkinnedVboMesh->mBoneMatrices;
 	mSkinnedVboMesh->getActiveSection()->invTransposeMatrices = &mSkinnedVboMesh->mInvTransposeMatrices;
 }
+	
+void ModelTargetSkinnedVboMesh::loadDefaultTransformation( const ci::Matrix44f& transformation )
+{
+	mSkinnedVboMesh->setDefaultTransformation( transformation );
+}
 
 } //end namespace model

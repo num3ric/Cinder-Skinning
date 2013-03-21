@@ -73,7 +73,8 @@ public:
 	virtual void	loadTex( const std::vector<ci::Vec2f>& texCoords, const MaterialInfo& texInfo );
   	virtual void	loadVertexNormals( const std::vector<ci::Vec3f>& normals );
   	virtual void	loadSkeleton( const std::shared_ptr<Skeleton>& skeleton );
-	virtual void	loadBoneWeights( const std::vector<BoneWeights>& boneWeights );	
+	virtual void	loadBoneWeights( const std::vector<BoneWeights>& boneWeights );
+	virtual void	loadDefaultTransformation( const ci::Matrix44f& transformation );
 };
 
 } //end namespace model

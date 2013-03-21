@@ -22,7 +22,8 @@ public:
 	virtual void	loadIndices( const std::vector<uint32_t>& indices ) override;
 	virtual void	loadTex( const std::vector<ci::Vec2f>& texCoords, const MaterialInfo& matInfo ) override;
   	virtual void	loadSkeleton( const std::shared_ptr<Skeleton>& skeleton ) override;
-	virtual void	loadBoneWeights( const std::vector<BoneWeights>& boneWeights ) override;  	
+	virtual void	loadBoneWeights( const std::vector<BoneWeights>& boneWeights ) override;
+ 	virtual void	loadDefaultTransformation( const ci::Matrix44f& transformation ) override;
 private:
   	SkinnedVboMesh*			mSkinnedVboMesh;
 	

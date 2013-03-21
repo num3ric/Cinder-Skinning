@@ -65,7 +65,7 @@ namespace ai {
 	void loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton, std::vector<model::BoneWeights>* boneWeights  );
 	
 	//TODO: Use when there is no bones
-	ci::Matrix44f getDefaultTransformation( std::string name, const aiScene* aiscene, model::Skeleton* skeleton );
+	ci::Matrix44f getDefaultTransformation( const std::string& name, const aiScene* aiscene, model::Skeleton* skeleton );
 
 }
 

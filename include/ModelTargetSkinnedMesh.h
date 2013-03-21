@@ -21,7 +21,8 @@ public:
 	virtual void	loadTex( const std::vector<ci::Vec2f>& texCoords, const MaterialInfo& matInfo )  override;
   	virtual void	loadVertexNormals( const std::vector<ci::Vec3f>& normals )  override;
   	virtual void	loadSkeleton( const std::shared_ptr<Skeleton>& skeleton )  override;
-	virtual void	loadBoneWeights( const std::vector<BoneWeights>& boneWeights )  override;	
+	virtual void	loadBoneWeights( const std::vector<BoneWeights>& boneWeights )  override;
+	virtual void	loadDefaultTransformation( const ci::Matrix44f& transformation ) override;
 private:
   	SkinnedMesh*	mSkinnedMesh;
 };

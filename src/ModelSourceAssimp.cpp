@@ -35,15 +35,17 @@ namespace ai {
 	
 	
 	const aiNode* findMeshNode( const std::string& meshName, const aiScene* aiscene, const aiNode* ainode )
-	{
+	{			
 		for( unsigned i=0; i<ainode->mNumMeshes; ++i ) {
 			if( meshName == ai::get( aiscene->mMeshes[ ainode->mMeshes[i] ]->mName ) ) {
 				return ainode;
 			}
 		}
 		
-		for( unsigned n=0; ainode->mNumChildren; ++n) {
-			return findMeshNode( meshName, aiscene, ainode->mChildren[n] );
+		for( unsigned n=0; n < ainode->mNumChildren; ++n) {
+			const aiNode* goalNode = findMeshNode( meshName, aiscene, ainode->mChildren[n] );
+			if( goalNode != nullptr )
+				return goalNode;
 		}
 		
 		return nullptr;
@@ -332,18 +334,6 @@ namespace ai {
 			}
 		}
 	}
-	
-	Matrix44f getDefaultTransformation( std::string name, const aiScene* aiscene, model::Skeleton* skeleton )
-	{
-		const aiNode* ainode = ai::findMeshNode( name, aiscene, aiscene->mRootNode );
-		if( ainode ) {
-			std::string ainame = ai::get( ainode->mName );
-			const Matrix44f& t = skeleton->getNode(ainame)->getInitialAbsoluteTransformation();
-			return t;
-		}
-		return Matrix44f::identity();
-	}
-
 }
 
 namespace model {
@@ -423,7 +413,7 @@ void ModelSourceAssimp::load( ModelTarget *target )
 	
 	for( unsigned int i=0; i< mAiScene->mNumMeshes; ++i ) {
 		const aiMesh* aimesh = mAiScene->mMeshes[i];
-		std::string name = ai::get( mAiScene->mMeshes[ i ]->mName );
+		std::string name = ai::get( aimesh->mName );
 		
 		app::console() << "loading mesh " << i;
 		if ( name != "" )
@@ -455,14 +445,21 @@ void ModelSourceAssimp::load( ModelTarget *target )
 			target->loadTex( texCoords, matInfo );
 		}
 		
-		if( mModelInfo.mHasSkeleton ) {
+//		if( mModelInfo.mHasSkeleton ) {
+		if( aimesh->HasBones() ) {
 			if( loadSkeleton )
 				target->loadSkeleton( skeleton );
 			
 			std::vector<BoneWeights> boneWeights;
 			ai::loadBoneWeights( aimesh, skeleton.get(), &boneWeights );
 			target->loadBoneWeights( boneWeights );
-		}		
+		} else {
+			const aiNode* ainode = ai::findMeshNode( name, mAiScene, mAiScene->mRootNode );
+			if( ainode ) {
+				target->loadDefaultTransformation( ai::get( ainode->mTransformation) );
+			}
+		}
+//		}
 	}
 }
 

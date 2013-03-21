@@ -44,6 +44,9 @@ public:
 	std::vector< MeshSectionRef >&			getSections() { return mMeshSections; }
 	const std::vector< MeshSectionRef >&	getSections() const { return mMeshSections; }
 	
+	void						setDefaultTransformation( const ci::Matrix44f& transformation ) { mActiveSection->setDefaultTransformation( transformation ); }
+	const ci::Matrix44f&		getDefaultTranformation() const { return mActiveSection->getDefaultTranformation(); }
+	
 protected:
 	SkinnedMesh( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	//add full behavior/functions relating to "active section"

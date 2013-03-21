@@ -59,4 +59,9 @@ void ModelTargetSkinnedMesh::loadBoneWeights( const std::vector<BoneWeights>& bo
 	mSkinnedMesh->getActiveSection()->setBoneWeights( boneWeights );
 }
 
+void ModelTargetSkinnedMesh::loadDefaultTransformation( const ci::Matrix44f& transformation )
+{
+	mSkinnedMesh->setDefaultTransformation( transformation );
+}
+
 } //end namespace model
