@@ -62,6 +62,7 @@ public:
 	std::shared_ptr<Skeleton>&			getSkeleton() { return mActiveSection->getSkeleton(); }
 	const std::shared_ptr<Skeleton>&	getSkeleton() const { return mActiveSection->getSkeleton(); }
 	void								setSkeleton( const std::shared_ptr<Skeleton>& skeleton ) { mActiveSection->setSkeleton( skeleton ); }
+	bool								hasSkeleton() const { return mActiveSection->getSkeleton() != nullptr; }
 	
 	friend struct SkinnedVboMesh::MeshSection;
 	

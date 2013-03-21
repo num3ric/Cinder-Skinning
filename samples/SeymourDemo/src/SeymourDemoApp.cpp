@@ -27,6 +27,7 @@ public:
 	void mouseMove( MouseEvent event );
 	void mouseDown( MouseEvent event );
 	void mouseDrag( MouseEvent event );
+	void mouseWheel( MouseEvent event );
 	void fileDrop( FileDropEvent event );
 	
 	void update();
@@ -82,15 +83,14 @@ void SeymourDemo::setup()
 
 void SeymourDemo::fileDrop( FileDropEvent event )
 {
-	try {
+//	try {
 		fs::path modelFile = event.getFile( 0 );
 		mSkinnedMesh = SkinnedMesh::create( loadModel( modelFile ) );
 		mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( modelFile ), mSkinnedMesh->getSkeleton() );
-		console() << *mSkinnedMesh->getSkeleton();
-	}
-	catch( ... ) {
-		console() << "unable to load the asset!" << std::endl;
-	};
+//	}
+//	catch( ... ) {
+//		console() << "unable to load the asset!" << std::endl;
+//	};
 }
 
 void SeymourDemo::keyDown( KeyEvent event )
@@ -124,6 +124,11 @@ void SeymourDemo::mouseDrag( MouseEvent event )
 	mMayaCam.mouseDrag( event.getPos(), event.isLeftDown(), event.isMiddleDown(), event.isRightDown() );
 }
 
+void SeymourDemo::mouseWheel( MouseEvent event )
+{
+//	mMayaCam.mouseWheel( event.getWheelIncrement() );
+}
+
 void SeymourDemo::resize()
 {
 	CameraPersp cam = mMayaCam.getCamera();
@@ -133,10 +138,10 @@ void SeymourDemo::resize()
 
 void SeymourDemo::update()
 {
-	if( mUseVbo ) {
+	if( mUseVbo && mSkinnedVboMesh->hasSkeleton() ) {
 		float time = mSkinnedVboMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
 		mSkinnedVboMesh->update( time, mEnableSkinning );
-	} else {
+	} else if( mSkinnedMesh->hasSkeleton() ) {
 		float time = mSkinnedMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
 		mSkinnedMesh->update( time, mEnableSkinning );
 	}

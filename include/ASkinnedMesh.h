@@ -39,6 +39,7 @@ public:
 	void								setSkeleton( std::shared_ptr<Skeleton> skeleton ) { mSkeleton = skeleton; }
 	std::shared_ptr<Skeleton>&			getSkeleton() { return mSkeleton; }
 	const std::shared_ptr<Skeleton>&	getSkeleton() const { return mSkeleton; }
+	bool								hasSkeleton() const { return mSkeleton != nullptr; }
 	
 	MaterialInfo&			getMatInfo() { return mMatInfo; }
 	const MaterialInfo&		getMatInfo() const { return mMatInfo; }

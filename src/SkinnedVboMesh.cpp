@@ -55,8 +55,10 @@ void SkinnedVboMesh::MeshSection::drawMesh()
     mSkinningShader.bind();
 	mSkinningShader.uniform( "isAnimated", mIsAnimated );
     mSkinningShader.uniform( "texture", 0 );
-    mSkinningShader.uniform( "boneMatrices", boneMatrices->data(), SkinnedVboMesh::MAXBONES );
-	mSkinningShader.uniform( "invTransposeMatrices", invTransposeMatrices->data(), SkinnedVboMesh::MAXBONES );
+	if( hasSkeleton() ) {
+		mSkinningShader.uniform( "boneMatrices", boneMatrices->data(), SkinnedVboMesh::MAXBONES );
+		mSkinningShader.uniform( "invTransposeMatrices", invTransposeMatrices->data(), SkinnedVboMesh::MAXBONES );
+	}
     ci::gl::draw( mVboMesh );
 	//    ci::gl::drawRange(mVbo, 0, mVbo.getNumIndices()*3);
     mSkinningShader.unbind();

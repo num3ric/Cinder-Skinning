@@ -34,8 +34,9 @@ public:
 	void update( float time, bool enableSkinning = true );
 	void draw();
 	
-	std::shared_ptr<Skeleton>&		getSkeleton() { return mActiveSection->getSkeleton(); }
+	std::shared_ptr<Skeleton>&			getSkeleton() { return mActiveSection->getSkeleton(); }
 	const std::shared_ptr<Skeleton>&	getSkeleton() const { return mActiveSection->getSkeleton(); }
+	bool								hasSkeleton() const { return mActiveSection->getSkeleton() != nullptr; }
 	
 	MeshSectionRef&			getActiveSection() { return mActiveSection; }
 	const MeshSectionRef&	getActiveSection() const { return mActiveSection; }

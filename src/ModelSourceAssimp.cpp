@@ -359,6 +359,7 @@ ModelSourceAssimp::ModelSourceAssimp( const fs::path& modelPath, const fs::path&
 	
 	//TODO: make own exception class to catch
 	if( !mAiScene ) {
+		app::console() << mImporter->GetErrorString() << std::endl;
 		throw mImporter->GetErrorString();
 	} else if ( !mAiScene->HasMeshes() ) {
 		throw "Scene has no meshes.";
