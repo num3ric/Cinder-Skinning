@@ -85,10 +85,11 @@ void ModelTargetSkinnedVboMesh::loadBoneWeights( const std::vector<BoneWeights>&
 	for( const auto& boneWeight : boneWeights ) {
 		ci::Vec4f vWeights = ci::Vec4f::zero();
 		ci::Vec4f vIndices = ci::Vec4i::zero();
-		for( int b =0; b < boneWeight.mActiveNbWeights; ++b ) {
+		for( unsigned int b =0; b < boneWeight.mActiveNbWeights; ++b ) {
 			NodeRef bone = boneWeight.getBone( b );
 			vWeights[b] = boneWeight.getWeight(b);
-			vIndices[b] = mSkinnedVboMesh->getSkeleton()->getBoneIndex( bone->getName() );
+			//FIXME: Maybe use ints on the desktop?
+			vIndices[b] = (float) mSkinnedVboMesh->getSkeleton()->getBoneIndex( bone->getName() );
 		}
 		boneWeightsBuffer.push_back( vWeights );
 		boneIndicesBuffer.push_back( vIndices );

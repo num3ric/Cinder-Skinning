@@ -71,7 +71,7 @@ SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, const SkeletonRef& s
 {
 	assert( modelSource->getNumSections() > 0 );
 	
-	for(int i = 0; i< modelSource->getNumSections(); ++i ) {
+	for( unsigned int i = 0; i< modelSource->getNumSections(); ++i ) {
 		MeshVboSectionRef section = std::make_shared<SkinnedVboMesh::MeshSection>();
 		ci::gl::VboMesh::Layout layout;
 		layout.setStaticIndices();
@@ -107,7 +107,7 @@ SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, const SkeletonRef& s
 
 MeshVboSectionRef& SkinnedVboMesh::setActiveSection( int index )
 {
-	assert( index >= 0 && index < mMeshSections.size() );
+	assert( index >= 0 && index < (int) mMeshSections.size() );
 	mActiveSection = mMeshSections[ index ];
 	return mActiveSection;
 }

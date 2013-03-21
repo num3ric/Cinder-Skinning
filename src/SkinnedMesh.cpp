@@ -22,7 +22,7 @@ void SkinnedMesh::MeshSection::updateMesh( float time, bool enableSkinning )
 			if( hasNormals() )
 				mTriMesh.getNormals()[vertexId] = ci::Vec3f::zero();
 			
-			for( int i=0; i < boneWeights.mActiveNbWeights; ++i ) {
+			for(  unsigned int i=0; i < boneWeights.mActiveNbWeights; ++i ) {
 				const ci::Vec3f& srcPos = mInitialPositions[vertexId];
 				ci::Vec3f srcNorm;
 				if( hasNormals() )
@@ -62,7 +62,7 @@ SkinnedMesh::SkinnedMesh( ModelSourceRef modelSource, SkeletonRef skeleton )
 {
 	assert( modelSource->getNumSections() > 0 );
 	
-	for(int i = 0; i< modelSource->getNumSections(); ++i ) {
+	for( unsigned int i = 0; i< modelSource->getNumSections(); ++i ) {
 		mMeshSections.push_back( std::make_shared<SkinnedMesh::MeshSection>() );
 	}
 	mActiveSection = mMeshSections[0];
@@ -82,7 +82,7 @@ void SkinnedMesh::update( float time, bool enableSkinning )
 
 MeshSectionRef& SkinnedMesh::setActiveSection( int index )
 {
-	assert( index >= 0 && index < mMeshSections.size() );
+	assert( index >= 0 && index < (int) mMeshSections.size() );
 	mActiveSection = mMeshSections[ index ];
 	return mActiveSection;
 }

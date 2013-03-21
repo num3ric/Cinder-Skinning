@@ -141,8 +141,8 @@ void SeymourDemo::update()
 		mSkinnedMesh->update( time, mEnableSkinning );
 	}
 	mFps = getAverageFps();
-	mLightPos.x = rotationRadius * math<float>::sin( app::getElapsedSeconds() );
-	mLightPos.z = rotationRadius * math<float>::cos( app::getElapsedSeconds() );
+	mLightPos.x = rotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
+	mLightPos.z = rotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
 }
 
 void SeymourDemo::draw()

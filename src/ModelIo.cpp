@@ -22,7 +22,7 @@ void BoneWeights::addWeight( const NodeRef& bone, float weight ) {
 				sum += mWeights[i];
 			}
 			
-			if( sum < 1.0f - ci::EPSILON & sum !=0 ) {
+			if( sum < 1.0f - ci::EPSILON && sum !=0 ) {
 				for (int i=0; i < NB_WEIGHTS; ++i) {
 					mWeights[i] *= 1.0f / sum;
 				}

@@ -80,7 +80,7 @@ char CustomIOSystem::getOsSeparator() const
 
 Assimp::IOStream* CustomIOSystem::Open( const char *pFile, const char *pMode) 
 {
-	return new CustomIOStream( fopen( pFile, pMode ) );;
+	return new CustomIOStream( fopen( pFile, pMode ) );
 }
 
 void CustomIOSystem::Close( Assimp::IOStream* streamFile)
