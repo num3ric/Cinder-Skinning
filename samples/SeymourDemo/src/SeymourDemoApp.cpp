@@ -190,9 +190,7 @@ void SeymourDemo::draw()
 	}
 	
 	if( mDrawLabels ) {
-		Matrix44f mv = gl::getModelView();
-		gl::setMatricesWindow( app::getWindowSize() );
-		mSkinnedVboMesh->getSkeleton()->drawLabels( mMayaCam.getCamera(), mv );
+		mSkinnedVboMesh->getSkeleton()->drawLabels( mMayaCam.getCamera() );
 	}
 	
 	params::InterfaceGl::draw();

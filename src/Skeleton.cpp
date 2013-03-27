@@ -167,14 +167,16 @@ void Skeleton::draw( bool relative, const std::string& name ) const
 	glPopAttrib();
 }
 
-void Skeleton::drawLabels( const ci::CameraPersp& camera, const ci::Matrix44f& mv )
+void Skeleton::drawLabels( const ci::CameraPersp& camera )
 {
+	ci::Matrix44f mv = ci::gl::getModelView();
 	glPushAttrib( GL_ALL_ATTRIB_BITS );
 	glPushClientAttrib( GL_CLIENT_ALL_ATTRIB_BITS );
 	ci::gl::disable( GL_LIGHTING );
 	ci::gl::enableAlphaBlending();
 	ci::gl::disableDepthRead();
 	ci::gl::disableDepthWrite();
+	ci::gl::setMatricesWindow( ci::app::getWindowSize() );
 	traverseNodes( mRootNode,
 				  [=] ( NodeRef n ) {
 					  if( isVisibleNode( n ) ) {

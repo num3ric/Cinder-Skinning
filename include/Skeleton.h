@@ -53,7 +53,7 @@ public:
 	//! Render the skeleton.
 	void draw( bool relative = false, const std::string& name = "" ) const;
 	//! Render the node names.
-	void drawLabels( const ci::CameraPersp& camera, const ci::Matrix44f& mv );
+	void drawLabels( const ci::CameraPersp& camera );
 	
 	const NodeRef&	getRootNode() const { return mRootNode; }
 	void			setRootNode( const NodeRef& root ) { mRootNode = root; }
