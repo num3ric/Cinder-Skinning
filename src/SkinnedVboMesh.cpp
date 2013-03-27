@@ -64,12 +64,12 @@ void SkinnedVboMesh::MeshSection::drawMesh()
     mSkinningShader.unbind();
 }
 
-SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, const SkeletonRef& skeleton )
+SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, SkeletonRef skeleton )
 {
 	return SkinnedVboMeshRef( new SkinnedVboMesh( modelSource, skeleton ) );
 }
 
-SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, const SkeletonRef& skeleton )
+SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, SkeletonRef skeleton )
 {
 	assert( modelSource->getNumSections() > 0 );
 	
@@ -99,9 +99,11 @@ SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, const SkeletonRef& s
 		
 		section->setVboMesh( modelSource->getNumVertices(i), modelSource->getNumIndices(i), layout, GL_TRIANGLES );
 		
+		section->setSkeleton( skeleton );
 		mMeshSections.push_back( section );
 	}
 	mActiveSection = mMeshSections[0];
+	
 	
 	ModelTargetSkinnedVboMesh target( this );
 	modelSource->load( &target );

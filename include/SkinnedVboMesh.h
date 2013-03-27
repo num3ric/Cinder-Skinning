@@ -48,7 +48,7 @@ public:
 	};
 	typedef std::shared_ptr< struct SkinnedVboMesh::MeshSection > MeshVboSectionRef;
 	
-	static SkinnedVboMeshRef create( ModelSourceRef modelSource, const std::shared_ptr<Skeleton>& skeleton = nullptr );
+	static SkinnedVboMeshRef create( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	
 	void update( float time, bool enableSkinning = true );
 	void draw();
@@ -72,7 +72,7 @@ public:
 	std::array<ci::Matrix44f, MAXBONES> mBoneMatrices;
 	std::array<ci::Matrix44f, MAXBONES> mInvTransposeMatrices;
 protected:
-	SkinnedVboMesh( ModelSourceRef modelSource, const std::shared_ptr<Skeleton>& skeleton = nullptr );
+	SkinnedVboMesh( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	MeshVboSectionRef mActiveSection;
 	std::vector< MeshVboSectionRef > mMeshSections;
 };

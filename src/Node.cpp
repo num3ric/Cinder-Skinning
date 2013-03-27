@@ -13,6 +13,8 @@
 #include "cinder/Color.h"
 #include "cinder/gl/gl.h"
 #include "cinder/Vector.h"
+#include "cinder/gl/TextureFont.h"
+#include "cinder/Camera.h"
 
 namespace model {
 
@@ -125,47 +127,42 @@ void Node::update( float time )
 namespace cinder {
 	namespace gl {
 		
-		void drawCone( const Vec3f& start, const Vec3f& end ) {
-			float headLength = start.distance(end);
-			float headRadius = headLength / 20 ;
-			const int NUM_SEGMENTS = 24;
-			Vec3f coneVerts[NUM_SEGMENTS+2];
+		void drawBone( const Vec3f& start, const Vec3f& end, float dist ) {
+			if( dist <= 0 ) {
+				dist = start.distance( end );
+			}
+			float maxGirth = 0.07f * dist;
+			const int NUM_SEGMENTS = 4;
+			Vec3f boneVerts[NUM_SEGMENTS+2];
 			glEnableClientState( GL_VERTEX_ARRAY );
 			
-			// Draw the cone
 			Vec3f axis = ( start - end ).normalized();
 			Vec3f temp = ( axis.dot( Vec3f::yAxis() ) > 0.999f ) ? axis.cross( Vec3f::xAxis() ) : axis.cross( Vec3f::yAxis() );
-			Vec3f left = axis.cross( temp ).normalized();
-			Vec3f up = axis.cross( left ).normalized();
+			Vec3f left = 0.1f *  axis.cross( temp ).normalized();
+			Vec3f up = 0.1f * axis.cross( left ).normalized();
 			
-			glVertexPointer( 3, GL_FLOAT, 0, &coneVerts[0].x );
-			coneVerts[0] = ci::Vec3f( end + axis * headLength );
-			for( int s = 0; s <= NUM_SEGMENTS; ++s ) {
-				float t = s / (float)NUM_SEGMENTS;
-				coneVerts[s+1] = ci::Vec3f( end + left * headRadius * ci::math<float>::cos( t * 2 * 3.14159f )
-									   + up * headRadius * ci::math<float>::sin( t * 2 * 3.14159f ) );
-			}
+			glVertexPointer( 3, GL_FLOAT, 0, &boneVerts[0].x );
+			boneVerts[0] = ci::Vec3f( end + axis * dist );
+			boneVerts[1] = ci::Vec3f( end + axis * maxGirth + left );
+			boneVerts[2] = ci::Vec3f( end + axis * maxGirth + up );
+			boneVerts[3] = ci::Vec3f( end + axis * maxGirth - left );
+			boneVerts[4] = ci::Vec3f( end + axis * maxGirth - up );
+			boneVerts[5] = ci::Vec3f( end + axis * maxGirth + left );
 			glDrawArrays( GL_TRIANGLE_FAN, 0, NUM_SEGMENTS+2 );
 			
-			// draw the cap
-			glVertexPointer( 3, GL_FLOAT, 0, &coneVerts[0].x );
-			coneVerts[0] = end;
-			for( int s = 0; s <= NUM_SEGMENTS; ++s ) {
-				float t = s / (float)NUM_SEGMENTS;
-				coneVerts[s+1] = ci::Vec3f( end - left * headRadius * ci::math<float>::cos( t * 2 * 3.14159f )
-									   + up * headRadius * ci::math<float>::sin( t * 2 * 3.14159f ) );
-			}
+			glVertexPointer( 3, GL_FLOAT, 0, &boneVerts[0].x );
+			boneVerts[0] = end;
+			std::swap( boneVerts[2], boneVerts[4] );
 			glDrawArrays( GL_TRIANGLE_FAN, 0, NUM_SEGMENTS+2 );
 			
 			glDisableClientState( GL_VERTEX_ARRAY );
 		}
 		
 		void drawConnected( const Vec3f& nodePos, const Vec3f& parentPos ) {
-			// FIXME: Distance is expensive, maybe use skeleton bounding box.
-			float distSq = nodePos.distance( parentPos );
-			drawSphere( nodePos, 0.1f*distSq , 4);
+			float dist = nodePos.distance( parentPos );
+			drawSphere( nodePos, 0.1f * dist , 4);
 			color( Color::white() );
-			drawCone( nodePos, parentPos );
+			drawBone( nodePos, parentPos, dist );
 		}
 		
 		void drawJoint( const Vec3f& nodePos ) {
@@ -199,6 +196,15 @@ namespace cinder {
 			} else if (mode == model::Node::RenderMode::JOINTS ) {
 				drawJoint( currentPos );
 			}
+		}
+		
+		void drawLabel( const model::Node& node, const CameraPersp& camera, const ci::Matrix44f& mv )
+		{
+			Vec3f eyeCoord = mv * node.getAbsolutePosition();
+			Vec3f ndc = camera.getProjectionMatrix().transformPoint( eyeCoord );
+			
+			Vec2f pos( ( ndc.x + 1.0f ) / 2.0f * app::getWindowWidth(), ( 1.0f - ( ndc.y + 1.0f ) / 2.0f ) * app::getWindowHeight() );
+			drawString( node.getName(), pos );
 		}
 	}
 }

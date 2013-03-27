@@ -8,12 +8,22 @@
 
 #include "Skeleton.h"
 #include "cinder/gl/gl.h"
+#include "cinder/Camera.h"
 
 #include <assert.h>
 
 namespace model {
 
 Skeleton::RenderMode Skeleton::mRenderMode = Skeleton::RenderMode::FULL;
+
+SkeletonRef Skeleton::create( const std::unordered_set<std::string>& boneNames )
+{
+	SkeletonRef inst( new Skeleton() );
+	for( const std::string& name : boneNames ) {
+		inst->insertBone( name, nullptr );
+	}
+	return inst;
+}
 
 Skeleton::Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames )
 : mRootNode( root )
@@ -57,7 +67,7 @@ void Skeleton::update( float time )
 				  } );
 }
 
-int Skeleton::getBoneIndex( const std::string& name ) const
+int Skeleton::findBoneIndex( const std::string& name ) const
 {
 	auto it = mBoneNames.find( name );
 	return std::distance( mBoneNames.begin(), it );
@@ -153,6 +163,24 @@ void Skeleton::draw( bool relative, const std::string& name ) const
 	} else {
 		drawAbsolute( root );
 	}
+	glPopClientAttrib();
+	glPopAttrib();
+}
+
+void Skeleton::drawLabels( const ci::CameraPersp& camera, const ci::Matrix44f& mv )
+{
+	glPushAttrib( GL_ALL_ATTRIB_BITS );
+	glPushClientAttrib( GL_CLIENT_ALL_ATTRIB_BITS );
+	ci::gl::disable( GL_LIGHTING );
+	ci::gl::enableAlphaBlending();
+	ci::gl::disableDepthRead();
+	ci::gl::disableDepthWrite();
+	traverseNodes( mRootNode,
+				  [=] ( NodeRef n ) {
+					  if( isVisibleNode( n ) ) {
+						  ci::gl::drawLabel(*n, camera, mv );
+					  }
+				  } );
 	glPopClientAttrib();
 	glPopAttrib();
 }

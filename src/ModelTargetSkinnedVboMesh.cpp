@@ -89,7 +89,7 @@ void ModelTargetSkinnedVboMesh::loadBoneWeights( const std::vector<BoneWeights>&
 			NodeRef bone = boneWeight.getBone( b );
 			vWeights[b] = boneWeight.getWeight(b);
 			//FIXME: Maybe use ints on the desktop?
-			vIndices[b] = (float) mSkinnedVboMesh->getSkeleton()->getBoneIndex( bone->getName() );
+			vIndices[b] = bone->getBoneIndex();
 		}
 		boneWeightsBuffer.push_back( vWeights );
 		boneIndicesBuffer.push_back( vIndices );

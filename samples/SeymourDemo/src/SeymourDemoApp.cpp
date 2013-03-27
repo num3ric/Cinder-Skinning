@@ -44,7 +44,7 @@ private:
 	int								mMeshIndex;
 	float							mFps;
 	params::InterfaceGl				mParams;
-	bool mUseVbo, mDrawSkeleton, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
+	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
 	bool mIsFullScreen;
 };
 
@@ -65,6 +65,8 @@ void SeymourDemo::setup()
 	mParams.addParam( "Draw Mesh", &mDrawMesh );
 	mDrawSkeleton = false;
 	mParams.addParam( "Draw Skeleton", &mDrawSkeleton );
+	mDrawLabels = false;
+	mParams.addParam( "Draw Labels", &mDrawLabels );
 	mDrawRelative = false;
 	mParams.addParam( "Relative/Abolute skeleton", &mDrawRelative );
 	mEnableSkinning = true;
@@ -184,11 +186,13 @@ void SeymourDemo::draw()
 		gl::disableWireframe();
 	
 	if( mDrawSkeleton) {
-		if( mUseVbo ) {
-			mSkinnedVboMesh->getSkeleton()->draw(mDrawRelative);
-		} else {
-			mSkinnedMesh->getSkeleton()->draw(mDrawRelative);
-		}
+		mSkinnedVboMesh->getSkeleton()->draw(mDrawRelative);
+	}
+	
+	if( mDrawLabels ) {
+		Matrix44f mv = gl::getModelView();
+		gl::setMatricesWindow( app::getWindowSize() );
+		mSkinnedVboMesh->getSkeleton()->drawLabels( mMayaCam.getCamera(), mv );
 	}
 	
 	params::InterfaceGl::draw();

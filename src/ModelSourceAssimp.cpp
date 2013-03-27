@@ -8,8 +8,6 @@
 
 #include <boost/algorithm/string.hpp>
 
-using namespace ci;
-
 namespace ai {
 	unsigned int flags =
 	aiProcess_Triangulate |
@@ -53,19 +51,18 @@ namespace ai {
 	
 	model::SkeletonRef loadSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root )
 	{
-		model::SkeletonRef skeleton = model::Skeleton::create();
-		
 		root = ( root ) ? root : aiscene->mRootNode;
 		
+		std::unordered_set<std::string> boneNames;
 		for( unsigned int m=0; m < aiscene->mNumMeshes; ++m ) {
 			aiMesh * mesh = aiscene->mMeshes[m];
 			for( unsigned int b=0; b < mesh->mNumBones; ++b) {
 				std::string name = ai::get( mesh->mBones[b]->mName );
-				// We avoid duplicates since names are inserted within a map
-				skeleton->insertBone(name, nullptr);
+				boneNames.insert( name );
 			}
 		}
 		
+		model::SkeletonRef skeleton = model::Skeleton::create( boneNames );
 		skeleton->setRootNode( generateNodeHierarchy( skeleton.get(), root ) );
 		if( hasAnimations ) {
 			generateAnimationCurves( skeleton.get(), aiscene );
@@ -73,7 +70,7 @@ namespace ai {
 		return skeleton;
 	}
 	
-	model::NodeRef generateNodeHierarchy( model::Skeleton* skeleton, const aiNode* ainode, const model::NodeRef& parent, Matrix44f derivedTransformation, int level )
+	model::NodeRef generateNodeHierarchy( model::Skeleton* skeleton, const aiNode* ainode, const model::NodeRef& parent, ci::Matrix44f derivedTransformation, int level )
 	{
 		if( !ainode )
 			throw "Invalid ainode";
@@ -84,8 +81,7 @@ namespace ai {
 		model::NodeRef node = model::NodeRef( new model::Node( derivedTransformation, ai::get( ainode->mTransformation ), name, parent, level ) );
 		
 		if( skeleton->hasBone( name ) ) {
-			int index = skeleton->getBoneIndex( name );
-			node->setBoneIndex( index );
+			node->setBoneIndex( skeleton->findBoneIndex( name ) );
 			skeleton->insertBone(name, node);
 		}
 		
@@ -112,7 +108,7 @@ namespace ai {
 					model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
 					float tsecs = ( anim->mTicksPerSecond != 0 ) ? (float) anim->mTicksPerSecond : 25.0f;
 					bone->initAnimation( float( anim->mDuration ), tsecs );
-					app::console() << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
+					ci::app::console() << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
 					for( unsigned int k=0; k < nodeAnim->mNumPositionKeys; ++k) {
 						const aiVectorKey& key = nodeAnim->mPositionKeys[k];
 						bone->addTranslationKeyframe( (float) key.mTime, ai::get( key.mValue ) );
@@ -126,21 +122,21 @@ namespace ai {
 						bone->addScalingKeyframe( (float) key.mTime, ai::get( key.mValue ) );
 					}
 				} catch ( const std::out_of_range& ) {
-					app::console() << "Anim node " << ai::get(nodeAnim->mNodeName) << " is not a bone." << std::endl;
+					ci::app::console() << "Anim node " << ai::get(nodeAnim->mNodeName) << " is not a bone." << std::endl;
 				}
 			}
 		}
 	}
 	
-	void loadPositions( const aiMesh* aimesh, std::vector<Vec3f>* positions )
+	void loadPositions( const aiMesh* aimesh, std::vector<ci::Vec3f>* positions )
 	{
-		std::vector<Vec3f> vertices;
+		std::vector<ci::Vec3f> vertices;
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
 			positions->push_back( ai::get( aimesh->mVertices[i] ) );
 		}
 	}
 	
-	void loadNormals( const aiMesh* aimesh, std::vector<Vec3f>* normals )
+	void loadNormals( const aiMesh* aimesh, std::vector<ci::Vec3f>* normals )
 	{
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
 			normals->push_back( -ai::get( aimesh->mNormals[i] ) );
@@ -149,10 +145,10 @@ namespace ai {
 	
 	
 	
-	void loadTexCoords( const aiMesh* aimesh, std::vector<Vec2f>* texCoords )
+	void loadTexCoords( const aiMesh* aimesh, std::vector<ci::Vec2f>* texCoords )
 	{
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
-			texCoords->push_back( Vec2f(aimesh->mTextureCoords[0][i].x,
+			texCoords->push_back( ci::Vec2f(aimesh->mTextureCoords[0][i].x,
 									   aimesh->mTextureCoords[0][i].y) );
 		}
 	}
@@ -173,20 +169,20 @@ namespace ai {
 		}
 	}
 	
-	void loadTexture( const aiScene* aiscene, const aiMesh *aimesh, model::MaterialInfo* matInfo, fs::path modelPath, fs::path rootPath )
+	void loadTexture( const aiScene* aiscene, const aiMesh *aimesh, model::MaterialInfo* matInfo, ci::fs::path modelPath, ci::fs::path rootPath )
 	{
 		// Handle material info
 		aiMaterial *mtl = aiscene->mMaterials[ aimesh->mMaterialIndex ];
 		
 		aiString name;
 		mtl->Get( AI_MATKEY_NAME, name );
-		app::console() << "material " << ai::get( name ) << std::endl;
+		ci::app::console() << "material " << ai::get( name ) << std::endl;
 		// Culling
 		int twoSided;
 		if ( ( AI_SUCCESS == mtl->Get( AI_MATKEY_TWOSIDED, twoSided ) ) && twoSided ) {
 			matInfo->mTwoSided = true;
 			matInfo->mMaterial.setFace( GL_FRONT_AND_BACK );
-			app::console() << " two sided" << std::endl;
+			ci::app::console() << " two sided" << std::endl;
 		} else {
 			matInfo->mTwoSided = false;
 			matInfo->mMaterial.setFace( GL_FRONT );
@@ -195,23 +191,23 @@ namespace ai {
 		aiColor4D dcolor, scolor, acolor, ecolor, tcolor;
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_DIFFUSE, dcolor ) ) {
 			matInfo->mMaterial.setDiffuse( ai::get( dcolor ) );
-			app::console() << " diffuse: " << ai::get( dcolor ) << std::endl;
+			ci::app::console() << " diffuse: " << ai::get( dcolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_SPECULAR, scolor ) ) {
 			matInfo->mMaterial.setSpecular( ai::get( scolor ) );
-			app::console() << " specular: " << ai::get( scolor ) << std::endl;
+			ci::app::console() << " specular: " << ai::get( scolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_AMBIENT, acolor ) ) {
 			matInfo->mMaterial.setAmbient( ai::get( acolor ) );
-			app::console() << " ambient: " << ai::get( acolor ) << std::endl;
+			ci::app::console() << " ambient: " << ai::get( acolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_EMISSIVE, ecolor ) ) {
 			matInfo->mMaterial.setEmission( ai::get( ecolor ) );
-			app::console() << " emission: " << ai::get( ecolor ) << std::endl;
+			ci::app::console() << " emission: " << ai::get( ecolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_TRANSPARENT, tcolor ) ) {
 			matInfo->mTransparentColor =  ai::get( tcolor );
-			app::console() << " transparent: " << ai::get( tcolor ) << std::endl;
+			ci::app::console() << " transparent: " << ai::get( tcolor ) << std::endl;
 		}
 		
 		// Load Textures
@@ -220,10 +216,10 @@ namespace ai {
 		
 		// TODO: handle other aiTextureTypes
 		if ( AI_SUCCESS == mtl->GetTexture( aiTextureType_DIFFUSE, texIndex, &texPath ) ) {
-			app::console() << " diffuse texture " << texPath.data;
-			fs::path texFsPath( texPath.data );
-			fs::path modelFolder = modelPath.parent_path();
-			fs::path realPath;
+			ci::app::console() << " diffuse texture " << texPath.data;
+			ci::fs::path texFsPath( texPath.data );
+			ci::fs::path modelFolder = modelPath.parent_path();
+			ci::fs::path realPath;
 			if( rootPath.empty() ) {
 				realPath = modelFolder / texFsPath;
 			} else {
@@ -234,14 +230,14 @@ namespace ai {
 			if ( AI_SUCCESS == mtl->Get( AI_MATKEY_TEXFLAGS(aiTextureType_DIFFUSE, 0), texFlag ) ) {
 				if( texFlag == aiTextureFlags_UseAlpha ) {
 					matInfo->mUseAlpha = true;
-					app::console() << " Texture uses alpha." << std::endl;
+					ci::app::console() << " Texture uses alpha." << std::endl;
 				}
 			}
 			
-			app::console() << " [" << realPath.string() << "]" << std::endl;
+			ci::app::console() << " [" << realPath.string() << "]" << std::endl;
 			
 			// texture wrap
-			gl::Texture::Format format;
+			ci::gl::Texture::Format format;
 			int uwrap;
 			if ( AI_SUCCESS == mtl->Get( AI_MATKEY_MAPPINGMODE_U_DIFFUSE( 0 ), uwrap ) ) {
 				switch ( uwrap ) {
@@ -298,11 +294,11 @@ namespace ai {
 			if ( ext == ".dds" ) {
 				// FIXME: loadDds does not seem to work with mipmaps in the latest cinder version
 				// fix based on the work of javi.agenjo, https://github.com/gaborpapp/Cinder/commit/3e7302
-				matInfo->mTexture = gl::Texture::loadDds( loadFile( realPath )->createStream(), format );
+				matInfo->mTexture = ci::gl::Texture::loadDds( ci::loadFile( realPath )->createStream(), format );
 				if ( !matInfo->mTexture )
-					app::console() << "failed to laod dds..." << std::endl;
+					ci::app::console() << "failed to laod dds..." << std::endl;
 			} else {
-				matInfo->mTexture = gl::Texture( loadImage( realPath ), format );
+				matInfo->mTexture = ci::gl::Texture( ci::loadImage( realPath ), format );
 			}
 		}
 	}
@@ -338,7 +334,7 @@ namespace ai {
 
 namespace model {
 
-ModelSourceAssimp::ModelSourceAssimp( const fs::path& modelPath, const fs::path& rootAssetFolderPath )
+ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath )
 {
 	mModelPath = modelPath;
 	mRootAssetFolderPath = rootAssetFolderPath;
@@ -349,7 +345,7 @@ ModelSourceAssimp::ModelSourceAssimp( const fs::path& modelPath, const fs::path&
 	
 	//TODO: make own exception class to catch
 	if( !mAiScene ) {
-		app::console() << mImporter->GetErrorString() << std::endl;
+		ci::app::console() << mImporter->GetErrorString() << std::endl;
 		throw mImporter->GetErrorString();
 	} else if ( !mAiScene->HasMeshes() ) {
 		throw "Scene has no meshes.";
@@ -371,7 +367,7 @@ ModelSourceAssimp::ModelSourceAssimp( const fs::path& modelPath, const fs::path&
 	mModelInfo.mNumSections = mAiScene->mNumMeshes;
 }
 
-ModelSourceAssimpRef ModelSourceAssimp::create( const fs::path& modelPath, const fs::path& rootAssetFolderPath )
+ModelSourceAssimpRef ModelSourceAssimp::create( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath )
 {
 	return ModelSourceAssimpRef( new ModelSourceAssimp( modelPath, rootAssetFolderPath ) );
 }
@@ -415,15 +411,15 @@ void ModelSourceAssimp::load( ModelTarget *target )
 		const aiMesh* aimesh = mAiScene->mMeshes[i];
 		std::string name = ai::get( aimesh->mName );
 		
-		app::console() << "loading mesh " << i;
+		ci::app::console() << "loading mesh " << i;
 		if ( name != "" )
-			app::console() << " [" << name << "]";
-		app::console() << " #faces: " << aimesh->mNumFaces;
-		app::console() << " #vertices: " << aimesh->mNumVertices << std::endl;
+			ci::app::console() << " [" << name << "]";
+		ci::app::console() << " #faces: " << aimesh->mNumFaces;
+		ci::app::console() << " #vertices: " << aimesh->mNumVertices << std::endl;
 		
 		target->setActiveSection( i );
 		
-		std::vector<Vec3f> positions;
+		std::vector<ci::Vec3f> positions;
 		std::vector<uint32_t> indices;
 		ai::loadPositions( aimesh, &positions );
 		ai::loadIndices( aimesh, &indices );
@@ -432,13 +428,13 @@ void ModelSourceAssimp::load( ModelTarget *target )
 		target->loadVertexPositions( positions );
 		
 		if( mModelInfo.mHasNormals ) {
-			std::vector<Vec3f> normals;
+			std::vector<ci::Vec3f> normals;
 			ai::loadNormals( aimesh, &normals );
 			target->loadVertexNormals( normals );
 		}
 		
 		if( mModelInfo.mHasMaterials && aimesh->GetNumUVChannels() > 0 ) {
-			std::vector<Vec2f> texCoords;
+			std::vector<ci::Vec2f> texCoords;
 			MaterialInfo matInfo;
 			ai::loadTexCoords( aimesh, &texCoords );
 			ai::loadTexture(mAiScene, aimesh, &matInfo, mModelPath, mRootAssetFolderPath );

@@ -63,10 +63,11 @@ SkinnedMesh::SkinnedMesh( ModelSourceRef modelSource, SkeletonRef skeleton )
 	assert( modelSource->getNumSections() > 0 );
 	
 	for( unsigned int i = 0; i< modelSource->getNumSections(); ++i ) {
-		mMeshSections.push_back( std::make_shared<SkinnedMesh::MeshSection>() );
+		MeshSectionRef section = std::make_shared<SkinnedMesh::MeshSection>();
+		section->setSkeleton( skeleton );
+		mMeshSections.push_back( section );
 	}
 	mActiveSection = mMeshSections[0];
-	mActiveSection->setSkeleton( skeleton );
 	
 	ModelTargetSkinnedMesh target( this );
 	modelSource->load( &target );

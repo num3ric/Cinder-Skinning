@@ -8,6 +8,8 @@
 //#include "assimp/postprocess.h"
 #include "assimp/Importer.hpp"	//OO version Header!
 
+#include <unordered_set>
+
 class model::Node;
 
 namespace ai {

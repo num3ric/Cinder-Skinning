@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <map>
+#include <unordered_set>
 #include <functional>
 
 namespace model {
@@ -36,8 +37,10 @@ public:
 	  */
 	enum RenderMode { FULL, CLEANED };
 	static enum RenderMode mRenderMode;
-
+	
 	static SkeletonRef create() { return SkeletonRef( new Skeleton() ); }
+	//! Initialize a skeleton with bone names first so that when bones are created, we can set their bone index with findBoneIndex (used for gpu skinning)
+	static SkeletonRef create( const std::unordered_set<std::string>& boneNames );
 	static SkeletonRef create( NodeRef root, std::map<std::string, NodeRef> boneNames ) { return SkeletonRef( new Skeleton( root, boneNames ) ); }
 	
 	//! Deep copy of the node hierarchy and names map. Heavy, non-recommended operation. Prefer extracting different informations out of the same skeleton.
@@ -49,11 +52,13 @@ public:
 	
 	//! Render the skeleton.
 	void draw( bool relative = false, const std::string& name = "" ) const;
+	//! Render the node names.
+	void drawLabels( const ci::CameraPersp& camera, const ci::Matrix44f& mv );
 	
 	const NodeRef&	getRootNode() const { return mRootNode; }
 	void			setRootNode( const NodeRef& root ) { mRootNode = root; }
 	
-	int				getBoneIndex( const std::string& name ) const;
+	int				findBoneIndex( const std::string& name ) const;
 	bool			hasBone( const std::string& name ) const;
 	const NodeRef&	getBone( const std::string& name ) const;
 	int				getNumBones() { return mBoneNames.size(); }
