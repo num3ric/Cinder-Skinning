@@ -176,7 +176,7 @@ void ArmyDemoApp::draw()
 	if ( mEnableWireframe )
 		gl::disableWireframe();
 	
-	params::InterfaceGl::draw();
+	mParams.draw();
 	
 }
 

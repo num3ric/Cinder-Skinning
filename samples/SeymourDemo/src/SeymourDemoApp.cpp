@@ -193,7 +193,7 @@ void SeymourDemo::draw()
 		mSkinnedVboMesh->getSkeleton()->drawLabels( mMayaCam.getCamera() );
 	}
 	
-	params::InterfaceGl::draw();
+	mParams.draw();
 	
 }
 

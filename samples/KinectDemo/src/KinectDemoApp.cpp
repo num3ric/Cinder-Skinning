@@ -2,7 +2,6 @@
 #include "cinder/gl/gl.h"
 #include "cinder/Camera.h"
 #include "cinder/Utilities.h"
-#include "cinder/params/Params.h"
 
 #include "Kinect.h"
 #include "Node.h"
