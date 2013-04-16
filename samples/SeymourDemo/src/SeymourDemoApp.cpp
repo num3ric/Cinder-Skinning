@@ -123,7 +123,10 @@ void SeymourDemo::mouseDown( MouseEvent event )
 
 void SeymourDemo::mouseDrag( MouseEvent event )
 {
-	mMayaCam.mouseDrag( event.getPos(), event.isLeftDown(), event.isMiddleDown(), event.isRightDown() );
+	// Added support for international mac laptop keyboards.
+	bool middle = event.isMiddleDown() || ( event.isMetaDown() && event.isLeftDown() );
+	bool right = event.isRightDown() || ( event.isControlDown() && event.isLeftDown() );
+	mMayaCam.mouseDrag( event.getPos(), event.isLeftDown() && !middle && !right, middle, right );
 }
 
 void SeymourDemo::mouseWheel( MouseEvent event )
