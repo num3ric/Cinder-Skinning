@@ -22,7 +22,7 @@
         </platform>
 
         <platform config="release">
-            <staticLibrary>lib/msw/assimp3.0.lib<</staticLibrary>
+            <staticLibrary>lib/msw/assimp3.0.lib</staticLibrary>
         </platform>
     </platform>
 </block>
