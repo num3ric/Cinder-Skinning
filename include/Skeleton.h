@@ -9,6 +9,7 @@
 #pragma once
 
 #include "Node.h"
+#include "Actor.h"
 
 #include <vector>
 #include <map>
@@ -26,7 +27,7 @@ typedef std::shared_ptr< class Skeleton> SkeletonRef;
  * The skeleton may be animated. If they are, the animation can be played using the
  * update method.
  **/
-class Skeleton {
+class Skeleton : public Actor {
 public:
 	/** 
 	  * FULL RenderMode draws every single node in the node hierarchy, even if it's not a bone.
@@ -71,8 +72,6 @@ public:
 	NodeRef			getNode( const std::string& name) const;
 	
 	void			traverseNodes( const NodeRef& node, std::function<void(NodeRef)> visit ) const;
-	
-	float			mAnimationDuration; //temporary before better animation design
 protected:
 	Skeleton() { };
 	explicit Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames );

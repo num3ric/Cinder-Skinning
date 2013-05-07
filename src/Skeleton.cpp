@@ -28,7 +28,6 @@ SkeletonRef Skeleton::create( const std::unordered_set<std::string>& boneNames )
 Skeleton::Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames )
 : mRootNode( root )
 , mBoneNames( boneNames )
-, mAnimationDuration( 0.0f )
 { }
 
 void cloneTraversal( const NodeRef& origin, NodeRef& copy )
@@ -62,8 +61,8 @@ SkeletonRef Skeleton::clone() const
 void Skeleton::update( float time )
 {
 	traverseNodes( mRootNode,
-				  [ &time ] ( NodeRef n ) {
-					  n->update( time );
+				  [=] ( NodeRef n ) {
+					  n->update( time, getCycleId() );
 				  } );
 }
 

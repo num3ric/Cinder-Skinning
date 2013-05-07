@@ -8,12 +8,13 @@
 
 #pragma once
 
-#include "AnimCurve.h"
+#include "AnimCycle.h"
 
 #include "cinder/Matrix.h"
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 namespace model {
 
@@ -60,13 +61,14 @@ public:
 	void	setLevel( int level ) { mLevel = level; }
 	int		getBoneIndex() const { return mBoneIndex; }
 	void	setBoneIndex( int boneIndex ) { mBoneIndex = boneIndex; }
-		
-	void	addTranslationKeyframe( float time, const ci::Vec3f& translation );
-	void	addRotationKeyframe( float time, const ci::Quatf& rotation );
-	void	addScalingKeyframe( float time, const ci::Vec3f& scaling );
 	
-	void	initAnimation( float duration, float ticksPerSecond );
-	bool	isAnimated() const { return mIsAnimated; }
+	// Animation functions
+	void	addAnimationCycle( int cycleId, float duration, float ticksPerSecond );
+	void	addTranslationKeyframe( int cycleId, float time, const ci::Vec3f& translation );
+	void	addRotationKeyframe( int cycleId, float time, const ci::Quatf& rotation  );
+	void	addScalingKeyframe( int cycleId, float time, const ci::Vec3f& scaling );
+	
+	bool	isAnimated( int cycleId = 0 ) const;
 	float	getTime() { return mTime; }
 	
 	/*! 
@@ -74,7 +76,7 @@ public:
 	 *	If the node is not animated, its absolute transformation is still updated based on its
 	 *  parent because that in turn may be animated. No traversal is done.
 	 */
-	void	update( float time );
+	void	update( float time, int cycleId = 0 );
 	
 	void		setOffsetMatrix( const ci::Matrix44f& offset ) { mOffset =  std::unique_ptr<ci::Matrix44f>( new ci::Matrix44f(offset) ); }
 	const std::unique_ptr<ci::Matrix44f>& getOffset() { return mOffset; }
@@ -97,10 +99,6 @@ protected:
 	 */
 	void	updateAbsolute();
 	
-	ci::Vec3f		getAnimTranslation( float time ) const;
-	ci::Quatf		getAnimRotation( float time ) const;
-	ci::Vec3f		getAnimScaling( float time ) const;
-	
 	ci::Matrix44f	mRelativeTransformation;
 	ci::Matrix44f	mAbsoluteTransformation;
 	ci::Vec3f		mAbsolutePosition;
@@ -118,10 +116,7 @@ protected:
 	int			mLevel;
 	int			mBoneIndex;
 	
-	bool				mIsAnimated;
-	AnimCurve<ci::Vec3f>	mTranslationCurve;
-	AnimCurve<ci::Quatf>	mRotationCurve;
-	AnimCurve<ci::Vec3f>	mScalingCurve;
+	std::unordered_map< int, std::shared_ptr<AnimCyclef> >	mAnimCycles;
 private:
 	Node( const Node &rhs ); // private to prevent copying; use clone() method instead
 	Node& operator=( const Node &rhs ); // not defined to prevent copying

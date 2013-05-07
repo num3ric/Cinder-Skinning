@@ -26,7 +26,6 @@ Node::Node( const ci::Matrix44f& absoluteTransformation, const ci::Matrix44f& re
 , mParent( parent )
 , mLevel( level )
 , mBoneIndex( -1 )
-, mIsAnimated( false )
 , mTime( 0.0f )
 {
 	mAbsoluteTransformation = mInitialAbsoluteTransformation;
@@ -57,47 +56,35 @@ void Node::addChild( const NodeRef& node )
 	mChildren.push_back( node );
 }
 
-void Node::initAnimation( float duration, float ticksPerSecond )
+void Node::addAnimationCycle( int cycleId, float duration, float ticksPerSecond )
 {
-	mTranslationCurve.setAnimDuration( duration );
-	mTranslationCurve.setAnimTicksPerSecond( ticksPerSecond );
-	mRotationCurve.setAnimDuration( duration );
-	mRotationCurve.setAnimTicksPerSecond( ticksPerSecond );
-	mScalingCurve.setAnimDuration( duration );
-	mScalingCurve.setAnimTicksPerSecond( ticksPerSecond );
-	mIsAnimated = true;
+	mAnimCycles[cycleId] = std::make_shared<AnimCyclef>( duration, ticksPerSecond );
 }
 
-void Node::addTranslationKeyframe(float time, const ci::Vec3f& translation)
+void Node::addTranslationKeyframe( int cycleId, float time, const ci::Vec3f& translation )
 {
-	mTranslationCurve.addKeyframe( time, translation );
+	mAnimCycles[cycleId]->mTranslationCurve.addKeyframe( time, translation );
 }
 
-void Node::addRotationKeyframe(float time, const ci::Quatf& rotation)
+void Node::addRotationKeyframe( int cycleId, float time, const ci::Quatf& rotation )
 {
-	mRotationCurve.addKeyframe( time, rotation );
+	mAnimCycles[cycleId]->mRotationCurve.addKeyframe( time, rotation );
 }
 
-void Node::addScalingKeyframe(float time, const ci::Vec3f& scaling)
+void Node::addScalingKeyframe( int cycleId, float time, const ci::Vec3f& scaling )
 {
-	mScalingCurve.addKeyframe( time, scaling );
+	mAnimCycles[cycleId]->mScalingCurve.addKeyframe( time, scaling );
 }
-
-ci::Vec3f Node::getAnimTranslation( float time ) const
+	
+bool Node::isAnimated( int cycleId ) const
 {
-	return mTranslationCurve.getValue( time );
+	try {
+		mAnimCycles.at( cycleId );
+		return true;
+	} catch ( const std::out_of_range& ) {
+		return false;
+	}
 }
-
-ci::Quatf Node::getAnimRotation( float time ) const
-{
-	return mRotationCurve.getValue( time );
-}
-
-ci::Vec3f Node::getAnimScaling( float time ) const
-{
-	return mScalingCurve.getValue( time );
-}
-
 
 void Node::updateAbsolute()
 {
@@ -109,12 +96,10 @@ void Node::updateAbsolute()
 }
 
 
-void Node::update( float time )
+void Node::update( float time, int cycleId )
 {
-	if( isAnimated() ) {
-		mRelativeTransformation = ci::Matrix44f::createScale( getAnimScaling( time ) );
-		mRelativeTransformation *= getAnimRotation( time ).toMatrix44();
-		mRelativeTransformation.setTranslate( getAnimTranslation( time ) );
+	if( isAnimated( cycleId ) ) {
+		mRelativeTransformation = mAnimCycles[cycleId]->getTransformation( time );
 		updateAbsolute();
 	} else {
 		updateAbsolute();

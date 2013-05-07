@@ -18,7 +18,7 @@
 namespace model {
 	
 class Skeleton;
-	
+
 class ASkinnedMesh
 {
 public:

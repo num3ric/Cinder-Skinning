@@ -38,6 +38,8 @@ public:
 	void update();
 	void draw();
 private:
+	void changeCycle();
+	
 	SkinnedMeshRef					mSkinnedMesh;
 	SkinnedVboMeshRef				mSkinnedVboMesh;
 	
@@ -51,7 +53,14 @@ private:
 	params::InterfaceGl				mParams;
 	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
 	bool mIsFullScreen;
+	int mCycleId;
 };
+
+void MultipleAnimationsDemo::changeCycle()
+{
+	mCycleId = (++mCycleId == 15) ? 0 : mCycleId;
+	mSkinnedMesh->getSkeleton()->setCycleId( mCycleId );
+}
 
 void MultipleAnimationsDemo::setup()
 {
@@ -78,6 +87,9 @@ void MultipleAnimationsDemo::setup()
 	mParams.addParam( "Skinning", &mEnableSkinning );
 	mEnableWireframe = false;
 	mParams.addParam( "Wireframe", &mEnableWireframe );
+	mParams.addSeparator();
+	mCycleId = 0;
+	mParams.addButton( "Cycle Id", std::bind( &MultipleAnimationsDemo::changeCycle, this) );
 	
 	//	gl::enableDepthWrite();
 	gl::enableDepthRead();

@@ -1,7 +1,7 @@
 
 
 #pragma once
-#include "cinder/Matrix.h"
+#include "cinder/Matrix44.h"
 #include "cinder/Quaternion.h"
 
 #include <limits>
@@ -19,13 +19,13 @@ public:
 	T		getValue(float time) const;
 	bool	empty() { return mKeyframes.empty(); }
 	
-	float	getAnimDuration() { return mDuration; }
+	float	getAnimDuration() const { return mDuration; }
 	void	setAnimDuration( float duration ) { mDuration = duration; mVirtualDuration = duration; }
-	float	getAnimTicksPerSecond() { return mTicksPerSecond; }
+	float	getAnimTicksPerSecond() const { return mTicksPerSecond; }
 	void	setAnimTicksPerSecond( float ticksPerSecond ) { mTicksPerSecond = ticksPerSecond; }
 private:
 	static inline T		lerp( const T& start, const T& end, float time );
-	static inline bool	isfinite( const ci::Vec3f& vec );
+	static inline bool	isFinite( const ci::Vec3f& vec );
 	inline float		getCyclicTime( float time ) const;
 	void				updateAverageFrameDuration( float time );
 	
@@ -122,7 +122,7 @@ inline T AnimCurve<T>::lerp( const T& start, const T& end, float time )
 }
 
 template< typename T >
-inline bool AnimCurve<T>::isfinite( const ci::Vec3f& vec )
+inline bool AnimCurve<T>::isFinite( const ci::Vec3f& vec )
 {
 	return std::isfinite( vec.x ) && std::isfinite( vec.y ) && std::isfinite( vec.z );
 }
@@ -132,7 +132,7 @@ inline ci::Quatf AnimCurve<ci::Quatf>::lerp( const ci::Quatf& start, const ci::Q
 {
 	//TODO: find the cause of these numerical errors.
 	ci::Quatf rotation = start.slerp(time, end);
-	if ( !isfinite( rotation.getAxis() ) ) {
+	if ( !isFinite( rotation.getAxis() ) ) {
 		rotation = ci::Quatf::identity();
 	}
 	return rotation;
@@ -142,7 +142,7 @@ template<>
 inline ci::Quatd AnimCurve<ci::Quatd>::lerp( const ci::Quatd& start, const ci::Quatd& end, float time )
 {
 	ci::Quatd rotation = start.slerp(time, end);
-	if ( !isfinite( rotation.getAxis() ) ) {
+	if ( !isFinite( rotation.getAxis() ) ) {
 		rotation = ci::Quatd::identity();
 	}
 	return rotation;
