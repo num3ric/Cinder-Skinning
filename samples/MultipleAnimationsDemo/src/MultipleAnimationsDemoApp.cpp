@@ -38,7 +38,9 @@ public:
 	void update();
 	void draw();
 private:
-	void changeCycle();
+	void playAnim();
+	void loopAnim();
+	void stopAnim();
 	
 	SkinnedMeshRef					mSkinnedMesh;
 	SkinnedVboMeshRef				mSkinnedVboMesh;
@@ -53,13 +55,24 @@ private:
 	params::InterfaceGl				mParams;
 	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
 	bool mIsFullScreen;
-	int mCycleId;
+	int mAnimId;
 };
 
-void MultipleAnimationsDemo::changeCycle()
+void MultipleAnimationsDemo::playAnim()
 {
-	mCycleId = (++mCycleId == 15) ? 0 : mCycleId;
-	mSkinnedMesh->getSkeleton()->setCycleId( mCycleId );
+	mSkinnedMesh->getSkeleton()->setAnimId( mAnimId );
+	mSkinnedMesh->getSkeleton()->playAnim();
+}
+
+void MultipleAnimationsDemo::loopAnim()
+{
+	mSkinnedMesh->getSkeleton()->setAnimId( mAnimId );
+	mSkinnedMesh->getSkeleton()->loopAnim();
+}
+
+void MultipleAnimationsDemo::stopAnim()
+{
+	mSkinnedMesh->getSkeleton()->stop();
 }
 
 void MultipleAnimationsDemo::setup()
@@ -74,22 +87,23 @@ void MultipleAnimationsDemo::setup()
 	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
 	mParams.addParam( "Fps", &mFps, "", true );
 	mParams.addSeparator();
-	mParams.addParam( "Use VboMesh", &mUseVbo );
+//	mParams.addParam( "Use VboMesh", &mUseVbo );
 	mDrawMesh = true;
 	mParams.addParam( "Draw Mesh", &mDrawMesh );
 	mDrawSkeleton = false;
 	mParams.addParam( "Draw Skeleton", &mDrawSkeleton );
 	mDrawLabels = false;
 	mParams.addParam( "Draw Labels", &mDrawLabels );
-	mDrawRelative = false;
-	mParams.addParam( "Relative/Abolute skeleton", &mDrawRelative );
 	mEnableSkinning = true;
-	mParams.addParam( "Skinning", &mEnableSkinning );
+//	mParams.addParam( "Skinning", &mEnableSkinning );
 	mEnableWireframe = false;
 	mParams.addParam( "Wireframe", &mEnableWireframe );
 	mParams.addSeparator();
-	mCycleId = 0;
-	mParams.addButton( "Cycle Id", std::bind( &MultipleAnimationsDemo::changeCycle, this) );
+	mAnimId = 0;
+	mParams.addParam( "Cycle Id", &mAnimId, "min=0 max=14" );
+	mParams.addButton( "Play Anim", std::bind( &MultipleAnimationsDemo::playAnim, this) );
+	mParams.addButton( "Loop Anim", std::bind( &MultipleAnimationsDemo::loopAnim, this) );
+	mParams.addButton( "Stop Anim", std::bind( &MultipleAnimationsDemo::stopAnim, this) );
 	
 	//	gl::enableDepthWrite();
 	gl::enableDepthRead();
@@ -97,7 +111,7 @@ void MultipleAnimationsDemo::setup()
 	
 	mSkinnedMesh = SkinnedMesh::create( loadModel( getAssetPath( "Sinbad.mesh.xml" ) ) );
 	app::console() << *mSkinnedMesh->getSkeleton();
-	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "Sinbad.mesh.xml" ) ), mSkinnedMesh->getSkeleton() );
+	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "Sinbad.mesh.xml" ) ), mSkinnedMesh->getSkeleton() );	
 }
 
 void MultipleAnimationsDemo::fileDrop( FileDropEvent event )
@@ -114,10 +128,10 @@ void MultipleAnimationsDemo::fileDrop( FileDropEvent event )
 
 void MultipleAnimationsDemo::keyDown( KeyEvent event )
 {
-	if( event.getCode() == KeyEvent::KEY_m ) {
-		mDrawRelative = !mDrawRelative;
-	} else if( event.getCode() == KeyEvent::KEY_s ) {
+	if ( event.getCode() == KeyEvent::KEY_s ) {
 		mEnableSkinning = !mEnableSkinning;
+		mSkinnedMesh->setEnableSkinning( mEnableSkinning );
+		mSkinnedVboMesh->setEnableSkinning( mEnableSkinning );
 	} else if( event.getCode() == KeyEvent::KEY_UP ) {
 		mMeshIndex++;
 	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
@@ -161,12 +175,13 @@ void MultipleAnimationsDemo::resize()
 void MultipleAnimationsDemo::update()
 {
 	if( mUseVbo && mSkinnedVboMesh->hasSkeleton() ) {
-		float time = mSkinnedVboMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
-		mSkinnedVboMesh->update( time, mEnableSkinning );
+//		float time = mSkinnedVboMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
+		mSkinnedVboMesh->update();
 	} else if( mSkinnedMesh->hasSkeleton() ) {
-		float time = mSkinnedMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
-		mSkinnedMesh->update( time, mEnableSkinning );
+//		float time = mSkinnedMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
+		mSkinnedMesh->update();
 	}
+	
 	mFps = getAverageFps();
 	mLightPos.x = rotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
 	mLightPos.z = rotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
@@ -177,7 +192,8 @@ void MultipleAnimationsDemo::draw()
 	// clear out the window with black
 	gl::clear( Color(0.45f, 0.5f, 0.55f) );
 	gl::setMatrices( mMayaCam.getCamera() );
-	gl::translate(0, -5.0f, 0.0f);
+	gl::scale(2.5f, 2.5f, 2.5f);
+	
 	
 	gl::Light light( gl::Light::DIRECTIONAL, 0 );
 	light.setAmbient( Color::white() );
@@ -206,7 +222,7 @@ void MultipleAnimationsDemo::draw()
 		gl::disableWireframe();
 	
 	if( mDrawSkeleton) {
-		mSkinnedVboMesh->getSkeleton()->draw(mDrawRelative);
+		mSkinnedVboMesh->getSkeleton()->draw();
 	}
 	
 	if( mDrawLabels ) {

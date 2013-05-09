@@ -23,9 +23,6 @@ typedef std::shared_ptr< class Skeleton> SkeletonRef;
 /** 
  * The skeleton is composed of a hierachy of nodes, some of which are its bones.
  * Its bones are internally identified by a map from std::string names to NodeRef(s).
- *
- * The skeleton may be animated. If they are, the animation can be played using the
- * update method.
  **/
 class Skeleton : public Actor {
 public:
@@ -46,11 +43,8 @@ public:
 	
 	//! Deep copy of the node hierarchy and names map. Heavy, non-recommended operation. Prefer extracting different informations out of the same skeleton.
 	virtual SkeletonRef clone() const;
-	//! Update animation to time. (FIXME: If time exceeds bounds, only cyclic behavior for now.)
-	void update( float time );
-	
-	//TODO: get pose @ time const-function.
-	
+	//! Update animation pose to specific time. (FIXME: If time exceeds bounds, only cyclic behavior for now.)
+	virtual void setPose( float time ) override;
 	//! Render the skeleton.
 	void draw( bool relative = false, const std::string& name = "" ) const;
 	//! Render the node names.
@@ -75,6 +69,7 @@ public:
 protected:
 	Skeleton() { };
 	explicit Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames );
+
 	//! Determines whether the node should be rendered as part of the skeleton.
 	bool	isVisibleNode( const NodeRef& node ) const;
 	//! Draw the visible nodes/bones of the skeleton by traversing recursively its node transformation hierarchy.

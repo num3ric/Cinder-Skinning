@@ -158,12 +158,12 @@ namespace cinder {
 			drawLine( nodePos, nodePos + Vec3f(0, size, 0) );
 		}
 		
-		void drawSkeletonNode( const model::Node& node, model::Node::RenderMode mode )
+		void drawSkeletonNode( const model::Node& node, int cycleId, model::Node::RenderMode mode )
 		{
 			if( !node.hasParent() ) return;
 			Vec3f currentPos = node.getAbsolutePosition();
 			Vec3f parentPos = node.getParent()->getAbsolutePosition();
-			color( node.isAnimated() ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
+			color( node.isAnimated(cycleId) ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
 			if( mode == model::Node::RenderMode::CONNECTED ) {
 				drawConnected( currentPos, parentPos);
 			} else if (mode == model::Node::RenderMode::JOINTS ) {
@@ -171,11 +171,11 @@ namespace cinder {
 			}
 		}
 		
-		void drawSkeletonNodeRelative( const model::Node& node, model::Node::RenderMode mode )
+		void drawSkeletonNodeRelative( const model::Node& node, int cycleId, model::Node::RenderMode mode )
 		{
 			Vec3f currentPos = node.getRelativeTransformation() * Vec3f::zero();
 			Vec3f parentPos = ci::Vec3f::zero();
-			color( node.isAnimated() ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
+			color( node.isAnimated(cycleId) ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
 			if( mode == model::Node::RenderMode::CONNECTED ) {
 				drawConnected( currentPos, parentPos);
 			} else if (mode == model::Node::RenderMode::JOINTS ) {

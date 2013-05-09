@@ -99,7 +99,7 @@ namespace ai {
 		for( unsigned int a=0; a < aiscene->mNumAnimations; ++a) {
 			aiAnimation* anim = aiscene->mAnimations[a];
 			
-			skeleton->mAnimationDuration = 2.0f;
+			skeleton->setAnimInfo( int(a), (float) anim->mDuration, (float) anim->mTicksPerSecond, ai::get( anim->mName ) );
 			
 			for( unsigned int c=0; c < anim->mNumChannels; ++c ) {
 				aiNodeAnim* nodeAnim = anim->mChannels[c];

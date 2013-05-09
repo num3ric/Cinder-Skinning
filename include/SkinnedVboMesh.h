@@ -30,7 +30,7 @@ public:
 	struct MeshSection : public ASkinnedMesh
 	{
 		MeshSection();
-		void updateMesh( float time, bool enableSkinning = true ) override;
+		void updateMesh( bool enableSkinning = true ) override;
 		void drawMesh() override;
 		
 		ci::gl::GlslProg		getShader() { return mSkinningShader; }
@@ -50,7 +50,7 @@ public:
 	
 	static SkinnedVboMeshRef create( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	
-	void update( float time, bool enableSkinning = true );
+	void update();
 	void draw();
 	
 	MeshVboSectionRef&						getActiveSection() { return mActiveSection; }
@@ -67,11 +67,14 @@ public:
 	void						setDefaultTransformation( const ci::Matrix44f& transformation ) { mActiveSection->setDefaultTransformation( transformation ); }
 	const ci::Matrix44f&		getDefaultTranformation() const { return mActiveSection->getDefaultTranformation(); }
 	
+	void setEnableSkinning( bool enabled ) { mEnableSkinning = enabled; }
+	
 	friend struct SkinnedVboMesh::MeshSection;
 	
 	std::array<ci::Matrix44f, MAXBONES> mBoneMatrices;
 	std::array<ci::Matrix44f, MAXBONES> mInvTransposeMatrices;
 protected:
+	bool mEnableSkinning;
 	SkinnedVboMesh( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	MeshVboSectionRef mActiveSection;
 	std::vector< MeshVboSectionRef > mMeshSections;

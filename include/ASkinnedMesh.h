@@ -51,7 +51,7 @@ protected:
 	, mHasDefaultTransformation( false )
 	{ };
 	virtual void	drawMesh() = 0;
-	virtual void	updateMesh( float time, bool enableSkinning = true ) = 0;
+	virtual void	updateMesh( bool enableSkinning = true ) = 0;
 	
 	bool		mIsAnimated;
 	bool		mHasNormals;

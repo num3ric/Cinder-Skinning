@@ -31,9 +31,9 @@ void SkinnedVboMesh::MeshSection::setVboMesh( size_t numVertices, size_t numIndi
 	mVboMesh = ci::gl::VboMesh( numVertices, numIndices, layout, primitiveType );
 }
 
-void SkinnedVboMesh::MeshSection::updateMesh( float time, bool enableSkinning )
+void SkinnedVboMesh::MeshSection::updateMesh( bool enableSkinning )
 {
-	if (enableSkinning) {
+	if( enableSkinning ) {
 		int i = 0;
 		for( const auto& entry : mSkeleton->getBoneNames() ) {
 			if( i >= MAXBONES )
@@ -70,6 +70,7 @@ SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, SkeletonRe
 }
 
 SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, SkeletonRef skeleton )
+: mEnableSkinning( true )
 {
 	assert( modelSource->getNumSections() > 0 );
 	
@@ -116,11 +117,10 @@ MeshVboSectionRef& SkinnedVboMesh::setActiveSection( int index )
 	return mActiveSection;
 }
 
-void SkinnedVboMesh::update( float time, bool enableSkinning )
+void SkinnedVboMesh::update()
 {
-	mActiveSection->getSkeleton()->update( time );
 	for( MeshVboSectionRef section : mMeshSections ) {
-		section->updateMesh( time, enableSkinning );
+		section->updateMesh( mEnableSkinning );
 	}
 }
 

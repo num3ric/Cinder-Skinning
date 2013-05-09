@@ -13,9 +13,9 @@
 
 namespace model {
 
-void SkinnedMesh::MeshSection::updateMesh( float time, bool enableSkinning )
+void SkinnedMesh::MeshSection::updateMesh( bool enableSkinning )
 {
-	if (enableSkinning) {
+	if( enableSkinning ) {
 		int vertexId = 0;
 		for( const BoneWeights& boneWeights : getBoneWeights() ) {
 			mTriMesh.getVertices()[vertexId] = ci::Vec3f::zero();
@@ -59,6 +59,7 @@ SkinnedMeshRef SkinnedMesh::create( ModelSourceRef modelSource, SkeletonRef skel
 }
 
 SkinnedMesh::SkinnedMesh( ModelSourceRef modelSource, SkeletonRef skeleton )
+: mEnableSkinning( true )
 {
 	assert( modelSource->getNumSections() > 0 );
 	
@@ -73,11 +74,10 @@ SkinnedMesh::SkinnedMesh( ModelSourceRef modelSource, SkeletonRef skeleton )
 	modelSource->load( &target );
 }
 
-void SkinnedMesh::update( float time, bool enableSkinning )
+void SkinnedMesh::update()
 {
-	mActiveSection->getSkeleton()->update( time );
 	for( MeshSectionRef section : mMeshSections ) {
-		section->updateMesh( time, enableSkinning );
+		section->updateMesh( mEnableSkinning );
 	}
 }
 

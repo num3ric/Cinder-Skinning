@@ -41,9 +41,7 @@ void cloneTraversal( const NodeRef& origin, NodeRef& copy )
 }
 
 Skeleton::Skeleton( const Skeleton &rhs )
-//: mAnimationDuration( rhs.mAnimationDuration )
 {
-	mAnimationDuration = 0;
 	mRootNode = rhs.getRootNode()->clone();
 	cloneTraversal( rhs.getRootNode(), mRootNode );
 	
@@ -58,11 +56,11 @@ SkeletonRef Skeleton::clone() const
 	return SkeletonRef( new Skeleton( *this ) );
 }
 
-void Skeleton::update( float time )
+void Skeleton::setPose( float time )
 {
 	traverseNodes( mRootNode,
 				  [=] ( NodeRef n ) {
-					  n->update( time, getCycleId() );
+					  n->update( time, getAnimId() );
 				  } );
 }
 
@@ -132,7 +130,7 @@ void Skeleton::drawRelative(const NodeRef& node, const NodeRef& parent) const
 	
 	ci::gl::pushModelView();
 	if( isVisibleNode( node ) ) {
-		ci::gl::drawSkeletonNodeRelative( *node, Node::RenderMode::JOINTS );
+		ci::gl::drawSkeletonNodeRelative( *node, getAnimId(), Node::RenderMode::JOINTS );
 	}
 	ci::gl::multModelView( currentTransformation );
 	for( NodeRef child : node->getChildren() ) {
@@ -146,7 +144,7 @@ void Skeleton::drawAbsolute( const NodeRef& node ) const
 	traverseNodes( node,
 				  [=] ( NodeRef n ) {
 					  if( isVisibleNode( n ) ) {
-						  ci::gl::drawSkeletonNode( *n );
+						  ci::gl::drawSkeletonNode( *n, getAnimId() );
 					  }
 				  } );
 }

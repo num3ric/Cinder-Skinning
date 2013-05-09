@@ -116,6 +116,9 @@ protected:
 	int			mLevel;
 	int			mBoneIndex;
 	
+	/* I have chosen to use an unorder_map for now because a bone may be
+	 * animated in some cycles, and not in others.
+	 * */
 	std::unordered_map< int, std::shared_ptr<AnimCyclef> >	mAnimCycles;
 private:
 	Node( const Node &rhs ); // private to prevent copying; use clone() method instead
@@ -129,8 +132,8 @@ namespace cinder {
 	namespace gl {
 		//! Optional argument for precomputed distance
 		void drawBone( const Vec3f& start, const Vec3f& end, float dist = -1.0f );
-		void drawSkeletonNode( const model::Node& node, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
-		void drawSkeletonNodeRelative( const model::Node& node, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
+		void drawSkeletonNode( const model::Node& node, int cycleId = 0, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
+		void drawSkeletonNodeRelative( const model::Node& node, int cycleId = 0, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
 		void drawLabel( const model::Node& node, const CameraPersp& camera, const ci::Matrix44f& mv );
 	}
 }

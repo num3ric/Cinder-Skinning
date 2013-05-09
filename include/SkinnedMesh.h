@@ -19,7 +19,7 @@ public:
 	struct MeshSection : public ASkinnedMesh
 	{
 		MeshSection() : ASkinnedMesh() { }
-		void updateMesh( float time, bool enableSkinning = true ) override;
+		void updateMesh( bool enableSkinning = true ) override;
 		void drawMesh() override;
 		
 		std::string mName;
@@ -31,7 +31,7 @@ public:
 	
 	static SkinnedMeshRef create( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	void appendSection( const MeshSectionRef& meshSection );
-	void update( float time, bool enableSkinning = true );
+	void update();
 	void draw();
 	
 	std::shared_ptr<Skeleton>&			getSkeleton() { return mActiveSection->getSkeleton(); }
@@ -47,9 +47,11 @@ public:
 	void						setDefaultTransformation( const ci::Matrix44f& transformation ) { mActiveSection->setDefaultTransformation( transformation ); }
 	const ci::Matrix44f&		getDefaultTranformation() const { return mActiveSection->getDefaultTranformation(); }
 	
+	void setEnableSkinning( bool enabled ) { mEnableSkinning = enabled; }
 protected:
 	SkinnedMesh( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	//add full behavior/functions relating to "active section"
+	bool mEnableSkinning;
 	MeshSectionRef mActiveSection;
 	std::vector< MeshSectionRef > mMeshSections;
 };
