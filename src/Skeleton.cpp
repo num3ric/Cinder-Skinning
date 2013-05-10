@@ -56,11 +56,19 @@ SkeletonRef Skeleton::clone() const
 	return SkeletonRef( new Skeleton( *this ) );
 }
 
-void Skeleton::setPose( float time )
+void Skeleton::setPose( float time, int animId )
 {
 	traverseNodes( mRootNode,
 				  [=] ( NodeRef n ) {
-					  n->update( time, getAnimId() );
+					  n->update( time, animId );
+				  } );
+}
+	
+void Skeleton::setBlendedPose( float time, const std::unordered_map<int, float>& weights )
+{
+	traverseNodes( mRootNode,
+				  [=] ( NodeRef n ) {
+					  n->blendUpdate( time, weights );
 				  } );
 }
 

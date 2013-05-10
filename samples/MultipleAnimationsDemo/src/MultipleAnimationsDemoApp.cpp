@@ -111,7 +111,12 @@ void MultipleAnimationsDemo::setup()
 	
 	mSkinnedMesh = SkinnedMesh::create( loadModel( getAssetPath( "Sinbad.mesh.xml" ) ) );
 	app::console() << *mSkinnedMesh->getSkeleton();
-	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "Sinbad.mesh.xml" ) ), mSkinnedMesh->getSkeleton() );	
+	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "Sinbad.mesh.xml" ) ), mSkinnedMesh->getSkeleton() );
+	
+	
+	// Blend both animations with a factor of one since they affect independent bones (lower vs upper body).
+	mSkinnedMesh->getSkeleton()->setBlendedAnimId( { {0, 1.0f}, {7, 1.0f} } );
+	mSkinnedMesh->getSkeleton()->loopAnim();
 }
 
 void MultipleAnimationsDemo::fileDrop( FileDropEvent event )

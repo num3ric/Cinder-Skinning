@@ -42,26 +42,42 @@ namespace model {
 	
 	void Actor::setAnimId( int animId )
 	{
+		mWeights.clear();
 		mAnimTime.stop();
+		mAnimTime = 0.0f;
 		mCurrentAnimId = animId;
+	}
+	
+	void Actor::setBlendedAnimId( const std::unordered_map<int, float>& weights )
+	{
+		mWeights = weights;
+		mAnimTime.stop();
+		mAnimTime = 0.0f;
+		for( auto kv : mWeights ) {
+			mCurrentAnimId =  kv.first;
+			break;
+		}
 	}
 	
 	void Actor::privateUpdate()
 	{
-		setPose( mAnimTime() );
+		if( mWeights.empty() ) {
+			setPose( mAnimTime(), mCurrentAnimId );
+		} else {
+			setBlendedPose( mAnimTime(), mWeights );
+		}
+		
 	}
 	
 	void  Actor::playAnim()
 	{
 		float d = mAnimInfoMap[ mCurrentAnimId ].mDuration;
-		mAnimTime = 0.0f;
 		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateUpdate, this ) );
 	}
 	
 	void  Actor::loopAnim()
 	{
 		float d = mAnimInfoMap[ mCurrentAnimId ].mDuration;
-		mAnimTime = 0.0f;
 		ci::app::timeline().apply(&mAnimTime, d, d )
 						   .updateFn( std::bind(&Actor::privateUpdate, this ) )
 						   .loop();

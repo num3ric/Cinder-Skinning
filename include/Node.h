@@ -10,7 +10,7 @@
 
 #include "AnimCycle.h"
 
-#include "cinder/Matrix.h"
+#include "cinder/Matrix44.h"
 
 #include <string>
 #include <vector>
@@ -77,6 +77,8 @@ public:
 	 *  parent because that in turn may be animated. No traversal is done.
 	 */
 	void	update( float time, int cycleId = 0 );
+	
+	void	blendUpdate( float time, const std::unordered_map<int, float>& weights );
 	
 	void		setOffsetMatrix( const ci::Matrix44f& offset ) { mOffset =  std::unique_ptr<ci::Matrix44f>( new ci::Matrix44f(offset) ); }
 	const std::unique_ptr<ci::Matrix44f>& getOffset() { return mOffset; }

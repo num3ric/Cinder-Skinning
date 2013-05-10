@@ -44,7 +44,10 @@ public:
 	//! Deep copy of the node hierarchy and names map. Heavy, non-recommended operation. Prefer extracting different informations out of the same skeleton.
 	virtual SkeletonRef clone() const;
 	//! Update animation pose to specific time. (FIXME: If time exceeds bounds, only cyclic behavior for now.)
-	virtual void setPose( float time ) override;
+	virtual void setPose( float time, int animId = 0 ) override;
+	
+	virtual void setBlendedPose( float time, const std::unordered_map<int, float>& weights )override;
+	
 	//! Render the skeleton.
 	void draw( bool relative = false, const std::string& name = "" ) const;
 	//! Render the node names.

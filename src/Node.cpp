@@ -100,10 +100,26 @@ void Node::update( float time, int cycleId )
 {
 	if( isAnimated( cycleId ) ) {
 		mRelativeTransformation = mAnimCycles[cycleId]->getTransformation( time );
-		updateAbsolute();
-	} else {
-		updateAbsolute();
-	}	
+	}
+	updateAbsolute();
+	mTime = time;
+}
+	
+void Node::blendUpdate( float time, const std::unordered_map<int, float>& weights )
+{	
+	// We accumulate transformations from each animation cycle with a weighted sum
+	// and use the result if at least on node was animated.
+	ci::Matrix44f weightedTransformation = ci::Matrix44f::zero();
+	for( auto kv : weights ) {
+		if( isAnimated( kv.first ) ) {
+			weightedTransformation += mAnimCycles[ kv.first ]->getTransformation( time ) * kv.second;
+		}
+	}
+	if( weightedTransformation != ci::Matrix44f::zero() ) {
+		mRelativeTransformation = weightedTransformation;
+	}
+	
+	updateAbsolute();
 	mTime = time;
 }
 

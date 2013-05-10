@@ -24,18 +24,23 @@ public:
 	
 	int				getAnimId() const { return mCurrentAnimId; }
 	void			setAnimId( int animId );
-	virtual void	setPose( float time ) = 0;
+	void			setBlendedAnimId( const std::unordered_map<int, float>& weights );
+	
+	virtual void	setPose( float time, int animId = 0 ) = 0;
+	virtual void	setBlendedPose( float time, const std::unordered_map<int, float>& weights ) = 0;
 	void			playAnim();
 	void			loopAnim();
 	void			stop();
 	
-private:
+protected:
 	void			privateUpdate();
 	
 	ci::Anim<float>	mAnimTime;
 	int				mCurrentAnimId;
-	
 	std::unordered_map<int, AnimInfo> mAnimInfoMap;
+	
+	
+	std::unordered_map<int, float> mWeights;
 };
 
 } //end namespace model
