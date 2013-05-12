@@ -15,19 +15,19 @@ public:
 	};
 	
 	Actor();
-	void			setAnimInfo( int animId, const AnimInfo& animInfo );
-	void			setAnimInfo( int animId, float duration, float ticksPerSecond, const std::string& name );
+	void			setAnimInfo( int trackId, const AnimInfo& animInfo );
+	void			setAnimInfo( int trackId, float duration, float ticksPerSecond, const std::string& name );
 	
 	float				getAnimDuration() const;
 	const std::string&	getAnimName() const;
 	float				getAnimTicksPerSecond() const;
 	
-	int				getAnimId() const { return mCurrentAnimId; }
-	void			setAnimId( int animId );
-	void			setBlendedAnimId( const std::unordered_map<int, float>& weights );
+	int				getAnimTrackId() const { return mCurrentTrackId; }
+	void			setAnimTrackId( int trackId );
+	void			setBlendedAnimTrackId( const std::unordered_map<int, float>& weights );
 	
-	virtual void	setPose( float time, int animId = 0 ) = 0;
-	virtual void	setBlendedPose( float time, const std::unordered_map<int, float>& weights ) = 0;
+	virtual void	setPose( float time, int trackId = 0 ) = 0;
+	virtual void	setBlendedPose( float time, const std::unordered_map<int, float>& trackWeights ) = 0;
 	void			playAnim();
 	void			loopAnim();
 	void			stop();
@@ -36,11 +36,11 @@ protected:
 	void			privateUpdate();
 	
 	ci::Anim<float>	mAnimTime;
-	int				mCurrentAnimId;
+	int				mCurrentTrackId;
 	std::unordered_map<int, AnimInfo> mAnimInfoMap;
 	
 	
-	std::unordered_map<int, float> mWeights;
+	std::unordered_map<int, float> mAnimTrackWeights;
 };
 
 } //end namespace model

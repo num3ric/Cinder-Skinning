@@ -138,7 +138,7 @@ void Skeleton::drawRelative(const NodeRef& node, const NodeRef& parent) const
 	
 	ci::gl::pushModelView();
 	if( isVisibleNode( node ) ) {
-		ci::gl::drawSkeletonNodeRelative( *node, getAnimId(), Node::RenderMode::JOINTS );
+		ci::gl::drawSkeletonNodeRelative( *node, getAnimTrackId(), Node::RenderMode::JOINTS );
 	}
 	ci::gl::multModelView( currentTransformation );
 	for( NodeRef child : node->getChildren() ) {
@@ -152,7 +152,7 @@ void Skeleton::drawAbsolute( const NodeRef& node ) const
 	traverseNodes( node,
 				  [=] ( NodeRef n ) {
 					  if( isVisibleNode( n ) ) {
-						  ci::gl::drawSkeletonNode( *n, getAnimId() );
+						  ci::gl::drawSkeletonNode( *n, getAnimTrackId() );
 					  }
 				  } );
 }

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "AnimCycle.h"
+#include "AnimTrack.h"
 
 #include "cinder/Matrix44.h"
 
@@ -63,12 +63,12 @@ public:
 	void	setBoneIndex( int boneIndex ) { mBoneIndex = boneIndex; }
 	
 	// Animation functions
-	void	addAnimationCycle( int cycleId, float duration, float ticksPerSecond );
-	void	addTranslationKeyframe( int cycleId, float time, const ci::Vec3f& translation );
-	void	addRotationKeyframe( int cycleId, float time, const ci::Quatf& rotation  );
-	void	addScalingKeyframe( int cycleId, float time, const ci::Vec3f& scaling );
+	void	addAnimTrack( int trackId, float duration, float ticksPerSecond );
+	void	addTranslationKeyframe( int trackId, float time, const ci::Vec3f& translation );
+	void	addRotationKeyframe( int trackId, float time, const ci::Quatf& rotation  );
+	void	addScalingKeyframe( int trackId, float time, const ci::Vec3f& scaling );
 	
-	bool	isAnimated( int cycleId = 0 ) const;
+	bool	isAnimated( int trackId = 0 ) const;
 	float	getTime() { return mTime; }
 	
 	/*! 
@@ -76,7 +76,7 @@ public:
 	 *	If the node is not animated, its absolute transformation is still updated based on its
 	 *  parent because that in turn may be animated. No traversal is done.
 	 */
-	void	update( float time, int cycleId = 0 );
+	void	update( float time, int trackId = 0 );
 	
 	void	blendUpdate( float time, const std::unordered_map<int, float>& weights );
 	
@@ -119,9 +119,9 @@ protected:
 	int			mBoneIndex;
 	
 	/* I have chosen to use an unorder_map for now because a bone may be
-	 * animated in some cycles, and not in others.
+	 * animated in some animation tracks, and not in others.
 	 * */
-	std::unordered_map< int, std::shared_ptr<AnimCyclef> >	mAnimCycles;
+	std::unordered_map< int, std::shared_ptr<AnimTrackf> >	mAnimTracks;
 private:
 	Node( const Node &rhs ); // private to prevent copying; use clone() method instead
 	Node& operator=( const Node &rhs ); // not defined to prevent copying
@@ -134,8 +134,8 @@ namespace cinder {
 	namespace gl {
 		//! Optional argument for precomputed distance
 		void drawBone( const Vec3f& start, const Vec3f& end, float dist = -1.0f );
-		void drawSkeletonNode( const model::Node& node, int cycleId = 0, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
-		void drawSkeletonNodeRelative( const model::Node& node, int cycleId = 0, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
+		void drawSkeletonNode( const model::Node& node, int trackId = 0, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
+		void drawSkeletonNodeRelative( const model::Node& node, int trackId = 0, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
 		void drawLabel( const model::Node& node, const CameraPersp& camera, const ci::Matrix44f& mv );
 	}
 }

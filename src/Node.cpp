@@ -56,30 +56,30 @@ void Node::addChild( const NodeRef& node )
 	mChildren.push_back( node );
 }
 
-void Node::addAnimationCycle( int cycleId, float duration, float ticksPerSecond )
+void Node::addAnimTrack( int trackId, float duration, float ticksPerSecond )
 {
-	mAnimCycles[cycleId] = std::make_shared<AnimCyclef>( duration, ticksPerSecond );
+	mAnimTracks[trackId] = std::make_shared<AnimTrackf>( duration, ticksPerSecond );
 }
 
-void Node::addTranslationKeyframe( int cycleId, float time, const ci::Vec3f& translation )
+void Node::addTranslationKeyframe( int trackId, float time, const ci::Vec3f& translation )
 {
-	mAnimCycles[cycleId]->mTranslationCurve.addKeyframe( time, translation );
+	mAnimTracks[trackId]->mTranslationCurve.addKeyframe( time, translation );
 }
 
-void Node::addRotationKeyframe( int cycleId, float time, const ci::Quatf& rotation )
+void Node::addRotationKeyframe( int trackId, float time, const ci::Quatf& rotation )
 {
-	mAnimCycles[cycleId]->mRotationCurve.addKeyframe( time, rotation );
+	mAnimTracks[trackId]->mRotationCurve.addKeyframe( time, rotation );
 }
 
-void Node::addScalingKeyframe( int cycleId, float time, const ci::Vec3f& scaling )
+void Node::addScalingKeyframe( int trackId, float time, const ci::Vec3f& scaling )
 {
-	mAnimCycles[cycleId]->mScalingCurve.addKeyframe( time, scaling );
+	mAnimTracks[trackId]->mScalingCurve.addKeyframe( time, scaling );
 }
 	
-bool Node::isAnimated( int cycleId ) const
+bool Node::isAnimated( int trackId ) const
 {
 	try {
-		mAnimCycles.at( cycleId );
+		mAnimTracks.at( trackId );
 		return true;
 	} catch ( const std::out_of_range& ) {
 		return false;
@@ -96,10 +96,10 @@ void Node::updateAbsolute()
 }
 
 
-void Node::update( float time, int cycleId )
+void Node::update( float time, int trackId )
 {
-	if( isAnimated( cycleId ) ) {
-		mRelativeTransformation = mAnimCycles[cycleId]->getTransformation( time );
+	if( isAnimated( trackId ) ) {
+		mRelativeTransformation = mAnimTracks[trackId]->getTransformation( time );
 	}
 	updateAbsolute();
 	mTime = time;
@@ -107,12 +107,12 @@ void Node::update( float time, int cycleId )
 	
 void Node::blendUpdate( float time, const std::unordered_map<int, float>& weights )
 {	
-	// We accumulate transformations from each animation cycle with a weighted sum
+	// We accumulate transformations from each animation track with a weighted sum
 	// and use the result if at least on node was animated.
 	ci::Matrix44f weightedTransformation = ci::Matrix44f::zero();
 	for( auto kv : weights ) {
 		if( isAnimated( kv.first ) ) {
-			weightedTransformation += mAnimCycles[ kv.first ]->getTransformation( time ) * kv.second;
+			weightedTransformation += mAnimTracks[ kv.first ]->getTransformation( time ) * kv.second;
 		}
 	}
 	if( weightedTransformation != ci::Matrix44f::zero() ) {
@@ -174,12 +174,12 @@ namespace cinder {
 			drawLine( nodePos, nodePos + Vec3f(0, size, 0) );
 		}
 		
-		void drawSkeletonNode( const model::Node& node, int cycleId, model::Node::RenderMode mode )
+		void drawSkeletonNode( const model::Node& node, int trackId, model::Node::RenderMode mode )
 		{
 			if( !node.hasParent() ) return;
 			Vec3f currentPos = node.getAbsolutePosition();
 			Vec3f parentPos = node.getParent()->getAbsolutePosition();
-			color( node.isAnimated(cycleId) ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
+			color( node.isAnimated(trackId) ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
 			if( mode == model::Node::RenderMode::CONNECTED ) {
 				drawConnected( currentPos, parentPos);
 			} else if (mode == model::Node::RenderMode::JOINTS ) {
@@ -187,11 +187,11 @@ namespace cinder {
 			}
 		}
 		
-		void drawSkeletonNodeRelative( const model::Node& node, int cycleId, model::Node::RenderMode mode )
+		void drawSkeletonNodeRelative( const model::Node& node, int trackId, model::Node::RenderMode mode )
 		{
 			Vec3f currentPos = node.getRelativeTransformation() * Vec3f::zero();
 			Vec3f parentPos = ci::Vec3f::zero();
-			color( node.isAnimated(cycleId) ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
+			color( node.isAnimated(trackId) ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
 			if( mode == model::Node::RenderMode::CONNECTED ) {
 				drawConnected( currentPos, parentPos);
 			} else if (mode == model::Node::RenderMode::JOINTS ) {

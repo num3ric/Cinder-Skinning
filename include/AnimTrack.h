@@ -22,9 +22,9 @@
 namespace model {
 
 template< typename T >
-class AnimCycle {
+class AnimTrack {
 public:
-	AnimCycle( float duration, float ticksPerSecond )
+	AnimTrack( float duration, float ticksPerSecond )
 	{
 		setAnimDuration( duration );
 		setAnimTicksPerSecond( ticksPerSecond );
@@ -63,7 +63,7 @@ private:
 	float mDuration, mTicksPerSecond;
 };
 
-typedef AnimCycle<float> AnimCyclef;
-typedef AnimCycle<double> AnimCycled;
+typedef AnimTrack<float> AnimTrackf;
+typedef AnimTrack<double> AnimTrackd;
 	
 }

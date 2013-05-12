@@ -107,7 +107,7 @@ namespace ai {
 				try {
 					model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
 					float tsecs = ( anim->mTicksPerSecond != 0 ) ? (float) anim->mTicksPerSecond : 25.0f;
-					bone->addAnimationCycle( a, float( anim->mDuration ), tsecs );
+					bone->addAnimTrack( a, float( anim->mDuration ), tsecs );
 					ci::app::console() << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
 					for( unsigned int k=0; k < nodeAnim->mNumPositionKeys; ++k) {
 						const aiVectorKey& key = nodeAnim->mPositionKeys[k];

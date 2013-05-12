@@ -11,7 +11,7 @@
 namespace model {
 
 	Actor::Actor()
-	: mCurrentAnimId(0)
+	: mCurrentTrackId(0)
 	, mAnimTime(0)
 	{ }
 
@@ -27,57 +27,57 @@ namespace model {
 	
 	float Actor::getAnimDuration() const
 	{
-		return mAnimInfoMap.at( mCurrentAnimId ).mDuration;
+		return mAnimInfoMap.at( mCurrentTrackId ).mDuration;
 	}
 	
 	const std::string& Actor::getAnimName() const
 	{
-		return mAnimInfoMap.at( mCurrentAnimId ).mName;
+		return mAnimInfoMap.at( mCurrentTrackId ).mName;
 	}
 	
 	float Actor::getAnimTicksPerSecond() const
 	{
-		return mAnimInfoMap.at( mCurrentAnimId ).mTicksPerSecond;
+		return mAnimInfoMap.at( mCurrentTrackId ).mTicksPerSecond;
 	}
 	
-	void Actor::setAnimId( int animId )
+	void Actor::setAnimTrackId( int animId )
 	{
-		mWeights.clear();
+		mAnimTrackWeights.clear();
 		mAnimTime.stop();
 		mAnimTime = 0.0f;
-		mCurrentAnimId = animId;
+		mCurrentTrackId = animId;
 	}
 	
-	void Actor::setBlendedAnimId( const std::unordered_map<int, float>& weights )
+	void Actor::setBlendedAnimTrackId( const std::unordered_map<int, float>& trackWeights )
 	{
-		mWeights = weights;
+		mAnimTrackWeights = trackWeights;
 		mAnimTime.stop();
 		mAnimTime = 0.0f;
-		for( auto kv : mWeights ) {
-			mCurrentAnimId =  kv.first;
+		for( auto kv : mAnimTrackWeights ) {
+			mCurrentTrackId =  kv.first;
 			break;
 		}
 	}
 	
 	void Actor::privateUpdate()
 	{
-		if( mWeights.empty() ) {
-			setPose( mAnimTime(), mCurrentAnimId );
+		if( mAnimTrackWeights.empty() ) {
+			setPose( mAnimTime(), mCurrentTrackId );
 		} else {
-			setBlendedPose( mAnimTime(), mWeights );
+			setBlendedPose( mAnimTime(), mAnimTrackWeights );
 		}
 		
 	}
 	
 	void  Actor::playAnim()
 	{
-		float d = mAnimInfoMap[ mCurrentAnimId ].mDuration;
+		float d = mAnimInfoMap[ mCurrentTrackId ].mDuration;
 		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateUpdate, this ) );
 	}
 	
 	void  Actor::loopAnim()
 	{
-		float d = mAnimInfoMap[ mCurrentAnimId ].mDuration;
+		float d = mAnimInfoMap[ mCurrentTrackId ].mDuration;
 		ci::app::timeline().apply(&mAnimTime, d, d )
 						   .updateFn( std::bind(&Actor::privateUpdate, this ) )
 						   .loop();
