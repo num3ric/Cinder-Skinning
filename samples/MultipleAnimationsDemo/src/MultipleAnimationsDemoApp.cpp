@@ -87,7 +87,7 @@ void MultipleAnimationsDemo::setup()
 	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
 	mParams.addParam( "Fps", &mFps, "", true );
 	mParams.addSeparator();
-//	mParams.addParam( "Use VboMesh", &mUseVbo );
+	mParams.addParam( "Use VboMesh", &mUseVbo );
 	mDrawMesh = true;
 	mParams.addParam( "Draw Mesh", &mDrawMesh );
 	mDrawSkeleton = false;
@@ -218,8 +218,12 @@ void MultipleAnimationsDemo::draw()
 		gl::enableWireframe();
 	if( mDrawMesh ) {
 		if( mUseVbo ) {
+//			mSkinnedMesh->setActiveSection(6);
+//			mSkinnedMesh->getActiveSection()->drawMesh();
 			mSkinnedVboMesh->draw();
 		} else {
+//			mSkinnedMesh->setActiveSection(6);
+//			mSkinnedMesh->getActiveSection()->drawMesh();
 			mSkinnedMesh->draw();
 		}
 	}

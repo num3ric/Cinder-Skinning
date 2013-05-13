@@ -56,7 +56,7 @@ void SeymourDemo::setup()
 	mLightPos = Vec3f(0, 20.0f, 0);
 	mMouseHorizontalPos = 0;
 	mMeshIndex = 0;
-	mUseVbo = true;
+	mUseVbo = false;
 	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
 	mParams.addParam( "Fps", &mFps, "", true );
 	mParams.addSeparator();
@@ -81,6 +81,8 @@ void SeymourDemo::setup()
 	mSkinnedMesh = SkinnedMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ) );
 	app::console() << *mSkinnedMesh->getSkeleton();
 	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ), mSkinnedMesh->getSkeleton() );
+	
+	mSkinnedMesh->getSkeleton()->loopAnim();
 }
 
 void SeymourDemo::fileDrop( FileDropEvent event )
@@ -144,11 +146,13 @@ void SeymourDemo::resize()
 void SeymourDemo::update()
 {
 	if( mUseVbo && mSkinnedVboMesh->hasSkeleton() ) {
-		float time = mSkinnedVboMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
-		mSkinnedVboMesh->update( time, mEnableSkinning );
+//		float time = mSkinnedVboMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
+//		mSkinnedVboMesh->update( time, mEnableSkinning );
+		mSkinnedVboMesh->update();
 	} else if( mSkinnedMesh->hasSkeleton() ) {
-		float time = mSkinnedMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
-		mSkinnedMesh->update( time, mEnableSkinning );
+//		float time = mSkinnedMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
+//		mSkinnedMesh->update( time, mEnableSkinning );
+		mSkinnedMesh->update();
 	}
 	mFps = getAverageFps();
 	mLightPos.x = rotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
