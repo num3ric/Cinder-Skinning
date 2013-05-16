@@ -22,7 +22,6 @@ namespace ai {
 	aiProcess_ImproveCacheLocality |
 	aiProcess_LimitBoneWeights |
 	aiProcess_RemoveRedundantMaterials |
-	aiProcess_Triangulate |
 	aiProcess_GenUVCoords |
 	aiProcess_SortByPType |
 	aiProcess_FindDegenerates |
@@ -340,7 +339,8 @@ ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::f
 	mRootAssetFolderPath = rootAssetFolderPath;
 	
 	mImporter = std::unique_ptr<Assimp::Importer>( new Assimp::Importer() );
-	mImporter->SetIOHandler( new CustomIOSystem() );
+	mImporter->SetPropertyInteger(AI_CONFIG_PP_SBP_REMOVE, aiPrimitiveType_POINT | aiPrimitiveType_LINE);
+//	mImporter->SetIOHandler( new CustomIOSystem() );
 	mAiScene = mImporter->ReadFile( mModelPath.string(), ai::flags );
 	
 	//TODO: make own exception class to catch
@@ -355,7 +355,7 @@ ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::f
 	for( unsigned int m=0; m < mAiScene->mNumMeshes; ++m ) {
 		aiMesh * mesh = mAiScene->mMeshes[m];
 		numBones += mesh->mNumBones;
-		mModelInfo.mHasNormals = mModelInfo.mHasNormals || mesh->HasNormals();
+//		mModelInfo.mHasNormals = mModelInfo.mHasNormals || mesh->HasNormals();
 		
 		mModelInfo.mNumVertices.push_back( mesh->mNumVertices );
 		mModelInfo.mNumIndices.push_back( 3 * mesh->mNumFaces );

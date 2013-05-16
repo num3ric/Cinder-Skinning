@@ -34,7 +34,7 @@ struct MaterialInfo
 
 class BoneWeights {
 public:
-	BoneWeights() : mActiveNbWeights( 0 ) { }
+	BoneWeights() : mActiveNbWeights( 0 ), mWeights({}) { }
 	static const int NB_WEIGHTS = 4;
 	void			addWeight( const std::shared_ptr<Node>& bone, float weight );
 	float			getWeight( int index ) const  { return mWeights[index]; }

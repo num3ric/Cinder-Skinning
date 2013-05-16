@@ -3,7 +3,7 @@ precision highp float;
 #endif
 
 varying vec2 Tc;
-varying vec3 N, L, V;
+varying vec3 V, N, L;
 
 uniform sampler2D texture;
 

@@ -27,10 +27,14 @@ public:
 private:
   	SkinnedVboMesh*			mSkinnedVboMesh;
 	
-	template<class T> void	bufferSubData( const T& buffer, size_t dim);
-	void					setCustomAttribute( const std::string& name, int location );
+	void					incrementOffsets( size_t dataSize );
+	void					resetOffsets();
 	
-	int mOffset;
+	template<class T> void	bufferSubData( const T& buffer, size_t dataSize);
+	void					setCustomAttribute( const std::string& name, GLuint location );
+	
+	GLuint			mAttribLocation;
+	ptrdiff_t		mSubDataOffset;
 };
 
 } //end namespace model
