@@ -56,10 +56,19 @@ SkeletonRef Skeleton::clone() const
 	return SkeletonRef( new Skeleton( *this ) );
 }
 
+void Skeleton::setPoseDefault()
+{
+	traverseNodes( mRootNode,
+				  [] ( NodeRef n ) {
+					  n->setRelativeTransformation( n->getInitialTransformation() );
+				  } );
+	
+}
+
 void Skeleton::setPose( float time, int animId )
 {
 	traverseNodes( mRootNode,
-				  [=] ( NodeRef n ) {
+				  [&time, &animId] ( NodeRef n ) {
 					  n->update( time, animId );
 				  } );
 }
@@ -138,7 +147,7 @@ void Skeleton::drawRelative(const NodeRef& node, const NodeRef& parent) const
 	
 	ci::gl::pushModelView();
 	if( isVisibleNode( node ) ) {
-		ci::gl::drawSkeletonNodeRelative( *node, getAnimTrackId(), Node::RenderMode::JOINTS );
+		ci::gl::drawSkeletonNodeRelative( *node, Node::RenderMode::JOINTS );
 	}
 	ci::gl::multModelView( currentTransformation );
 	for( NodeRef child : node->getChildren() ) {
@@ -152,7 +161,7 @@ void Skeleton::drawAbsolute( const NodeRef& node ) const
 	traverseNodes( node,
 				  [=] ( NodeRef n ) {
 					  if( isVisibleNode( n ) ) {
-						  ci::gl::drawSkeletonNode( *n, getAnimTrackId() );
+						  ci::gl::drawSkeletonNode( *n );
 					  }
 				  } );
 }

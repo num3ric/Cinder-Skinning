@@ -6,13 +6,15 @@
 //
 //
 
+#include "cinder/app/AppNative.h"
+
 #include "Actor.h"
+
 
 namespace model {
 
 	Actor::Actor()
-	: mCurrentTrackId(0)
-	, mAnimTime(0)
+	: mAnimTime(0)
 	{ }
 
 	void Actor::setAnimInfo( int animId, const AnimInfo& animInfo )
@@ -25,67 +27,78 @@ namespace model {
 		mAnimInfoMap[animId] = {duration, ticksPerSecond, name};
 	}
 	
-	float Actor::getAnimDuration() const
+	float Actor::getAnimDuration( int trackId ) const
 	{
-		return mAnimInfoMap.at( mCurrentTrackId ).mDuration;
+		return mAnimInfoMap.at( trackId ).mDuration;
 	}
 	
-	const std::string& Actor::getAnimName() const
+	const std::string& Actor::getAnimName( int trackId ) const
 	{
-		return mAnimInfoMap.at( mCurrentTrackId ).mName;
+		return mAnimInfoMap.at( trackId ).mName;
 	}
 	
-	float Actor::getAnimTicksPerSecond() const
+	float Actor::getAnimTicksPerSecond( int trackId ) const
 	{
-		return mAnimInfoMap.at( mCurrentTrackId ).mTicksPerSecond;
+		return mAnimInfoMap.at( trackId ).mTicksPerSecond;
 	}
-	
-	void Actor::setAnimTrackId( int animId )
-	{
-		mAnimTrackWeights.clear();
-		mAnimTime.stop();
-		mAnimTime = 0.0f;
-		mCurrentTrackId = animId;
-	}
-	
-	void Actor::setBlendedAnimTrackId( const std::unordered_map<int, float>& trackWeights )
-	{
-		mAnimTrackWeights = trackWeights;
-		mAnimTime.stop();
-		mAnimTime = 0.0f;
-		for( auto kv : mAnimTrackWeights ) {
-			mCurrentTrackId =  kv.first;
-			break;
-		}
-	}
-	
-	void Actor::privateUpdate()
-	{
-		if( mAnimTrackWeights.empty() ) {
-			setPose( mAnimTime(), mCurrentTrackId );
-		} else {
-			setBlendedPose( mAnimTime(), mAnimTrackWeights );
-		}
 		
+	void Actor::privateUpdate( int trackId )
+	{
+		setPose( mAnimTime(), trackId );
 	}
 	
-	void  Actor::playAnim()
+	void Actor::privateBlendUpdate( const std::unordered_map<int, float>& trackWeights )
 	{
-		float d = mAnimInfoMap[ mCurrentTrackId ].mDuration;
-		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateUpdate, this ) );
+		setBlendedPose( mAnimTime(), trackWeights );
 	}
 	
-	void  Actor::loopAnim()
+	void  Actor::playAnim( int trackId )
 	{
-		float d = mAnimInfoMap[ mCurrentTrackId ].mDuration;
+		mAnimTime = 0.0f;
+		float d = mAnimInfoMap[ trackId ].mDuration;
+		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateUpdate, this, trackId ) );
+	}
+	
+	void  Actor::playAnim( const std::unordered_map<int, float>& trackWeights )
+	{
+		mAnimTime = 0.0f;
+		float d = 0.0f;
+		for( const auto& kv : mAnimInfoMap ) {
+			if( kv.second.mDuration > d )
+				d = kv.second.mDuration;
+		}
+		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateBlendUpdate, this, trackWeights ) );
+	}
+	
+	void  Actor::loopAnim( int trackId )
+	{
+		mAnimTime = 0.0f;
+		float d = mAnimInfoMap[ trackId ].mDuration;
 		ci::app::timeline().apply(&mAnimTime, d, d )
-						   .updateFn( std::bind(&Actor::privateUpdate, this ) )
+						   .updateFn( std::bind(&Actor::privateUpdate, this, trackId ) )
 						   .loop();
+	}
+	
+	void  Actor::loopAnim( const std::unordered_map<int, float>& trackWeights )
+	{
+		mAnimTime = 0.0f;
+		float d = 1.0f;
+		for( const auto& kv : mAnimInfoMap ) {
+			if( kv.second.mDuration > d )
+				d = kv.second.mDuration;
+		}
+		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateBlendUpdate, this, trackWeights ) ).loop();
 	}
 	
 	void  Actor::stop()
 	{
 		mAnimTime.stop();
+	}
+	
+	void Actor::setAnimSpeed( float factor )
+	{
+		ci::TimelineItemRef timelineItem =  ci::app::timeline().find( &mAnimTime );
+//		timelineItem->setDuration(<#float newDuration#>);
 	}
 
 } //end namespace model

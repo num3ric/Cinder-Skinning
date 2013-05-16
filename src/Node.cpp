@@ -27,6 +27,7 @@ Node::Node( const ci::Matrix44f& absoluteTransformation, const ci::Matrix44f& re
 , mLevel( level )
 , mBoneIndex( -1 )
 , mTime( 0.0f )
+, mIsAnimated( false )
 {
 	mAbsoluteTransformation = mInitialAbsoluteTransformation;
 	mAbsolutePosition = mInitialAbsolutePosition;
@@ -76,7 +77,7 @@ void Node::addScalingKeyframe( int trackId, float time, const ci::Vec3f& scaling
 	mAnimTracks[trackId]->mScalingCurve.addKeyframe( time, scaling );
 }
 	
-bool Node::isAnimated( int trackId ) const
+bool Node::hasAnimations( int trackId ) const
 {
 	try {
 		mAnimTracks.at( trackId );
@@ -98,24 +99,28 @@ void Node::updateAbsolute()
 
 void Node::update( float time, int trackId )
 {
-	if( isAnimated( trackId ) ) {
+	mIsAnimated = false;
+	if( hasAnimations( trackId ) ) {
 		mRelativeTransformation = mAnimTracks[trackId]->getTransformation( time );
+		mIsAnimated = true;
 	}
 	updateAbsolute();
 	mTime = time;
 }
 	
 void Node::blendUpdate( float time, const std::unordered_map<int, float>& weights )
-{	
+{
+	mIsAnimated = false;
 	// We accumulate transformations from each animation track with a weighted sum
 	// and use the result if at least on node was animated.
 	ci::Matrix44f weightedTransformation = ci::Matrix44f::zero();
 	for( auto kv : weights ) {
-		if( isAnimated( kv.first ) ) {
+		if( hasAnimations( kv.first ) ) {
+			mIsAnimated = true;
 			weightedTransformation += mAnimTracks[ kv.first ]->getTransformation( time ) * kv.second;
 		}
 	}
-	if( weightedTransformation != ci::Matrix44f::zero() ) {
+	if( mIsAnimated ) {
 		mRelativeTransformation = weightedTransformation;
 	}
 	
@@ -174,12 +179,12 @@ namespace cinder {
 			drawLine( nodePos, nodePos + Vec3f(0, size, 0) );
 		}
 		
-		void drawSkeletonNode( const model::Node& node, int trackId, model::Node::RenderMode mode )
+		void drawSkeletonNode( const model::Node& node, model::Node::RenderMode mode )
 		{
 			if( !node.hasParent() ) return;
 			Vec3f currentPos = node.getAbsolutePosition();
 			Vec3f parentPos = node.getParent()->getAbsolutePosition();
-			color( node.isAnimated(trackId) ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
+			color( node.isAnimated() ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
 			if( mode == model::Node::RenderMode::CONNECTED ) {
 				drawConnected( currentPos, parentPos);
 			} else if (mode == model::Node::RenderMode::JOINTS ) {
@@ -187,11 +192,11 @@ namespace cinder {
 			}
 		}
 		
-		void drawSkeletonNodeRelative( const model::Node& node, int trackId, model::Node::RenderMode mode )
+		void drawSkeletonNodeRelative( const model::Node& node, model::Node::RenderMode mode )
 		{
 			Vec3f currentPos = node.getRelativeTransformation() * Vec3f::zero();
 			Vec3f parentPos = ci::Vec3f::zero();
-			color( node.isAnimated(trackId) ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
+			color( node.isAnimated() ? Color(1.0f, 0.0f, 0.0f) : Color(0.0f, 1.0f, 0.0f) );
 			if( mode == model::Node::RenderMode::CONNECTED ) {
 				drawConnected( currentPos, parentPos);
 			} else if (mode == model::Node::RenderMode::JOINTS ) {

@@ -60,14 +60,12 @@ private:
 
 void MultipleAnimationsDemo::playAnim()
 {
-	mSkinnedMesh->getSkeleton()->setAnimTrackId( mAnimId );
-	mSkinnedMesh->getSkeleton()->playAnim();
+	mSkinnedMesh->getSkeleton()->playAnim( mAnimId );
 }
 
 void MultipleAnimationsDemo::loopAnim()
 {
-	mSkinnedMesh->getSkeleton()->setAnimTrackId( mAnimId );
-	mSkinnedMesh->getSkeleton()->loopAnim();
+	mSkinnedMesh->getSkeleton()->loopAnim( mAnimId );
 }
 
 void MultipleAnimationsDemo::stopAnim()
@@ -115,8 +113,7 @@ void MultipleAnimationsDemo::setup()
 	
 	
 	// Blend both animations with a factor of one since they affect independent bones (lower vs upper body).
-	mSkinnedMesh->getSkeleton()->setBlendedAnimTrackId( { {0, 1.0f}, {7, 1.0f} } );
-	mSkinnedMesh->getSkeleton()->loopAnim();
+	mSkinnedMesh->getSkeleton()->loopAnim( { {0, 1.0f}, {7, 1.0f} } );
 }
 
 void MultipleAnimationsDemo::fileDrop( FileDropEvent event )

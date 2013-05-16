@@ -1,8 +1,7 @@
 #pragma once
-#include "cinder/Timeline.h"
-#include "cinder/app/AppNative.h"
-
 #include <unordered_map>
+
+#include "cinder/Timeline.h"
 
 namespace model {
 
@@ -18,29 +17,29 @@ public:
 	void			setAnimInfo( int trackId, const AnimInfo& animInfo );
 	void			setAnimInfo( int trackId, float duration, float ticksPerSecond, const std::string& name );
 	
-	float				getAnimDuration() const;
-	const std::string&	getAnimName() const;
-	float				getAnimTicksPerSecond() const;
+	float				getAnimDuration( int trackId = 0 ) const;
+	const std::string&	getAnimName( int trackId = 0 ) const;
+	float				getAnimTicksPerSecond( int trackId = 0 ) const;
 	
-	int				getAnimTrackId() const { return mCurrentTrackId; }
-	void			setAnimTrackId( int trackId );
-	void			setBlendedAnimTrackId( const std::unordered_map<int, float>& weights );
-	
+	virtual void	setPoseDefault() = 0;
 	virtual void	setPose( float time, int trackId = 0 ) = 0;
 	virtual void	setBlendedPose( float time, const std::unordered_map<int, float>& trackWeights ) = 0;
-	void			playAnim();
-	void			loopAnim();
+	
+	void			playAnim( int trackId = 0 );
+	void			playAnim( const std::unordered_map<int, float>& trackWeights );
+	void			loopAnim( int trackId = 0 );
+	void			loopAnim( const std::unordered_map<int, float>& trackWeights );
 	void			stop();
 	
+	void			setAnimSpeed( float factor );
+	
 protected:
-	void			privateUpdate();
+	void			privateUpdate( int trackId );
+	void			privateBlendUpdate( const std::unordered_map<int, float>& trackWeights );
+	
 	
 	ci::Anim<float>	mAnimTime;
-	int				mCurrentTrackId;
 	std::unordered_map<int, AnimInfo> mAnimInfoMap;
-	
-	
-	std::unordered_map<int, float> mAnimTrackWeights;
 };
 
 } //end namespace model

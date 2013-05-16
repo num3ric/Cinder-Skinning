@@ -355,7 +355,7 @@ ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::f
 	for( unsigned int m=0; m < mAiScene->mNumMeshes; ++m ) {
 		aiMesh * mesh = mAiScene->mMeshes[m];
 		numBones += mesh->mNumBones;
-//		mModelInfo.mHasNormals = mModelInfo.mHasNormals || mesh->HasNormals();
+		mModelInfo.mHasNormals = mModelInfo.mHasNormals || mesh->HasNormals();
 		
 		mModelInfo.mNumVertices.push_back( mesh->mNumVertices );
 		mModelInfo.mNumIndices.push_back( 3 * mesh->mNumFaces );

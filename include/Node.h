@@ -68,7 +68,7 @@ public:
 	void	addRotationKeyframe( int trackId, float time, const ci::Quatf& rotation  );
 	void	addScalingKeyframe( int trackId, float time, const ci::Vec3f& scaling );
 	
-	bool	isAnimated( int trackId = 0 ) const;
+	bool	isAnimated() const { return mIsAnimated; }
 	float	getTime() { return mTime; }
 	
 	/*! 
@@ -101,10 +101,13 @@ protected:
 	 */
 	void	updateAbsolute();
 	
+	bool	hasAnimations( int trackId = 0 ) const;
+	
 	ci::Matrix44f	mRelativeTransformation;
 	ci::Matrix44f	mAbsoluteTransformation;
 	ci::Vec3f		mAbsolutePosition;
 	float			mTime;
+	bool			mIsAnimated;
 	
 	ci::Matrix44f	mInitialRelativeTransformation;
 	ci::Matrix44f	mInitialAbsoluteTransformation;
@@ -134,8 +137,8 @@ namespace cinder {
 	namespace gl {
 		//! Optional argument for precomputed distance
 		void drawBone( const Vec3f& start, const Vec3f& end, float dist = -1.0f );
-		void drawSkeletonNode( const model::Node& node, int trackId = 0, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
-		void drawSkeletonNodeRelative( const model::Node& node, int trackId = 0, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
+		void drawSkeletonNode( const model::Node& node, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
+		void drawSkeletonNodeRelative( const model::Node& node, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
 		void drawLabel( const model::Node& node, const CameraPersp& camera, const ci::Matrix44f& mv );
 	}
 }
