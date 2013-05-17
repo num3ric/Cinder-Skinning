@@ -1,0 +1,28 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 29.04.2013 04:15:01
+
+newmtl Gannet
+	Ns 6.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.588235 0.588235 0.588235
+	Kd 0.588235 0.588235 0.588235
+	Ks 0.189000 0.189000 0.189000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka C:\3D Stuff\Gannet\gannet diffuse2.tif
+	map_Kd C:\3D Stuff\Gannet\gannet diffuse2.tif
+	map_d C:\3D Stuff\Gannet\gannet opac.tif
+	map_bump -bm 0.300000 Map__4_Normal_Bump.tga
+
+newmtl wire_174186203
+	Ns 32
+	d 1
+	Tr 0
+	Tf 1 1 1
+	illum 2
+	Ka 0.682353 0.729412 0.796079
+	Kd 0.682353 0.729412 0.796079
+	Ks 0.350000 0.350000 0.350000
