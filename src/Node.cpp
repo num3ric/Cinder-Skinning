@@ -228,7 +228,7 @@ namespace model {
 											 &mRelativeScale);
 			mIsAnimated = true;
 		}
-		
+		requestSubtreeUpdate();
 		update();
 	}
 	
@@ -257,7 +257,7 @@ namespace model {
 			mRelativeRotation = weightedRotation;
 			mRelativeScale = weightedScale;
 		}
-		
+		requestSubtreeUpdate();
 		update();
 	}
 	
@@ -266,15 +266,15 @@ namespace model {
 		mNeedsUpdate = true;
 		
 		for( auto childNode : mChildren ) {
-//			/* 
-//			 * We can prune out subsections of the tree which already need updates
-//			 * because a node that already needs updating will have traversed all its
-//			 * its children. Since all updates are usually done all at once, we don't
-//			 * retraverse the entire subtrees everytime.
-//			 */
-//			if( !childNode->mNeedsUpdate ) {
+			/* 
+			 * We can prune out subsections of the tree which already need updates
+			 * because a node that already needs updating will have traversed all its
+			 * its children. Since all updates are usually done all at once, we don't
+			 * retraverse the entire subtrees everytime.
+			 */
+			if( !childNode->mNeedsUpdate ) {
 				childNode->requestSubtreeUpdate();
-//			}
+			}
 		}
 	}
 	
