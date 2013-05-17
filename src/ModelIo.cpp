@@ -45,6 +45,11 @@ void ModelTarget::loadSkeleton( const std::shared_ptr<Skeleton>& skeleton ) { }
 void ModelTarget::loadBoneWeights( const std::vector<BoneWeights>& boneWeights ) { }
 
 void ModelTarget::loadDefaultTransformation( const ci::Matrix44f& transformation ) { }
+	
+ModelSourceAssimpRef loadModel( const ci::DataSourceRef dataSource )
+{
+	return ModelSourceAssimp::create( dataSource->getFilePath() );
+}
 
 ModelSourceAssimpRef loadModel( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath )
 {

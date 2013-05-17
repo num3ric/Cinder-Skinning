@@ -59,8 +59,9 @@ public:
 };
 
 //! Load model with assimp, the only loader we have for now.
-	extern std::shared_ptr<class ModelSourceAssimp>	loadModel( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath = "" )
-;
+extern std::shared_ptr<class ModelSourceAssimp>	loadModel( const ci::DataSourceRef dataSource );
+
+extern std::shared_ptr<class ModelSourceAssimp>	loadModel( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath = "" );
 
 class ModelTarget {
 public:
