@@ -48,6 +48,7 @@ void ProceduralAnimApp::setup()
 	mLightPos = Vec3f(0, 20.0f, 0);
 	mMouseHorizontalPos = 0;
 	
+	console() << *mSkinnedVboBird->getSkeleton();
 	
 	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
 	mDrawMesh = true;
@@ -103,7 +104,7 @@ void ProceduralAnimApp::update()
 		NodeRef tipR = skeleton->getBone("Gannet_Rwing_tip");
 		
 		float h = mAmplitude * 0.5f * math<float>::sin( mFrequency * e );
-		float m = mAmplitude * 0.5f * math<float>::sin( mFrequency * (e + M_PI) );
+		float m = mAmplitude * 0.5f * math<float>::sin( mFrequency * (e - M_PI/2) );
 		Vec3f axis(1, 0, 0);
 		midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( axis, m ) );
 		midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( axis, m ) );
@@ -112,6 +113,8 @@ void ProceduralAnimApp::update()
 		
 		NodeRef head = skeleton->getBone("Gannet_head");
 		head->setRelativeRotation( head->getInitialRelativeRotation().slerp(0.5f, mMayaCam.getCamera().getOrientation() )  );
+		
+		skeleton->getBone("Gannet_body")->setRelativePosition( Vec3f(0, -m, 0) );
 	}
 	
 	mSkinnedVboBird->update();
@@ -123,7 +126,6 @@ void ProceduralAnimApp::draw()
 	gl::clear( Color( 0, 0, 0 ) );
 	
 	gl::setMatrices( mMayaCam.getCamera() );
-	gl::translate(0, -5.0f, 0.0f);
 	
 	gl::Light light( gl::Light::DIRECTIONAL, 0 );
 	light.setAmbient( Color::white() );
