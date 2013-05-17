@@ -25,6 +25,7 @@
 		A2EE3622016F441091A5976C /* SkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6075DFDA442546D7B9A2AE29 /* SkinnedMesh.cpp */; };
 		B035755216F92F8D006B03A1 /* skinning_frag_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B035755016F92F8D006B03A1 /* skinning_frag_normals.glsl */; };
 		B035755316F92F8D006B03A1 /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */; };
+		B0B51F181746A1420019976D /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0B51F171746A1420019976D /* Actor.cpp */; };
 		B26EBCEF443240DDB72B12B1 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D107FE7788D34B7B9C87A59B /* Node.cpp */; };
 		B900D226E3E04DBF987C6AE0 /* SkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFF3C5F017C46DB856C4859 /* SkinnedVboMesh.cpp */; };
 		D43F588027774FB4BBB89DB6 /* ModelSourceAssimp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80E81F2E5AEB41A48903F135 /* ModelSourceAssimp.cpp */; };
@@ -61,6 +62,9 @@
 		A2A26E6655E44BD289C6E43D /* ModelSourceAssimp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelSourceAssimp.h; path = ../../../include/ModelSourceAssimp.h; sourceTree = "<group>"; };
 		B035755016F92F8D006B03A1 /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_frag_normals.glsl; path = ../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
 		B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_vert_normals.glsl; path = ../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
+		B0B51F151746A1310019976D /* AnimTrack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimTrack.h; path = ../../../include/AnimTrack.h; sourceTree = "<group>"; };
+		B0B51F161746A1350019976D /* Actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Actor.h; path = ../../../include/Actor.h; sourceTree = "<group>"; };
+		B0B51F171746A1420019976D /* Actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Actor.cpp; path = ../../../src/Actor.cpp; sourceTree = "<group>"; };
 		B0E7FADB16F8E5D000A2B16F /* maggot3.md5anim */ = {isa = PBXFileReference; lastKnownFileType = text; name = maggot3.md5anim; path = ../assets/maggot3.md5anim; sourceTree = "<group>"; };
 		B0E7FADC16F8E5D000A2B16F /* maggot3.md5mesh */ = {isa = PBXFileReference; lastKnownFileType = text; name = maggot3.md5mesh; path = ../assets/maggot3.md5mesh; sourceTree = "<group>"; };
 		B0EFE2D416FA1E84005953E3 /* magtongue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magtongue.png; path = ../assets/magtongue.png; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 		11F8603B2A724CB89E28B4EB /* src */ = {
 			isa = PBXGroup;
 			children = (
+				B0B51F171746A1420019976D /* Actor.cpp */,
 				7A4A0D6DC62B4F5395212AAC /* ASkinnedMesh.cpp */,
 				0FC9FBCFAB234C5CB8CCF7B4 /* CustomIOStream.cpp */,
 				F52DCCC9E63A431EA0E04693 /* ModelIo.cpp */,
@@ -267,7 +272,9 @@
 		EF8679AA9D4E4FD6B9536BC0 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				B0B51F161746A1350019976D /* Actor.h */,
 				26985BA9596145349B2F79C6 /* AnimCurve.h */,
+				B0B51F151746A1310019976D /* AnimTrack.h */,
 				F7451C60BD01423A963B94D7 /* ASkinnedMesh.h */,
 				8AE11FB8D45E40B080316092 /* CustomIOStream.h */,
 				E0342F9FA69F4D069C6D9975 /* ModelIo.h */,
@@ -356,6 +363,7 @@
 				96EAC00FC34D4E4DA997B66F /* Skeleton.cpp in Sources */,
 				A2EE3622016F441091A5976C /* SkinnedMesh.cpp in Sources */,
 				B900D226E3E04DBF987C6AE0 /* SkinnedVboMesh.cpp in Sources */,
+				B0B51F181746A1420019976D /* Actor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -56,7 +56,7 @@ void SeymourDemo::setup()
 	mLightPos = Vec3f(0, 20.0f, 0);
 	mMouseHorizontalPos = 0;
 	mMeshIndex = 0;
-	mUseVbo = false;
+	mUseVbo = true;
 	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
 	mParams.addParam( "Fps", &mFps, "", true );
 	mParams.addSeparator();

@@ -46,7 +46,7 @@ private:
 	int								mMeshIndex;
 	float							mTime, mFps;
 	params::InterfaceGl				mParams;
-	bool mDrawSkeleton, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
+	bool mDrawSkeleton, mDrawMesh, mDrawRelative, mEnableWireframe;
 	bool mIsFullScreen;
 };
 
@@ -68,8 +68,6 @@ void ArmyDemoApp::setup()
 	mParams.addParam( "Draw Skeleton", &mDrawSkeleton );
 	mDrawRelative = false;
 	mParams.addParam( "Relative/Abolute skeleton", &mDrawRelative );
-	mEnableSkinning = true;
-	mParams.addParam( "Skinning", &mEnableSkinning );
 	mEnableWireframe = false;
 	mParams.addParam( "Wireframe", &mEnableWireframe );
 	
@@ -95,8 +93,6 @@ void ArmyDemoApp::keyDown( KeyEvent event )
 {
 	if( event.getCode() == KeyEvent::KEY_m ) {
 		mDrawRelative = !mDrawRelative;
-	} else if( event.getCode() == KeyEvent::KEY_s ) {
-		mEnableSkinning = !mEnableSkinning;
 	} else if( event.getCode() == KeyEvent::KEY_UP ) {
 		mMeshIndex++;
 	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
@@ -131,9 +127,8 @@ void ArmyDemoApp::resize()
 
 void ArmyDemoApp::update()
 {
-	//	mSkinnedVboMesh->update( time, mEnableSkinning );
 	mFps = getAverageFps();
-	mTime = mSkinnedVboMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
+	mTime = 0.05f * mSkinnedVboMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
 }
 
 void ArmyDemoApp::draw()
@@ -163,8 +158,9 @@ void ArmyDemoApp::draw()
 		for(int j=0; j<=(ROW_LEN-1); ++j ) {
 			gl::pushModelView();
 			gl::translate(SPACING * (i - 0.5f * ROW_LEN), 0, SPACING * (j - 0.5f * ROW_LEN));
-			mSkinnedVboMesh->update( mTime + 2.0f*( i * j )/NUM_MONSTERS, mEnableSkinning );
+			mSkinnedVboMesh->getSkeleton()->setPose( mTime + 2.0f*( i * j )/NUM_MONSTERS );
 			if( mDrawMesh ) {
+				mSkinnedVboMesh->update();
 				mSkinnedVboMesh->draw();
 			}
 			if( mDrawSkeleton) {

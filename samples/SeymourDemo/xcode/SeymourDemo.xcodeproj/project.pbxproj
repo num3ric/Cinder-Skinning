@@ -209,8 +209,8 @@
 		402F7B882F064C2584F6BADE /* include */ = {
 			isa = PBXGroup;
 			children = (
-				B00A7FAC17412BC500131FD9 /* AnimTrack.h */,
 				B00A7FAD17412BC500131FD9 /* Actor.h */,
+				B00A7FAC17412BC500131FD9 /* AnimTrack.h */,
 				45538915D38B47C28BE8501C /* AnimCurve.h */,
 				54C9A65B3CA647E4B71300FE /* ASkinnedMesh.h */,
 				2793C04F24D4415FB4A85FB8 /* CustomIOStream.h */,
