@@ -24,15 +24,16 @@ class Node {
 public:
 	enum RenderMode { CONNECTED, JOINTS };
 	
-	explicit Node( const ci::Matrix44f& absoluteTransformation, const ci::Matrix44f& relativeTransformation, std::string name, NodeRef parent = nullptr, int level = 0 );
+	explicit Node( const ci::Vec3f& position, const ci::Quatf& rotation, const ci::Vec3f& scale,
+				   const std::string& name, NodeRef parent = nullptr, int level = 0 );
 	
 	NodeRef clone() const;
 	
-	void addChild( const NodeRef& Node );
+	void addChild( NodeRef Node );
 	
 	const NodeRef&		getParent() const { return mParent; }
 	NodeRef&			getParent() { return mParent; }
-	void				setParent( const NodeRef& parent ) { mParent = parent; }
+	void				setParent( NodeRef parent );
 	
 	int		numChildren() const { return mChildren.size(); }
 	bool	hasChildren() const { return !mChildren.empty(); }
@@ -43,19 +44,35 @@ public:
 	
 	const std::string&	getName() const { return mName; }
 	void				setName( const std::string& name ) { mName = name; }
-		
-	const ci::Matrix44f&	getRelativeTransformation() const { return mRelativeTransformation; }
-	void					setRelativeTransformation( const ci::Matrix44f& T ) { mRelativeTransformation = T; }
 	
-	const ci::Matrix44f&	getAbsoluteTransformation() const { return mAbsoluteTransformation; }
-	void					setAbsoluteTransformation( const ci::Matrix44f& T ) { mRelativeTransformation = T;
-																		  mAbsolutePosition = mAbsoluteTransformation * ci::Vec3f::zero(); }
-	void					setAbsolutePosition( const ci::Vec3f& P ) { mAbsolutePosition = P; }
-	const ci::Vec3f&		getAbsolutePosition() const { return mAbsolutePosition; }
+	ci::Vec3f&				getRelativePosition() { return mRelativePosition; }
+	const ci::Vec3f&		getRelativePosition() const { return mRelativePosition; }
+	ci::Quatf&				getRelativeRotation() { return mRelativeRotation; }
+	const ci::Quatf&		getRelativeRotation() const { return mRelativeRotation; }
+	ci::Vec3f&				getRelativeScale() { return mRelativeScale; }
+	const ci::Vec3f&		getRelativeScale() const { return mRelativeScale; }
+	ci::Vec3f&				getInitialRelativePosition() { return mInitialRelativePosition; }
+	const ci::Vec3f&		getInitialRelativePosition() const { return mInitialRelativePosition; }
+	ci::Quatf&				getInitialRelativeRotation() { return mInitialRelativeRotation; }
+	const ci::Quatf&		getInitialRelativeRotation() const { return mInitialRelativeRotation; }
+	ci::Vec3f&				getInitialRelativeScale() { return mInitialRelativeScale; }
+	const ci::Vec3f&		getInitialRelativeScale() const { return mInitialRelativeScale; }
 	
-	const ci::Matrix44f&	getInitialTransformation() const { return mInitialRelativeTransformation; }
-	const ci::Matrix44f&	getInitialAbsoluteTransformation() const { return mInitialAbsoluteTransformation; }
-	const ci::Vec3f&		getInitialAbsolutePosition() const { return mInitialAbsolutePosition; }
+	ci::Matrix44f			getRelativeTransformation();
+	ci::Matrix44f			getAbsoluteTransformation();
+	
+	ci::Vec3f&				getAbsolutePosition();
+	const ci::Vec3f&		getAbsolutePosition() const;
+	ci::Quatf&				getAbsoluteRotation();
+	const ci::Quatf&		getAbsoluteRotation() const;
+	ci::Vec3f&				getAbsoluteScale();
+	const ci::Vec3f&		getAbsoluteScale() const;
+	
+	void					setRelativePosition( const ci::Vec3f& pos );
+	void					setRelativeRotation( const ci::Quatf& rotation );
+	void					setRelativeScale( const ci::Vec3f& scale );
+	
+	void					resetToInitial();
 	
 	int		getLevel() const { return mLevel; }
 	void	setLevel( int level ) { mLevel = level; }
@@ -64,7 +81,7 @@ public:
 	
 	// Animation functions
 	void	addAnimTrack( int trackId, float duration, float ticksPerSecond );
-	void	addTranslationKeyframe( int trackId, float time, const ci::Vec3f& translation );
+	void	addPositionKeyframe( int trackId, float time, const ci::Vec3f& position );
 	void	addRotationKeyframe( int trackId, float time, const ci::Quatf& rotation  );
 	void	addScalingKeyframe( int trackId, float time, const ci::Vec3f& scaling );
 	
@@ -76,9 +93,9 @@ public:
 	 *	If the node is not animated, its absolute transformation is still updated based on its
 	 *  parent because that in turn may be animated. No traversal is done.
 	 */
-	void	update( float time, int trackId = 0 );
+	void	animate( float time, int trackId = 0 );
 	
-	void	blendUpdate( float time, const std::unordered_map<int, float>& weights );
+	void	blendAnimate( float time, const std::unordered_map<int, float>& weights );
 	
 	void		setOffsetMatrix( const ci::Matrix44f& offset ) { mOffset =  std::unique_ptr<ci::Matrix44f>( new ci::Matrix44f(offset) ); }
 	const std::unique_ptr<ci::Matrix44f>& getOffset() { return mOffset; }
@@ -94,24 +111,28 @@ public:
 		return !(*this == rhs);
 	}
 protected:
-	/*!
-	 *  Update the absolute transformation (and the convient absolute position) by concatenating
-	 *  its relative transformation with with its parent's absolute transformation. No traversal
-	 *  is done.
-	 */
-	void	updateAbsolute();
 	
+	static void computeTransformation( const ci::Vec3f& t, const ci::Quatf& r, const ci::Vec3f& s,  ci::Matrix44f* transformation );
+
+	void	update() const;
+	void	requestSubtreeUpdate();
 	bool	hasAnimations( int trackId = 0 ) const;
 	
-	ci::Matrix44f	mRelativeTransformation;
-	ci::Matrix44f	mAbsoluteTransformation;
-	ci::Vec3f		mAbsolutePosition;
-	float			mTime;
-	bool			mIsAnimated;
+	mutable bool		mNeedsUpdate;
+	ci::Vec3f			mRelativePosition, mRelativeScale;
+	ci::Quatf			mRelativeRotation;
+	mutable ci::Vec3f	mAbsolutePosition, mAbsoluteScale;
+	mutable ci::Quatf	mAbsoluteRotation;
+	float		mTime;
+	/*! A boolean indicating whether a node is animated.
+	 * We are using a dynamic boolean flag because given a certain combination
+	 * of animation blends, different nodes may become animated during runtime. 
+	 */
+	mutable bool			mIsAnimated;
 	
-	ci::Matrix44f	mInitialRelativeTransformation;
-	ci::Matrix44f	mInitialAbsoluteTransformation;
-	ci::Vec3f		mInitialAbsolutePosition;
+	mutable ci::Vec3f mInitialRelativePosition;
+	mutable ci::Quatf mInitialRelativeRotation;
+	mutable ci::Vec3f mInitialRelativeScale;
 	
 	std::unique_ptr<ci::Matrix44f> mOffset;
 	
@@ -121,7 +142,10 @@ protected:
 	int			mLevel;
 	int			mBoneIndex;
 	
-	/* I have chosen to use an unorder_map for now because a bone may be
+	/*!
+	 * An unordered_map storing the different animation tracks with
+	 * their specific int trackId key.
+	 * This data-structure was chosen because a bone may be
 	 * animated in some animation tracks, and not in others.
 	 * */
 	std::unordered_map< int, std::shared_ptr<AnimTrackf> >	mAnimTracks;

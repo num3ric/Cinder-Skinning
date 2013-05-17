@@ -77,7 +77,11 @@ namespace ai {
 		derivedTransformation *= ai::get( ainode->mTransformation );
 		std::string name = ai::get( ainode->mName );
 		
-		model::NodeRef node = model::NodeRef( new model::Node( derivedTransformation, ai::get( ainode->mTransformation ), name, parent, level ) );
+		// store transform
+		aiVector3D position, scaling;
+		aiQuaternion rotation;
+		ainode->mTransformation.Decompose( scaling, rotation, position );
+		model::NodeRef node = model::NodeRef( new model::Node( ai::get(position), ai::get(rotation), ai::get(scaling), name, parent, level ) );
 		
 		if( skeleton->hasBone( name ) ) {
 			node->setBoneIndex( skeleton->findBoneIndex( name ) );
@@ -110,7 +114,7 @@ namespace ai {
 					ci::app::console() << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
 					for( unsigned int k=0; k < nodeAnim->mNumPositionKeys; ++k) {
 						const aiVectorKey& key = nodeAnim->mPositionKeys[k];
-						bone->addTranslationKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
+						bone->addPositionKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
 					}
 					for( unsigned int k=0; k < nodeAnim->mNumRotationKeys; ++k) {
 						const aiQuatKey& key = nodeAnim->mRotationKeys[k];

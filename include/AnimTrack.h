@@ -48,6 +48,28 @@ public:
 		mScalingCurve.setAnimTicksPerSecond( ticksPerSecond );
 	}
 	
+	ci::Vec3<T> getTranslation( float time ) const
+	{
+		return mTranslationCurve.getValue( time );
+	}
+	
+	ci::Quaternion<T> getRotation( float time ) const
+	{
+		return mRotationCurve.getValue( time );
+	}
+	
+	ci::Vec3<T> getScaling( float time ) const
+	{
+		return mScalingCurve.getValue( time );
+	}
+	
+	void getValues( float time, ci::Vec3<T>* translate, ci::Quaternion<T>* rotation,  ci::Vec3<T>* scale )
+	{
+		*translate = mTranslationCurve.getValue( time );
+		*rotation = mRotationCurve.getValue( time );
+		*scale = mScalingCurve.getValue( time );
+	}
+	
 	ci::Matrix44<T> getTransformation( float time ) const
 	{
 		ci::Matrix44<T> t = ci::Matrix44<T>::createScale( mScalingCurve.getValue( time ) );

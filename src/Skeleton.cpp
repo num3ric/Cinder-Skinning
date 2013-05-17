@@ -60,7 +60,7 @@ void Skeleton::setPoseDefault()
 {
 	traverseNodes( mRootNode,
 				  [] ( NodeRef n ) {
-					  n->setRelativeTransformation( n->getInitialTransformation() );
+					  n->resetToInitial();
 				  } );
 	
 }
@@ -69,7 +69,7 @@ void Skeleton::setPose( float time, int animId )
 {
 	traverseNodes( mRootNode,
 				  [&time, &animId] ( NodeRef n ) {
-					  n->update( time, animId );
+					  n->animate( time, animId );
 				  } );
 }
 	
@@ -77,7 +77,7 @@ void Skeleton::setBlendedPose( float time, const std::unordered_map<int, float>&
 {
 	traverseNodes( mRootNode,
 				  [=] ( NodeRef n ) {
-					  n->blendUpdate( time, weights );
+					  n->blendAnimate( time, weights );
 				  } );
 }
 
@@ -127,7 +127,7 @@ bool Skeleton::isVisibleNode( const NodeRef& node ) const
 		NodeRef parent = node->getParent();
 		return  parent &&
 				(hasBone( node->getName() ) || hasBone( parent->getName() ) ) &&
-				parent->getInitialTransformation() != ci::Matrix44f::identity();
+				 parent->getInitialRelativePosition() != ci::Vec3f::zero();
 	} else {
 		return true;
 	}
@@ -212,7 +212,7 @@ std::ostream& operator<<( std::ostream& o, const Skeleton& skeleton )
 							   }
 							   o << std::endl;
 							   o << "Position:" << node->getAbsolutePosition() << std::endl;
-							   o << "Transformation:" << std::endl << node->getInitialTransformation() << std::endl;
+//							   o << "Transformation:" << std::endl << node->getInitialTransformation() << std::endl;
 						   });
 	return o;
 }
