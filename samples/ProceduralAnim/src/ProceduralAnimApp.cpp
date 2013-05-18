@@ -4,6 +4,7 @@
 #include "cinder/MayaCamUI.h"
 #include "cinder/gl/Light.h"
 #include "cinder/params/Params.h"
+#include "cinder/Rand.h"
 
 #include "Node.h"
 #include "Skeleton.h"
@@ -15,6 +16,8 @@ using namespace ci::app;
 using namespace std;
 
 using namespace model;
+
+const float SCENE_SIZE = 70.0f;
 
 class ProceduralAnimApp : public AppNative {
   public:
@@ -37,6 +40,8 @@ private:
 	
 	bool mDrawSkeleton, mDrawLabels, mDrawMesh, mEnableWireframe;
 	float mFrequency, mAmplitude;
+	
+	vector<Vec3f> mDust;
 
 };
 
@@ -64,6 +69,12 @@ void ProceduralAnimApp::setup()
 	mAmplitude = 1.0f;
 	mParams.addParam( "Frequency", &mFrequency, "min=0.1 max=8.0 step=0.05 precision=2" );
 	mParams.addParam( "Amplitude", &mAmplitude, "min=0.1 max=3.0 step=0.05 precision=2" );
+	
+	for( int i=0; i<100; ++i ) {
+		mDust.push_back( SCENE_SIZE * Vec3f( Rand::randFloat() - 0.5f,
+									  Rand::randFloat() - 0.5f,
+									  Rand::randFloat() - 0.5f ) );
+	}
 	
 	gl::enableDepthRead();
 }
@@ -104,26 +115,31 @@ void ProceduralAnimApp::update()
 		NodeRef tipR = skeleton->getBone("Gannet_Rwing_tip");
 		
 		float h = mAmplitude * 0.5f * math<float>::sin( mFrequency * e );
-		float m = mAmplitude * 0.5f * math<float>::sin( mFrequency * (e - M_PI/2) );
-		Vec3f axis(1, 0, 0);
-		midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( axis, m ) );
-		midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( axis, m ) );
-		tipL->setRelativeRotation( tipL->getInitialRelativeRotation() * Quatf( axis, h ) );
-		tipR->setRelativeRotation( tipR->getInitialRelativeRotation() * Quatf( axis, h ) );
+		float t = mAmplitude * 0.5f * math<float>::sin( mFrequency * e - M_PI/2 );
+		Vec3f axism(1, 0, 0), axist(0, 1, 0);
+		midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( axism, t ) );
+		midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( axism, t ) );
+		tipL->setRelativeRotation( tipL->getInitialRelativeRotation() * Quatf( axist, h ) );
+		tipR->setRelativeRotation( tipR->getInitialRelativeRotation() * Quatf( axist, h ) );
 		
 		NodeRef head = skeleton->getBone("Gannet_head");
 		head->setRelativeRotation( head->getInitialRelativeRotation().slerp(0.5f, mMayaCam.getCamera().getOrientation() )  );
 		
-		skeleton->getBone("Gannet_body")->setRelativePosition( Vec3f(0, -m, 0) );
+		skeleton->getBone("Gannet_body")->setRelativePosition( Vec3f(0, -t, 0) );
 	}
 	
 	mSkinnedVboBird->update();
+	
+	for( auto& d : mDust ) {
+		d.z -= 0.75f;
+		d.z = ( d.z < -SCENE_SIZE/2 ) ? SCENE_SIZE/2 : d.z;
+	}
 }
 
 void ProceduralAnimApp::draw()
 {
 	// clear out the window with black
-	gl::clear( Color( 0, 0, 0 ) );
+	gl::clear( Color( 0.4f, 0.5f, 0.6f ) );
 	
 	gl::setMatrices( mMayaCam.getCamera() );
 	
@@ -135,6 +151,9 @@ void ProceduralAnimApp::draw()
 	light.update( mMayaCam.getCamera() );
 	light.enable();
 	
+	gl::pushMatrices();
+	float e = (float)getElapsedSeconds();
+	gl::translate( math<float>::sin( 1.3f * e ), math<float>::cos( 2.7f * e ) );
 	gl::enable( GL_LIGHTING );
 	gl::enable( GL_NORMALIZE );
 		
@@ -146,12 +165,23 @@ void ProceduralAnimApp::draw()
 	if ( mEnableWireframe )
 		gl::disableWireframe();
 	
+	gl::disable( GL_LIGHTING );
+	gl::disable( GL_NORMALIZE );
+	
 	if( mDrawSkeleton) {
 		mSkinnedVboBird->getSkeleton()->draw();
 	}
 	
 	if( mDrawLabels ) {
 		mSkinnedVboBird->getSkeleton()->drawLabels( mMayaCam.getCamera() );
+	}
+
+	gl::popMatrices();
+	
+	Vec3f mRight, mUp;
+	mMayaCam.getCamera().getBillboardVectors(&mRight, &mUp);
+	for( auto d : mDust ) {
+		gl::drawBillboard(d, Vec2f(0.2f, 0.2f), 0.0f, mRight, mUp);
 	}
 	
 	mParams.draw();
