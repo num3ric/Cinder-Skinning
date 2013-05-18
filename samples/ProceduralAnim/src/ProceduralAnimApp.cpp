@@ -39,10 +39,11 @@ private:
 	params::InterfaceGl	mParams;
 	
 	bool mDrawSkeleton, mDrawLabels, mDrawMesh, mEnableWireframe;
-	float mFrequency, mAmplitude;
+	float mAmplitude;
 	
 	vector<Vec3f> mDust;
-
+	
+	float mFlapAngle, mFlapIncrement;
 };
 
 void ProceduralAnimApp::setup()
@@ -65,10 +66,11 @@ void ProceduralAnimApp::setup()
 	mEnableWireframe = false;
 	mParams.addParam( "Wireframe", &mEnableWireframe );
 	mParams.addSeparator();
-	mFrequency = 5.0f;
+	mFlapAngle = 0.0f;
+	mFlapIncrement = 18.5f;
 	mAmplitude = 1.0f;
-	mParams.addParam( "Frequency", &mFrequency, "min=0.1 max=8.0 step=0.05 precision=2" );
-	mParams.addParam( "Amplitude", &mAmplitude, "min=0.1 max=3.0 step=0.05 precision=2" );
+	mParams.addParam( "Flap speed", &mFlapIncrement, "min=1.0 max=45.0 precision=1" );
+	mParams.addParam( "Amplitude", &mAmplitude, "min=0.0 max=3.0 step=0.05 precision=2" );
 	
 	for( int i=0; i<100; ++i ) {
 		mDust.push_back( SCENE_SIZE * Vec3f( Rand::randFloat() - 0.5f,
@@ -104,7 +106,8 @@ void ProceduralAnimApp::update()
 	mLightPos.x = mRotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
 	mLightPos.z = mRotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
 	
-	float e = (float)getElapsedSeconds();
+	mFlapAngle += 0.01f * mFlapIncrement;
+	
 	if ( mSkinnedVboBird ) {
 		SkeletonRef skeleton = mSkinnedVboBird->getSkeleton();
 		std::map<string, NodeRef> bones = skeleton->getBoneNames();
@@ -114,13 +117,13 @@ void ProceduralAnimApp::update()
 		NodeRef tipL = skeleton->getBone("Gannet_Lwing_tip");
 		NodeRef tipR = skeleton->getBone("Gannet_Rwing_tip");
 		
-		float h = mAmplitude * 0.5f * math<float>::sin( mFrequency * e );
-		float t = mAmplitude * 0.5f * math<float>::sin( mFrequency * e - M_PI/2 );
+		float h = mAmplitude * 0.5f * math<float>::sin( mFlapAngle );
+		float t = mAmplitude * 0.5f * math<float>::sin( mFlapAngle - M_PI_2 );
 		Vec3f axism(1, 0, 0), axist(0, 1, 0);
 		midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( axism, t ) );
 		midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( axism, t ) );
-		tipL->setRelativeRotation( tipL->getInitialRelativeRotation() * Quatf( axist, h ) );
-		tipR->setRelativeRotation( tipR->getInitialRelativeRotation() * Quatf( axist, h ) );
+		tipL->setRelativeRotation( Quatf( axist, h ) );
+		tipR->setRelativeRotation( Quatf( axist, h ) );
 		
 		NodeRef head = skeleton->getBone("Gannet_head");
 		head->setRelativeRotation( head->getInitialRelativeRotation().slerp(0.5f, mMayaCam.getCamera().getOrientation() )  );
