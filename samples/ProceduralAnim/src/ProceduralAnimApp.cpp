@@ -107,30 +107,28 @@ void ProceduralAnimApp::update()
 	mLightPos.z = mRotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
 	
 	mFlapAngle += 0.01f * mFlapIncrement;
+	float h = mAmplitude * 0.5f * math<float>::sin( mFlapAngle );
+	float t = mAmplitude * 0.5f * math<float>::sin( mFlapAngle - M_PI_2 );
+	Vec3f axism(1, 0, 0), axist(0, 1, 0);
+
+	SkeletonRef skeleton = mSkinnedVboBird->getSkeleton();		
+	NodeRef midL = skeleton->getBone("Gannet_Lwing_mid");
+	NodeRef midR = skeleton->getBone("Gannet_Rwing_mid");
+	NodeRef tipL = skeleton->getBone("Gannet_Lwing_tip");
+	NodeRef tipR = skeleton->getBone("Gannet_Rwing_tip");
+	midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( axism, t ) );
+	midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( axism, t ) );
+	tipL->setRelativeRotation( Quatf( axist, h ) );
+	tipR->setRelativeRotation( Quatf( axist, h ) );
 	
-	if ( mSkinnedVboBird ) {
-		SkeletonRef skeleton = mSkinnedVboBird->getSkeleton();
-		std::map<string, NodeRef> bones = skeleton->getBoneNames();
-		
-		NodeRef midL = skeleton->getBone("Gannet_Lwing_mid");
-		NodeRef midR = skeleton->getBone("Gannet_Rwing_mid");
-		NodeRef tipL = skeleton->getBone("Gannet_Lwing_tip");
-		NodeRef tipR = skeleton->getBone("Gannet_Rwing_tip");
-		
-		float h = mAmplitude * 0.5f * math<float>::sin( mFlapAngle );
-		float t = mAmplitude * 0.5f * math<float>::sin( mFlapAngle - M_PI_2 );
-		Vec3f axism(1, 0, 0), axist(0, 1, 0);
-		midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( axism, t ) );
-		midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( axism, t ) );
-		tipL->setRelativeRotation( Quatf( axist, h ) );
-		tipR->setRelativeRotation( Quatf( axist, h ) );
-		
-		NodeRef head = skeleton->getBone("Gannet_head");
-		head->setRelativeRotation( head->getInitialRelativeRotation().slerp(0.5f, mMayaCam.getCamera().getOrientation() )  );
-		
-		skeleton->getBone("Gannet_body")->setRelativePosition( Vec3f(0, -t, 0) );
-	}
+	NodeRef head = skeleton->getBone("Gannet_head");
+	head->setRelativeRotation( head->getInitialRelativeRotation().slerp(0.5f, mMayaCam.getCamera().getOrientation() )  );
 	
+	skeleton->getBone("Gannet_body")->setRelativePosition( Vec3f(0, -t, 0) );
+	
+	/* The mesh isn't automatically updated when the skeleton it contained is modified, so
+	 * an update call is necessary (for now). This may change since I don't find it very
+	 * intuitive... */
 	mSkinnedVboBird->update();
 	
 	for( auto& d : mDust ) {
@@ -183,7 +181,7 @@ void ProceduralAnimApp::draw()
 	
 	Vec3f mRight, mUp;
 	mMayaCam.getCamera().getBillboardVectors(&mRight, &mUp);
-	for( auto d : mDust ) {
+	for( const auto& d : mDust ) {
 		gl::drawBillboard(d, Vec2f(0.2f, 0.2f), 0.0f, mRight, mUp);
 	}
 	
