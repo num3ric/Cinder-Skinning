@@ -10,7 +10,7 @@
 #include "Skeleton.h"
 #include "SkinnedVboMesh.h"
 #include "ModelSourceAssimp.h"
-#include "GlRenderer.h"
+#include "SkinningRenderer.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -46,12 +46,12 @@ private:
 	
 	float mFlapAngle, mFlapIncrement;
 	
-	GlRendererRef mRenderer;
+	SkinningRendererRef mRenderer;
 };
 
 void ProceduralAnimApp::setup()
 {
-	mRenderer = GlRenderer::create();
+	mRenderer = SkinningRenderer::create();
 	mSkinnedVboBird = SkinnedVboMesh::create( loadModel( getAssetPath( "gannet rig2.DAE" ) ), mRenderer->getShader() );
 	
 	mRotationRadius = 20.0f;

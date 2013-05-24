@@ -2,7 +2,6 @@
 #pragma once
 #include "cinder/gl/GlslProg.h"
 
-#include "Renderer.h"
 #include "ASkinnedMesh.h"
 #include "Node.h"
 
@@ -10,29 +9,32 @@ class ci::CameraPersp;
 
 namespace model {
 	
-	typedef std::shared_ptr<class GlRenderer> GlRendererRef;
+	class SkinnedMesh;
+	class SkinnedVboMesh;
+	class Skeleton;
 	
-	class GlRenderer : public Renderer {
+	typedef std::shared_ptr<class SkinningRenderer> SkinningRendererRef;
+	
+	class SkinningRenderer {
 	public:
 		// TODO: convert into singleton?
 		// TODO: Make draw section call with material binding optional (for custom uses)
 		
 		// custom shader still needs uniforms
-		static GlRendererRef create( ci::gl::GlslProgRef customShader = nullptr );
-		GlRenderer(const GlRenderer& that) = delete;
-		GlRenderer& operator=(const GlRenderer&) = delete;
+		static SkinningRendererRef create();
+		SkinningRenderer(const SkinningRenderer& that) = delete;
+		SkinningRenderer& operator=(const SkinningRenderer&) = delete;
 		
-		ci::gl::GlslProgRef getShader() { return mSkinningShader; }
-		const ci::gl::GlslProgRef getShader() const { return mSkinningShader; }
+		ci::gl::GlslProgRef			getShader() { return mSkinningShader; }
+		const ci::gl::GlslProgRef	getShader() const { return mSkinningShader; }
 		
-		void draw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const override;
-		void draw( std::shared_ptr<SkinnedVboMesh> skinnedVboMesh ) const override;
-		void draw( std::shared_ptr<Skeleton> skeleton, bool absolute = true, const std::string& name = "" ) const override;
+		void	draw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const;
+		void	draw( std::shared_ptr<SkinnedVboMesh> skinnedVboMesh ) const;
+		void	draw( std::shared_ptr<Skeleton> skeleton, bool absolute = true, const std::string& name = "" ) const;
 		//! Render the node names.
-		void drawLabels( std::shared_ptr<Skeleton> skeleton, const ci::CameraPersp& camera ) const override;
+		void	drawLabels( std::shared_ptr<Skeleton> skeleton, const ci::CameraPersp& camera ) const;
 	private:
-		GlRenderer();
-		GlRenderer( ci::gl::GlslProgRef customShader );
+		SkinningRenderer();
 		
 		void drawSection( const ASkinnedMesh& section, std::function<void()> drawMesh ) const;
 		//! Determines whether the node should be rendered as part of the skeleton.
@@ -43,9 +45,9 @@ namespace model {
 		void	drawAbsolute( std::shared_ptr<Skeleton> skeleton, const std::shared_ptr<Node>& node ) const;
 		
 		
-		//! Optional argument for precomputed distance
 		void drawConnected( const ci::Vec3f& nodePos, const ci::Vec3f& parentPos ) const;
 		void drawJoint( const ci::Vec3f& nodePos ) const;
+		//! Optional argument for precomputed distance
 		void drawBone( const ci::Vec3f& start, const ci::Vec3f& end, float dist = -1.0f ) const;
 		void drawSkeletonNode( const Node& node, Node::RenderMode mode = Node::RenderMode::CONNECTED ) const;
 		void drawSkeletonNodeRelative( const Node& node, Node::RenderMode mode = Node::RenderMode::CONNECTED ) const;

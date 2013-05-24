@@ -1,10 +1,3 @@
-//
-//  RendererGl.cpp
-//  ProceduralAnim
-//
-//  Created by Éric Renaud-Houde on 2013-05-23.
-//
-//
 
 #include "cinder/Color.h"
 #include "cinder/gl/gl.h"
@@ -13,7 +6,7 @@
 #include "cinder/Camera.h"
 #include "cinder/app/AppNative.h"
 
-#include "GlRenderer.h"
+#include "SkinningRenderer.h"
 #include "Resources.h"
 #include "SkinnedMesh.h"
 #include "Skeleton.h"
@@ -22,17 +15,12 @@
 
 namespace model {
 	
-	GlRendererRef GlRenderer::create( ci::gl::GlslProgRef customShader )
+	SkinningRendererRef SkinningRenderer::create()
 	{
-		if( customShader ) {
-			return GlRendererRef( new GlRenderer( customShader ) );
-		} else {
-			return GlRendererRef( new GlRenderer );
-		}
-		
+		return SkinningRendererRef( new SkinningRenderer );		
 	}
 	
-	GlRenderer::GlRenderer()
+	SkinningRenderer::SkinningRenderer()
 	{
 		try {
 			mSkinningShader = ci::gl::GlslProg::create( ci::app::loadResource(RES_SKINNING_VERT), ci::app::loadResource(RES_SKINNING_FRAG) );
@@ -43,11 +31,7 @@ namespace model {
 		}
 	}
 	
-	GlRenderer::GlRenderer( ci::gl::GlslProgRef customShader )
-	: mSkinningShader( customShader )
-	{ }
-	
-	void GlRenderer::drawSection( const ASkinnedMesh& section, std::function<void()> drawMesh ) const
+	void SkinningRenderer::drawSection( const ASkinnedMesh& section, std::function<void()> drawMesh ) const
 	{
 		if( section.hasDefaultTransformation() ) {
 			ci::gl::pushModelView();
@@ -78,7 +62,7 @@ namespace model {
 		}
 	}
 	
-	void GlRenderer::draw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const
+	void SkinningRenderer::draw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const
 	{
 		
 		for( const SkinnedMesh::MeshSectionRef& section : skinnedMesh->getSections() ) {
@@ -89,7 +73,7 @@ namespace model {
 		}
 	}
 	
-	void GlRenderer::draw(std::shared_ptr<SkinnedVboMesh> skinnedVboMesh) const
+	void SkinningRenderer::draw(std::shared_ptr<SkinnedVboMesh> skinnedVboMesh ) const
 	{
 		
 		for( const SkinnedVboMesh::MeshVboSectionRef& section : skinnedVboMesh->getSections() ) {
@@ -109,7 +93,7 @@ namespace model {
 		}
 	}
 	
-	void GlRenderer::drawRelative( SkeletonRef skeleton, const NodeRef& node, const NodeRef& parent) const
+	void SkinningRenderer::drawRelative( SkeletonRef skeleton, const NodeRef& node, const NodeRef& parent) const
 	{
 		ci::Matrix44f currentTransformation = node->getRelativeTransformation();
 		
@@ -124,7 +108,7 @@ namespace model {
 		ci::gl::popModelView();
 	}
 	
-	void GlRenderer::drawAbsolute( SkeletonRef skeleton, const NodeRef& node ) const
+	void SkinningRenderer::drawAbsolute( SkeletonRef skeleton, const NodeRef& node ) const
 	{
 		skeleton->traverseNodes( node,
 					  [=] ( NodeRef n ) {
@@ -134,7 +118,7 @@ namespace model {
 					  } );
 	}
 	
-	void GlRenderer::draw( SkeletonRef skeleton, bool absolute, const std::string& name ) const
+	void SkinningRenderer::draw( SkeletonRef skeleton, bool absolute, const std::string& name ) const
 	{
 		glPushAttrib( GL_ALL_ATTRIB_BITS );
 		glPushClientAttrib( GL_CLIENT_ALL_ATTRIB_BITS );
@@ -149,7 +133,7 @@ namespace model {
 		glPopAttrib();
 	}
 	
-	void GlRenderer::drawLabels( SkeletonRef skeleton, const ci::CameraPersp& camera ) const
+	void SkinningRenderer::drawLabels( SkeletonRef skeleton, const ci::CameraPersp& camera ) const
 	{
 		ci::Matrix44f mv = ci::gl::getModelView();
 		glPushAttrib( GL_ALL_ATTRIB_BITS );
@@ -169,7 +153,7 @@ namespace model {
 		glPopAttrib();
 	}
 
-	bool GlRenderer::isVisibleNode( SkeletonRef skeleton, const NodeRef& node ) const
+	bool SkinningRenderer::isVisibleNode( SkeletonRef skeleton, const NodeRef& node ) const
 	{
 		if( Skeleton::mRenderMode == Skeleton::RenderMode::CLEANED) {
 			NodeRef parent = node->getParent();
@@ -182,7 +166,7 @@ namespace model {
 	}
 	
 	
-	void GlRenderer::drawBone( const ci::Vec3f& start, const ci::Vec3f& end, float dist ) const
+	void SkinningRenderer::drawBone( const ci::Vec3f& start, const ci::Vec3f& end, float dist ) const
 	{
 		if( dist <= 0 ) {
 			dist = start.distance( end );
@@ -214,7 +198,7 @@ namespace model {
 		glDisableClientState( GL_VERTEX_ARRAY );
 	}
 	
-	void GlRenderer::drawConnected( const ci::Vec3f& nodePos, const ci::Vec3f& parentPos ) const
+	void SkinningRenderer::drawConnected( const ci::Vec3f& nodePos, const ci::Vec3f& parentPos ) const
 	{
 		float dist = nodePos.distance( parentPos );
 		ci::gl::drawSphere( nodePos, 0.1f * dist , 4);
@@ -222,7 +206,7 @@ namespace model {
 		drawBone( nodePos, parentPos, dist );
 	}
 	
-	void GlRenderer::drawJoint( const ci::Vec3f& nodePos ) const
+	void SkinningRenderer::drawJoint( const ci::Vec3f& nodePos ) const
 	{
 		float size = 0.2f;
 		ci::gl::drawCube( nodePos, ci::Vec3f(size, size, size));
@@ -231,7 +215,7 @@ namespace model {
 		ci::gl::drawLine( nodePos, nodePos + ci::Vec3f(0, size, 0) );
 	}
 	
-	void GlRenderer::drawSkeletonNode( const Node& node, Node::RenderMode mode ) const
+	void SkinningRenderer::drawSkeletonNode( const Node& node, Node::RenderMode mode ) const
 	{
 		if( !node.hasParent() ) return;
 		ci::Vec3f currentPos = node.getAbsolutePosition();
@@ -244,7 +228,7 @@ namespace model {
 		}
 	}
 	
-	void GlRenderer::drawSkeletonNodeRelative( const Node& node, Node::RenderMode mode ) const
+	void SkinningRenderer::drawSkeletonNodeRelative( const Node& node, Node::RenderMode mode ) const
 	{
 		ci::Vec3f currentPos = node.getRelativePosition();
 		ci::Vec3f parentPos = ci::Vec3f::zero();
@@ -256,7 +240,7 @@ namespace model {
 		}
 	}
 	
-	void GlRenderer::drawLabel( const Node& node, const ci::CameraPersp& camera, const ci::Matrix44f& mv ) const
+	void SkinningRenderer::drawLabel( const Node& node, const ci::CameraPersp& camera, const ci::Matrix44f& mv ) const
 	{
 		ci::Vec3f eyeCoord = mv * node.getAbsolutePosition();
 		ci::Vec3f ndc = camera.getProjectionMatrix().transformPoint( eyeCoord );
