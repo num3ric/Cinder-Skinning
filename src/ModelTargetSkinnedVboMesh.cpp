@@ -27,12 +27,12 @@ void ModelTargetSkinnedVboMesh::bufferSubData( const T& buffer, size_t dataSize 
 	vboMesh.getStaticVbo().unbind();
 }
 
-void ModelTargetSkinnedVboMesh::setCustomAttribute( const std::string& name, GLuint location )
+void ModelTargetSkinnedVboMesh::setCustomAttribute( GLuint location, const std::string& name )
 {
 	MeshVboSectionRef sect = mSkinnedVboMesh->getActiveSection();
-	sect->getShader().bind();
-	sect->getVboMesh().setCustomStaticLocation( location, sect->getShader().getAttribLocation( name ) );
-	sect->getShader().unbind();
+	mSkinnedVboMesh->getShader()->bind();
+	sect->getVboMesh().setCustomStaticLocation( location, mSkinnedVboMesh->getShader()->getAttribLocation( name ) );
+	mSkinnedVboMesh->getShader()->unbind();
 }
 
 void ModelTargetSkinnedVboMesh::setActiveSection( int index )
@@ -51,7 +51,7 @@ void ModelTargetSkinnedVboMesh::loadVertexPositions( const std::vector<ci::Vec3f
 {
 	size_t dataSize = sizeof(GLfloat) * ci::Vec3f::DIM * positions.size();
 	bufferSubData< std::vector<ci::Vec3f> >( positions, dataSize );
-	setCustomAttribute( "position", mAttribLocation );
+	setCustomAttribute( mAttribLocation, "position" );
 	incrementOffsets( dataSize );
 }
 
@@ -61,7 +61,7 @@ void ModelTargetSkinnedVboMesh::loadVertexNormals( const std::vector<ci::Vec3f>&
 	
 	size_t dataSize = sizeof(GLfloat) * ci::Vec3f::DIM * normals.size();
 	bufferSubData< std::vector<ci::Vec3f> >( normals, dataSize );
-	setCustomAttribute( "normal", mAttribLocation );
+	setCustomAttribute( mAttribLocation, "normal" );
 	incrementOffsets( dataSize );
 }
 
@@ -78,7 +78,7 @@ void ModelTargetSkinnedVboMesh::loadTex( const std::vector<ci::Vec2f>& texCoords
 	
 	size_t dataSize = sizeof(GLfloat) * ci::Vec2f::DIM * texCoords.size();
 	bufferSubData< std::vector<ci::Vec2f> >( texCoords, dataSize);
-	setCustomAttribute( "texcoord", mAttribLocation );
+	setCustomAttribute( mAttribLocation, "texcoord" );
 	incrementOffsets( dataSize );
 }
 
@@ -111,11 +111,11 @@ void ModelTargetSkinnedVboMesh::loadBoneWeights( const std::vector<BoneWeights>&
 	size_t dataSize = sizeof(GLfloat) * ci::Vec4f::DIM * boneWeightsBuffer.size();
 	
 	bufferSubData< std::vector<ci::Vec4f> >( boneWeightsBuffer, dataSize );
-	setCustomAttribute( "boneWeights", mAttribLocation );
+	setCustomAttribute( mAttribLocation, "boneWeights" );
 	incrementOffsets( dataSize );
 	
 	bufferSubData< std::vector<ci::Vec4f> >( boneIndicesBuffer, dataSize);
-	setCustomAttribute( "boneIndices", mAttribLocation );
+	setCustomAttribute( mAttribLocation, "boneIndices" );
 	incrementOffsets( dataSize );
 	
 	mSkinnedVboMesh->getActiveSection()->boneMatrices = &mSkinnedVboMesh->mBoneMatrices;

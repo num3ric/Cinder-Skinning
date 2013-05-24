@@ -10,6 +10,7 @@
 #include "Skeleton.h"
 #include "SkinnedVboMesh.h"
 #include "ModelSourceAssimp.h"
+#include "GlRenderer.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -44,11 +45,14 @@ private:
 	vector<Vec3f> mDust;
 	
 	float mFlapAngle, mFlapIncrement;
+	
+	GlRendererRef mRenderer;
 };
 
 void ProceduralAnimApp::setup()
 {
-	mSkinnedVboBird = SkinnedVboMesh::create( loadModel( getAssetPath( "gannet rig2.DAE" ) ) );
+	mRenderer = GlRenderer::create();
+	mSkinnedVboBird = SkinnedVboMesh::create( loadModel( getAssetPath( "gannet rig2.DAE" ) ), mRenderer->getShader() );
 	
 	mRotationRadius = 20.0f;
 	mLightPos = Vec3f(0, 20.0f, 0);
@@ -161,7 +165,7 @@ void ProceduralAnimApp::draw()
 	if ( mEnableWireframe )
 		gl::enableWireframe();
 	if( mDrawMesh ) {
-		mSkinnedVboBird->draw();
+		mRenderer->draw( mSkinnedVboBird );
 	}
 	if ( mEnableWireframe )
 		gl::disableWireframe();
@@ -170,11 +174,11 @@ void ProceduralAnimApp::draw()
 	gl::disable( GL_NORMALIZE );
 	
 	if( mDrawSkeleton) {
-		mSkinnedVboBird->getSkeleton()->draw();
+		mRenderer->draw( mSkinnedVboBird->getSkeleton() );
 	}
 	
 	if( mDrawLabels ) {
-		mSkinnedVboBird->getSkeleton()->drawLabels( mMayaCam.getCamera() );
+		mRenderer->drawLabels( mSkinnedVboBird->getSkeleton(), mMayaCam.getCamera() );
 	}
 
 	gl::popMatrices();

@@ -50,11 +50,6 @@ public:
 	
 	virtual void setBlendedPose( float time, const std::unordered_map<int, float>& weights )override;
 	
-	//! Render the skeleton.
-	void draw( bool relative = false, const std::string& name = "" ) const;
-	//! Render the node names.
-	void drawLabels( const ci::CameraPersp& camera );
-	
 	const NodeRef&	getRootNode() const { return mRootNode; }
 	void			setRootNode( const NodeRef& root ) { mRootNode = root; }
 	
@@ -74,13 +69,6 @@ public:
 protected:
 	Skeleton() { };
 	explicit Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames );
-
-	//! Determines whether the node should be rendered as part of the skeleton.
-	bool	isVisibleNode( const NodeRef& node ) const;
-	//! Draw the visible nodes/bones of the skeleton by traversing recursively its node transformation hierarchy.
-	void	drawRelative( const NodeRef& node, const NodeRef& parent = nullptr ) const;
-	//! Draw the visible nodes/bones of the skeleton by using its absolute bone positions.
-	void	drawAbsolute( const NodeRef& node ) const;
 	
 	//! Find the node by traversing the hierarchy
 	NodeRef findNode( const std::string& name, const NodeRef& node ) const;

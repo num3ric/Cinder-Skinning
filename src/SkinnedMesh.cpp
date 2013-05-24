@@ -47,12 +47,6 @@ void SkinnedMesh::MeshSection::updateMesh( bool enableSkinning )
 	}
 }
 
-
-void SkinnedMesh::MeshSection::drawMesh()	
-{
-	ci::gl::draw( mTriMesh );	
-}
-
 SkinnedMeshRef SkinnedMesh::create( ModelSourceRef modelSource, SkeletonRef skeleton )
 {
 	return SkinnedMeshRef( new SkinnedMesh( modelSource, skeleton ) );
@@ -92,13 +86,6 @@ void SkinnedMesh::appendSection( const MeshSectionRef& meshSection )
 {
 	mMeshSections.push_back( meshSection );
 	mActiveSection = meshSection;
-}
-
-void SkinnedMesh::draw()
-{	
-	for( const MeshSectionRef& section : mMeshSections ) {
-		section->draw();
-	}
 }
 
 } //end namespace model

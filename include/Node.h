@@ -155,14 +155,3 @@ private:
 };
 	
 } //end namespace model
-
-namespace cinder {
-	class CameraPersp;
-	namespace gl {
-		//! Optional argument for precomputed distance
-		void drawBone( const Vec3f& start, const Vec3f& end, float dist = -1.0f );
-		void drawSkeletonNode( const model::Node& node, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
-		void drawSkeletonNodeRelative( const model::Node& node, model::Node::RenderMode mode = model::Node::RenderMode::CONNECTED );
-		void drawLabel( const model::Node& node, const CameraPersp& camera, const ci::Matrix44f& mv );
-	}
-}

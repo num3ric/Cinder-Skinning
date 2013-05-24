@@ -26,15 +26,15 @@ public:
 	bool	hasMaterial() { return mMatInfo.mHasMaterial; }
 	bool	hasNormals() const { return mHasNormals; }
 	void	setHasNormals( bool hasNormals ) { mHasNormals = hasNormals; }
-	void	draw();
 	
 	void								appendBoneWeights( const BoneWeights& b ) { mBoneWeights.push_back( b ); }
 	std::vector<BoneWeights>&			getBoneWeights() { return mBoneWeights; }
 	const std::vector<BoneWeights>&		getBoneWeights() const { return mBoneWeights; }
 	void								setBoneWeights( const std::vector<BoneWeights>& boneWeights ) { mBoneWeights = boneWeights; }
 	
-	void					setDefaultTransformation( const ci::Matrix44f& transformation ) { mDefaultTransformation = transformation; mHasDefaultTransformation = true; }
+	void						setDefaultTransformation( const ci::Matrix44f& transformation ) { mDefaultTransformation = transformation; mHasDefaultTransformation = true; }
 	const ci::Matrix44f&		getDefaultTranformation() const { return mDefaultTransformation; }
+	bool						hasDefaultTransformation() const { return mHasDefaultTransformation; }
 	
 	void								setSkeleton( std::shared_ptr<Skeleton> skeleton ) { mSkeleton = skeleton; }
 	std::shared_ptr<Skeleton>&			getSkeleton() { return mSkeleton; }
@@ -44,13 +44,14 @@ public:
 	MaterialInfo&			getMatInfo() { return mMatInfo; }
 	const MaterialInfo&		getMatInfo() const { return mMatInfo; }
 	void					setMatInfo( const MaterialInfo& matInfo ) { mMatInfo = matInfo; }
+	
+	bool					isAnimated() { return mIsAnimated; }
 protected:
 	ASkinnedMesh()
 	: mIsAnimated( false )
 	, mHasNormals( false )
 	, mHasDefaultTransformation( false )
 	{ };
-	virtual void	drawMesh() = 0;
 	virtual void	updateMesh( bool enableSkinning = true ) = 0;
 	
 	bool		mIsAnimated;

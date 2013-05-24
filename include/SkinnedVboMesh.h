@@ -31,10 +31,6 @@ public:
 	{
 		MeshSection();
 		void updateMesh( bool enableSkinning = true ) override;
-		void drawMesh() override;
-		
-		ci::gl::GlslProg		getShader() { return mSkinningShader; }
-		const ci::gl::GlslProg& getShader() const { return mSkinningShader; }
 		
 		ci::gl::VboMesh&		getVboMesh() { return mVboMesh; }
 		const ci::gl::VboMesh&	getVboMesh() const { return mVboMesh; }
@@ -44,14 +40,12 @@ public:
 		std::array<ci::Matrix44f, MAXBONES>* invTransposeMatrices;
 	private:
 		ci::gl::VboMesh mVboMesh;
-		ci::gl::GlslProg mSkinningShader;
 	};
 	typedef std::shared_ptr< struct SkinnedVboMesh::MeshSection > MeshVboSectionRef;
 	
-	static SkinnedVboMeshRef create( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
+	static SkinnedVboMeshRef create( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader, std::shared_ptr<Skeleton> skeleton = nullptr );
 	
 	void update();
-	void draw();
 	
 	MeshVboSectionRef&						getActiveSection() { return mActiveSection; }
 	const MeshVboSectionRef&				getActiveSection() const { return mActiveSection; }
@@ -67,15 +61,19 @@ public:
 	void						setDefaultTransformation( const ci::Matrix44f& transformation ) { mActiveSection->setDefaultTransformation( transformation ); }
 	const ci::Matrix44f&		getDefaultTranformation() const { return mActiveSection->getDefaultTranformation(); }
 	
+	ci::gl::GlslProgRef getShader() { return mSkinningShader; }
+	const ci::gl::GlslProgRef getShader() const { return mSkinningShader; }
+	
 	void setEnableSkinning( bool enabled ) { mEnableSkinning = enabled; }
 	
 	friend struct SkinnedVboMesh::MeshSection;
 	
 	std::array<ci::Matrix44f, MAXBONES> mBoneMatrices;
 	std::array<ci::Matrix44f, MAXBONES> mInvTransposeMatrices;
+	ci::gl::GlslProgRef mSkinningShader;
 protected:
 	bool mEnableSkinning;
-	SkinnedVboMesh( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
+	SkinnedVboMesh( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader, std::shared_ptr<Skeleton> skeleton = nullptr );
 	MeshVboSectionRef mActiveSection;
 	std::vector< MeshVboSectionRef > mMeshSections;
 };

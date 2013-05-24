@@ -20,7 +20,6 @@ public:
 	{
 		MeshSection() : ASkinnedMesh() { }
 		void updateMesh( bool enableSkinning = true ) override;
-		void drawMesh() override;
 		
 		std::string mName;
 		ci::TriMesh mTriMesh;
@@ -32,7 +31,6 @@ public:
 	static SkinnedMeshRef create( ModelSourceRef modelSource, std::shared_ptr<Skeleton> skeleton = nullptr );
 	void appendSection( const MeshSectionRef& meshSection );
 	void update();
-	void draw();
 	
 	std::shared_ptr<Skeleton>&			getSkeleton() { return mActiveSection->getSkeleton(); }
 	const std::shared_ptr<Skeleton>&	getSkeleton() const { return mActiveSection->getSkeleton(); }

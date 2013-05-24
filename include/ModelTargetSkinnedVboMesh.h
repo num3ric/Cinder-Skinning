@@ -31,7 +31,7 @@ private:
 	void					resetOffsets();
 	
 	template<class T> void	bufferSubData( const T& buffer, size_t dataSize);
-	void					setCustomAttribute( const std::string& name, GLuint location );
+	void					setCustomAttribute( GLuint location, const std::string& name );
 	
 	GLuint			mAttribLocation;
 	ptrdiff_t		mSubDataOffset;

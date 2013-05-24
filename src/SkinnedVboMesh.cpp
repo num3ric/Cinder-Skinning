@@ -10,21 +10,12 @@
 #include "ModelTargetSkinnedVboMesh.h"
 
 #include "Skeleton.h"
-#include "Resources.h"
 
 namespace model {
 
 SkinnedVboMesh::MeshSection::MeshSection()
 : ASkinnedMesh()
-{
-	try {
-		mSkinningShader = ci::gl::GlslProg( ci::app::loadResource(RES_SKINNING_VERT), ci::app::loadResource(RES_SKINNING_FRAG) );
-	}
-	catch( ci::gl::GlslProgCompileExc &exc ) {
-		std::cout << "Shader compile error: " << std::endl;
-		std::cout << exc.what();
-	}
-}
+{ }
 
 void SkinnedVboMesh::MeshSection::setVboMesh( size_t numVertices, size_t numIndices, ci::gl::VboMesh::Layout layout, GLenum primitiveType )
 {
@@ -50,27 +41,14 @@ void SkinnedVboMesh::MeshSection::updateMesh( bool enableSkinning )
 	}
 }
 
-void SkinnedVboMesh::MeshSection::drawMesh()
+SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader, SkeletonRef skeleton )
 {
-    mSkinningShader.bind();
-	mSkinningShader.uniform( "isAnimated", mIsAnimated );
-    mSkinningShader.uniform( "texture", 0 );
-	if( hasSkeleton() ) {
-		mSkinningShader.uniform( "boneMatrices", boneMatrices->data(), SkinnedVboMesh::MAXBONES );
-		mSkinningShader.uniform( "invTransposeMatrices", invTransposeMatrices->data(), SkinnedVboMesh::MAXBONES );
-	}
-    ci::gl::draw( mVboMesh );
-	//    ci::gl::drawRange(mVbo, 0, mVbo.getNumIndices()*3);
-    mSkinningShader.unbind();
+	return SkinnedVboMeshRef( new SkinnedVboMesh( modelSource, skinningShader, skeleton ) );
 }
 
-SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, SkeletonRef skeleton )
-{
-	return SkinnedVboMeshRef( new SkinnedVboMesh( modelSource, skeleton ) );
-}
-
-SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, SkeletonRef skeleton )
+SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader, SkeletonRef skeleton )
 : mEnableSkinning( true )
+, mSkinningShader( skinningShader )
 {
 	assert( modelSource->getNumSections() > 0 );
 	
@@ -121,13 +99,6 @@ void SkinnedVboMesh::update()
 {
 	for( MeshVboSectionRef section : mMeshSections ) {
 		section->updateMesh( mEnableSkinning );
-	}
-}
-
-void SkinnedVboMesh::draw()
-{
-	for( const MeshVboSectionRef& section : mMeshSections ) {
-		section->draw();
 	}
 }
 
