@@ -25,13 +25,18 @@ namespace model {
 		ci::gl::GlslProgRef			getShader() { return mSkinningShader; }
 		const ci::gl::GlslProgRef	getShader() const { return mSkinningShader; }
 		
-		void	draw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const;
-		void	draw( std::shared_ptr<SkinnedVboMesh> skinnedVboMesh ) const;
-		void	draw( std::shared_ptr<Skeleton> skeleton, bool absolute = true, const std::string& name = "" ) const;
+		static void		draw( std::shared_ptr<SkinnedMesh> skinnedMesh );
+		static void		draw( std::shared_ptr<SkinnedVboMesh> skinnedVboMesh );
+		static void		draw( std::shared_ptr<Skeleton> skeleton, bool absolute = true, const std::string& name = "" );
 		//! Render the node names.
-		void	drawLabels( std::shared_ptr<Skeleton> skeleton, const ci::CameraPersp& camera ) const;
+		static void		drawLabels( std::shared_ptr<Skeleton> skeleton, const ci::CameraPersp& camera );
 	private:
 		SkinningRenderer();
+		void	privateDraw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const;
+		void	privateDraw( std::shared_ptr<SkinnedVboMesh> skinnedVboMesh ) const;
+		void	privateDraw( std::shared_ptr<Skeleton> skeleton, bool absolute = true, const std::string& name = "" ) const;
+		//! Render the node names.
+		void	privateDrawLabels( std::shared_ptr<Skeleton> skeleton, const ci::CameraPersp& camera ) const;
 		
 		static std::unique_ptr<SkinningRenderer> mInstance;
 		static std::once_flag mOnceFlag;

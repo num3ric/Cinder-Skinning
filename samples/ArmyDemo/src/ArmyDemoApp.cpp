@@ -10,11 +10,11 @@ using namespace std;
 #include "cinder/gl/Light.h"
 #include "cinder/params/Params.h"
 
-//#include "ModelIo.h"
-#include "ModelSourceAssimp.h" //FIXME: including ModelIo.h only breaks the build
+#include "ModelSourceAssimp.h"
 #include "SkinnedMesh.h"
 #include "SkinnedVboMesh.h"
 #include "Skeleton.h"
+#include "SkinningRenderer.h"
 
 const int ROW_LEN = 12;
 const int NUM_MONSTERS = ROW_LEN * ROW_LEN;
@@ -46,7 +46,7 @@ private:
 	int								mMeshIndex;
 	float							mTime, mFps;
 	params::InterfaceGl				mParams;
-	bool mDrawSkeleton, mDrawMesh, mDrawRelative, mEnableWireframe;
+	bool mDrawSkeleton, mDrawMesh, mDrawAbsolute, mEnableWireframe;
 	bool mIsFullScreen;
 };
 
@@ -66,8 +66,8 @@ void ArmyDemoApp::setup()
 	mParams.addParam( "Draw Mesh", &mDrawMesh );
 	mDrawSkeleton = false;
 	mParams.addParam( "Draw Skeleton", &mDrawSkeleton );
-	mDrawRelative = false;
-	mParams.addParam( "Relative/Abolute skeleton", &mDrawRelative );
+	mDrawAbsolute = true;
+	mParams.addParam( "Relative/Abolute skeleton", &mDrawAbsolute );
 	mEnableWireframe = false;
 	mParams.addParam( "Wireframe", &mEnableWireframe );
 	
@@ -92,7 +92,7 @@ void ArmyDemoApp::fileDrop( FileDropEvent event )
 void ArmyDemoApp::keyDown( KeyEvent event )
 {
 	if( event.getCode() == KeyEvent::KEY_m ) {
-		mDrawRelative = !mDrawRelative;
+		mDrawAbsolute = !mDrawAbsolute;
 	} else if( event.getCode() == KeyEvent::KEY_UP ) {
 		mMeshIndex++;
 	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
@@ -161,10 +161,10 @@ void ArmyDemoApp::draw()
 			mSkinnedVboMesh->getSkeleton()->setPose( mTime + 2.0f*( i * j )/NUM_MONSTERS );
 			if( mDrawMesh ) {
 				mSkinnedVboMesh->update();
-				mSkinnedVboMesh->draw();
+				SkinningRenderer::draw( mSkinnedVboMesh );
 			}
 			if( mDrawSkeleton) {
-				mSkinnedVboMesh->getSkeleton()->draw(mDrawRelative);
+				SkinningRenderer::draw( mSkinnedVboMesh->getSkeleton(), mDrawAbsolute );
 			}
 			gl::popModelView();
 		}

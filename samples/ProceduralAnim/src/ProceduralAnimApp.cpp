@@ -162,7 +162,7 @@ void ProceduralAnimApp::draw()
 	if ( mEnableWireframe )
 		gl::enableWireframe();
 	if( mDrawMesh ) {
-		SkinningRenderer::instance().draw( mSkinnedVboBird );
+		SkinningRenderer::draw( mSkinnedVboBird );
 	}
 	if ( mEnableWireframe )
 		gl::disableWireframe();
@@ -171,11 +171,11 @@ void ProceduralAnimApp::draw()
 	gl::disable( GL_NORMALIZE );
 	
 	if( mDrawSkeleton) {
-		SkinningRenderer::instance().draw( mSkinnedVboBird->getSkeleton() );
+		SkinningRenderer::draw( mSkinnedVboBird->getSkeleton() );
 	}
 	
 	if( mDrawLabels ) {
-		SkinningRenderer::instance().drawLabels( mSkinnedVboBird->getSkeleton(), mMayaCam.getCamera() );
+		SkinningRenderer::drawLabels( mSkinnedVboBird->getSkeleton(), mMayaCam.getCamera() );
 	}
 
 	gl::popMatrices();

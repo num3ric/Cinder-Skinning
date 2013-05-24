@@ -15,11 +15,11 @@ using namespace std;
 #include "cinder/gl/Light.h"
 #include "cinder/params/Params.h"
 
-//#include "ModelIo.h"
-#include "ModelSourceAssimp.h" //FIXME: including ModelIo.h only breaks the build
+#include "ModelSourceAssimp.h"
 #include "SkinnedMesh.h"
 #include "SkinnedVboMesh.h"
 #include "Skeleton.h"
+#include "SkinningRenderer.h"
 
 using namespace model;
 
@@ -215,24 +215,20 @@ void MultipleAnimationsDemo::draw()
 		gl::enableWireframe();
 	if( mDrawMesh ) {
 		if( mUseVbo ) {
-//			mSkinnedMesh->setActiveSection(6);
-//			mSkinnedMesh->getActiveSection()->drawMesh();
-			mSkinnedVboMesh->draw();
+			SkinningRenderer::draw( mSkinnedVboMesh );
 		} else {
-//			mSkinnedMesh->setActiveSection(6);
-//			mSkinnedMesh->getActiveSection()->drawMesh();
-			mSkinnedMesh->draw();
+			SkinningRenderer::draw( mSkinnedMesh );
 		}
 	}
 	if ( mEnableWireframe )
 		gl::disableWireframe();
 	
 	if( mDrawSkeleton) {
-		mSkinnedVboMesh->getSkeleton()->draw();
+		SkinningRenderer::draw( mSkinnedVboMesh->getSkeleton() );
 	}
 	
 	if( mDrawLabels ) {
-		mSkinnedVboMesh->getSkeleton()->drawLabels( mMayaCam.getCamera() );
+		SkinningRenderer::drawLabels( mSkinnedVboMesh->getSkeleton(), mMayaCam.getCamera() );
 	}
 	
 	mParams.draw();

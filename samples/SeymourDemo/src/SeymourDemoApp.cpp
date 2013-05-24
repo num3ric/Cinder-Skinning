@@ -10,11 +10,11 @@ using namespace std;
 #include "cinder/gl/Light.h"
 #include "cinder/params/Params.h"
 
-//#include "ModelIo.h"
-#include "ModelSourceAssimp.h" //FIXME: including ModelIo.h only breaks the build
+#include "ModelSourceAssimp.h"
 #include "SkinnedMesh.h"
 #include "SkinnedVboMesh.h"
 #include "Skeleton.h"
+#include "SkinningRenderer.h"
 
 using namespace model;
 
@@ -44,7 +44,7 @@ private:
 	int								mMeshIndex;
 	float							mFps;
 	params::InterfaceGl				mParams;
-	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
+	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawAbsolute, mEnableSkinning, mEnableWireframe;
 	bool mIsFullScreen;
 };
 
@@ -67,8 +67,8 @@ void SeymourDemo::setup()
 	mParams.addParam( "Draw Skeleton", &mDrawSkeleton );
 	mDrawLabels = false;
 	mParams.addParam( "Draw Labels", &mDrawLabels );
-	mDrawRelative = false;
-	mParams.addParam( "Relative/Abolute skeleton", &mDrawRelative );
+	mDrawAbsolute = true;
+	mParams.addParam( "Abolute skeleton", &mDrawAbsolute );
 	mEnableSkinning = true;
 	mParams.addParam( "Skinning", &mEnableSkinning );
 	mEnableWireframe = false;
@@ -80,7 +80,7 @@ void SeymourDemo::setup()
 	
 	mSkinnedMesh = SkinnedMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ) );
 	app::console() << *mSkinnedMesh->getSkeleton();
-	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ), mSkinnedMesh->getSkeleton() );
+	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ), mSkinnedMesh->getSkeleton(), nullptr );
 	
 	mSkinnedMesh->getSkeleton()->loopAnim();
 }
@@ -100,7 +100,7 @@ void SeymourDemo::fileDrop( FileDropEvent event )
 void SeymourDemo::keyDown( KeyEvent event )
 {
 	if( event.getCode() == KeyEvent::KEY_m ) {
-		mDrawRelative = !mDrawRelative;
+		mDrawAbsolute = !mDrawAbsolute;
 	} else if( event.getCode() == KeyEvent::KEY_s ) {
 		mEnableSkinning = !mEnableSkinning;
 	} else if( event.getCode() == KeyEvent::KEY_UP ) {
@@ -184,20 +184,20 @@ void SeymourDemo::draw()
 		gl::enableWireframe();
 	if( mDrawMesh ) {
 		if( mUseVbo ) {
-			mSkinnedVboMesh->draw();
+			SkinningRenderer::draw( mSkinnedVboMesh );
 		} else {
-			mSkinnedMesh->draw();
+			SkinningRenderer::draw( mSkinnedMesh );
 		}
 	}
 	if ( mEnableWireframe )
 		gl::disableWireframe();
 	
 	if( mDrawSkeleton) {
-		mSkinnedVboMesh->getSkeleton()->draw(mDrawRelative);
+		SkinningRenderer::draw( mSkinnedVboMesh->getSkeleton(), mDrawAbsolute );
 	}
 	
 	if( mDrawLabels ) {
-		mSkinnedVboMesh->getSkeleton()->drawLabels( mMayaCam.getCamera() );
+		SkinningRenderer::drawLabels( mSkinnedVboMesh->getSkeleton(),  mMayaCam.getCamera() );
 	}
 	
 	mParams.draw();

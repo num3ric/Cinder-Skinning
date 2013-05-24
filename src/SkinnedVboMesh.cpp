@@ -43,7 +43,7 @@ void SkinnedVboMesh::MeshSection::updateMesh( bool enableSkinning )
 	}
 }
 
-SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader, SkeletonRef skeleton )
+SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, SkeletonRef skeleton, ci::gl::GlslProgRef skinningShader )
 {
 	if( skinningShader ) {
 		return SkinnedVboMeshRef( new SkinnedVboMesh( modelSource, skinningShader, skeleton ) );

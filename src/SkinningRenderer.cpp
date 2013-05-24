@@ -27,7 +27,6 @@ namespace model {
 					   });
 		return *mInstance.get();
 	}
-
 	
 	SkinningRenderer::SkinningRenderer()
 	{
@@ -38,6 +37,26 @@ namespace model {
 			std::cout << "Shader compile error: " << std::endl;
 			std::cout << exc.what();
 		}
+	}
+	
+	void SkinningRenderer::draw( std::shared_ptr<SkinnedMesh> skinnedMesh )
+	{
+		instance().privateDraw( skinnedMesh );
+	}
+	
+	void SkinningRenderer::draw( std::shared_ptr<SkinnedVboMesh> skinnedVboMesh )
+	{
+		instance().privateDraw( skinnedVboMesh );
+	}
+	
+	void SkinningRenderer::draw( std::shared_ptr<Skeleton> skeleton, bool absolute, const std::string& name )
+	{
+		instance().privateDraw( skeleton, absolute, name );
+	}
+
+	void SkinningRenderer::drawLabels( std::shared_ptr<Skeleton> skeleton, const ci::CameraPersp& camera )
+	{
+		instance().privateDrawLabels( skeleton, camera );
 	}
 	
 	void SkinningRenderer::drawSection( const ASkinnedMesh& section, std::function<void()> drawMesh ) const
@@ -71,7 +90,7 @@ namespace model {
 		}
 	}
 	
-	void SkinningRenderer::draw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const
+	void SkinningRenderer::privateDraw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const
 	{
 		
 		for( const SkinnedMesh::MeshSectionRef& section : skinnedMesh->getSections() ) {
@@ -82,7 +101,7 @@ namespace model {
 		}
 	}
 	
-	void SkinningRenderer::draw(std::shared_ptr<SkinnedVboMesh> skinnedVboMesh ) const
+	void SkinningRenderer::privateDraw(std::shared_ptr<SkinnedVboMesh> skinnedVboMesh ) const
 	{
 		
 		for( const SkinnedVboMesh::MeshVboSectionRef& section : skinnedVboMesh->getSections() ) {
@@ -127,7 +146,7 @@ namespace model {
 					  } );
 	}
 	
-	void SkinningRenderer::draw( SkeletonRef skeleton, bool absolute, const std::string& name ) const
+	void SkinningRenderer::privateDraw( SkeletonRef skeleton, bool absolute, const std::string& name ) const
 	{
 		glPushAttrib( GL_ALL_ATTRIB_BITS );
 		glPushClientAttrib( GL_CLIENT_ALL_ATTRIB_BITS );
@@ -142,7 +161,7 @@ namespace model {
 		glPopAttrib();
 	}
 	
-	void SkinningRenderer::drawLabels( SkeletonRef skeleton, const ci::CameraPersp& camera ) const
+	void SkinningRenderer::privateDrawLabels( SkeletonRef skeleton, const ci::CameraPersp& camera ) const
 	{
 		ci::Matrix44f mv = ci::gl::getModelView();
 		glPushAttrib( GL_ALL_ATTRIB_BITS );
