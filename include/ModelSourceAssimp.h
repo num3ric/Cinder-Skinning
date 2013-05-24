@@ -84,13 +84,12 @@ class ModelSourceAssimp : public ModelSource {
 		:mHasNormals( false )
 		, mHasSkeleton( false )
 		, mHasAnimations( false )
-		, mHasMaterials( false )
 		, mNumSections( 1 )
 		{ }
 		bool mHasNormals;
 		bool mHasSkeleton;
 		bool mHasAnimations;
-		bool mHasMaterials;
+		std::vector<bool> mHasMaterials;
 		std::vector<size_t> mNumVertices;
 		std::vector<size_t> mNumIndices;
 		size_t mNumSections;
@@ -106,7 +105,7 @@ public:
 	virtual bool	hasNormals() const override { return mModelInfo.mHasNormals; }
   	virtual bool	hasSkeleton() const override { return mModelInfo.mHasSkeleton; }
 	virtual bool	hasAnimations() const override { return mModelInfo.mHasAnimations; }
-	virtual bool	hasMaterials() const override { return mModelInfo.mHasMaterials; };
+	virtual bool	hasMaterials( int section = -1 ) const override;
 	
 	virtual void	load( ModelTarget *target ) override;
 	

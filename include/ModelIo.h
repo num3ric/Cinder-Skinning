@@ -53,7 +53,7 @@ public:
 	virtual bool	hasNormals() const = 0;
   	virtual bool	hasSkeleton() const = 0;
 	virtual bool	hasAnimations() const = 0;
-	virtual bool	hasMaterials() const = 0;
+	virtual bool	hasMaterials( int section = -1 ) const = 0;
 	
   	virtual	void	load( ModelTarget *target ) = 0;
 };

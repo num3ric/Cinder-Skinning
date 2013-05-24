@@ -363,11 +363,10 @@ ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::f
 		
 		mModelInfo.mNumVertices.push_back( mesh->mNumVertices );
 		mModelInfo.mNumIndices.push_back( 3 * mesh->mNumFaces );
+		mModelInfo.mHasMaterials.push_back( mAiScene->HasMaterials() && mesh->GetNumUVChannels() > 0 );
 	}
 	mModelInfo.mHasSkeleton = (numBones > 0);
 	mModelInfo.mHasAnimations = mAiScene->HasAnimations();
-	//TODO: old loader checked (aimesh->GetNumUVChannels() > 0), replace with it?
-	mModelInfo.mHasMaterials = mAiScene->HasMaterials();
 	mModelInfo.mNumSections = mAiScene->mNumMeshes;
 }
 
@@ -400,6 +399,15 @@ size_t ModelSourceAssimp::getNumIndices( int section )  const
 	}
 
 	return mModelInfo.mNumIndices[section];
+}
+	
+bool ModelSourceAssimp::hasMaterials( int section ) const
+{
+	if( section == -1 ) {
+		return mAiScene->HasMaterials();
+	}
+	
+	return mModelInfo.mHasMaterials[section];
 }
 
 void ModelSourceAssimp::load( ModelTarget *target )
@@ -437,7 +445,7 @@ void ModelSourceAssimp::load( ModelTarget *target )
 			target->loadVertexNormals( normals );
 		}
 		
-		if( mModelInfo.mHasMaterials && aimesh->GetNumUVChannels() > 0 ) {
+		if( mModelInfo.mHasMaterials[i] ) {
 			std::vector<ci::Vec2f> texCoords;
 			MaterialInfo matInfo;
 			ai::loadTexCoords( aimesh, &texCoords );

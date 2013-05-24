@@ -70,7 +70,7 @@ SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, ci::gl::GlslProgRef 
 			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT3, 0 ));
 		}
 		
-		if( modelSource->hasMaterials() ) {
+		if( modelSource->hasMaterials(i) ) {
 			//texcoords
 			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT2, 0 ));
 		}
