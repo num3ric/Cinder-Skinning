@@ -10,6 +10,8 @@
 #include "ModelTargetSkinnedVboMesh.h"
 
 #include "Skeleton.h"
+#include "SkinningRenderer.h"
+#include "Resources.h"
 
 namespace model {
 
@@ -43,7 +45,11 @@ void SkinnedVboMesh::MeshSection::updateMesh( bool enableSkinning )
 
 SkinnedVboMeshRef SkinnedVboMesh::create( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader, SkeletonRef skeleton )
 {
-	return SkinnedVboMeshRef( new SkinnedVboMesh( modelSource, skinningShader, skeleton ) );
+	if( skinningShader ) {
+		return SkinnedVboMeshRef( new SkinnedVboMesh( modelSource, skinningShader, skeleton ) );
+	} else {
+		return SkinnedVboMeshRef( new SkinnedVboMesh( modelSource, SkinningRenderer::instance().getShader(), skeleton ) );
+	}
 }
 
 SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader, SkeletonRef skeleton )

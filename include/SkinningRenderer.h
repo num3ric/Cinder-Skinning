@@ -1,11 +1,13 @@
 
 #pragma once
+#include <memory>
+#include <mutex>
+
+#include "cinder/Camera.h"
 #include "cinder/gl/GlslProg.h"
 
 #include "ASkinnedMesh.h"
 #include "Node.h"
-
-class ci::CameraPersp;
 
 namespace model {
 	
@@ -13,15 +15,10 @@ namespace model {
 	class SkinnedVboMesh;
 	class Skeleton;
 	
-	typedef std::shared_ptr<class SkinningRenderer> SkinningRendererRef;
-	
 	class SkinningRenderer {
 	public:
-		// TODO: convert into singleton?
-		// TODO: Make draw section call with material binding optional (for custom uses)
-		
-		// custom shader still needs uniforms
-		static SkinningRendererRef create();
+		virtual ~SkinningRenderer() { }
+		static SkinningRenderer& instance();
 		SkinningRenderer(const SkinningRenderer& that) = delete;
 		SkinningRenderer& operator=(const SkinningRenderer&) = delete;
 		
@@ -35,6 +32,9 @@ namespace model {
 		void	drawLabels( std::shared_ptr<Skeleton> skeleton, const ci::CameraPersp& camera ) const;
 	private:
 		SkinningRenderer();
+		
+		static std::unique_ptr<SkinningRenderer> mInstance;
+		static std::once_flag mOnceFlag;
 		
 		void drawSection( const ASkinnedMesh& section, std::function<void()> drawMesh ) const;
 		//! Determines whether the node should be rendered as part of the skeleton.

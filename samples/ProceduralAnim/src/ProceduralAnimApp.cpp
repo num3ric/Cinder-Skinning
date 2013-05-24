@@ -44,15 +44,12 @@ private:
 	
 	vector<Vec3f> mDust;
 	
-	float mFlapAngle, mFlapIncrement;
-	
-	SkinningRendererRef mRenderer;
+	float mFlapAngle, mFlapIncrement;	
 };
 
 void ProceduralAnimApp::setup()
 {
-	mRenderer = SkinningRenderer::create();
-	mSkinnedVboBird = SkinnedVboMesh::create( loadModel( getAssetPath( "gannet rig2.DAE" ) ), mRenderer->getShader() );
+	mSkinnedVboBird = SkinnedVboMesh::create( loadModel( getAssetPath( "gannet rig2.DAE" ) ) );
 	
 	mRotationRadius = 20.0f;
 	mLightPos = Vec3f(0, 20.0f, 0);
@@ -165,7 +162,7 @@ void ProceduralAnimApp::draw()
 	if ( mEnableWireframe )
 		gl::enableWireframe();
 	if( mDrawMesh ) {
-		mRenderer->draw( mSkinnedVboBird );
+		SkinningRenderer::instance().draw( mSkinnedVboBird );
 	}
 	if ( mEnableWireframe )
 		gl::disableWireframe();
@@ -174,11 +171,11 @@ void ProceduralAnimApp::draw()
 	gl::disable( GL_NORMALIZE );
 	
 	if( mDrawSkeleton) {
-		mRenderer->draw( mSkinnedVboBird->getSkeleton() );
+		SkinningRenderer::instance().draw( mSkinnedVboBird->getSkeleton() );
 	}
 	
 	if( mDrawLabels ) {
-		mRenderer->drawLabels( mSkinnedVboBird->getSkeleton(), mMayaCam.getCamera() );
+		SkinningRenderer::instance().drawLabels( mSkinnedVboBird->getSkeleton(), mMayaCam.getCamera() );
 	}
 
 	gl::popMatrices();

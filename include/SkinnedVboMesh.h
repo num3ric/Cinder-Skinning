@@ -43,7 +43,7 @@ public:
 	};
 	typedef std::shared_ptr< struct SkinnedVboMesh::MeshSection > MeshVboSectionRef;
 	
-	static SkinnedVboMeshRef create( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader, std::shared_ptr<Skeleton> skeleton = nullptr );
+	static SkinnedVboMeshRef create( ModelSourceRef modelSource, ci::gl::GlslProgRef skinningShader = nullptr, std::shared_ptr<Skeleton> skeleton = nullptr );
 	
 	void update();
 	

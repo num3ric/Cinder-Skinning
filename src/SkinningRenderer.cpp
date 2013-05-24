@@ -15,10 +15,19 @@
 
 namespace model {
 	
-	SkinningRendererRef SkinningRenderer::create()
+	std::unique_ptr<SkinningRenderer> SkinningRenderer::mInstance = nullptr;
+	
+	std::once_flag SkinningRenderer::mOnceFlag;
+		
+	SkinningRenderer& SkinningRenderer::instance()
 	{
-		return SkinningRendererRef( new SkinningRenderer );		
+		std::call_once(mOnceFlag,
+					   [] {
+						   mInstance.reset( new SkinningRenderer );
+					   });
+		return *mInstance.get();
 	}
+
 	
 	SkinningRenderer::SkinningRenderer()
 	{
