@@ -42,6 +42,10 @@ void CustomShaderDemo::setup()
 		std::cout << "Shader compile error: " << std::endl;
 		std::cout << exc.what();
 	}
+	
+	/* Here we pass the custom shader to the skinned vbo mesh so that its
+	 * shader attributes (position, normal, texcoord, boneWeights & boneIndices)
+	 * are set as the asset is loaded. */
 	mSeymour = SkinnedVboMesh::create( loadModel( loadResource( RES_SEYMOUR ) ), nullptr, mCustomShader );
 	mSeymour->getSkeleton()->loopAnim();
 	gl::enableDepthRead();
@@ -69,6 +73,7 @@ void CustomShaderDemo::resize()
 
 void CustomShaderDemo::update()
 {
+	// Always update the mesh if the skeleton is animated.
 	mSeymour->update();
 	mLightPos.x = rotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
 	mLightPos.z = rotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
@@ -94,6 +99,9 @@ void CustomShaderDemo::draw()
 	gl::enable( GL_LIGHTING );
 	gl::enable( GL_NORMALIZE );
 	
+	
+	/* Custom rendering function similar to SkinnedRenderer::draw( SkinnedVboMeshRef ).
+	 * Furthermore, consult the SkinnedRenderer::drawSection() function to see how to use loaded material info. */
 	for( const SkinnedVboMesh::MeshVboSectionRef& section : mSeymour->getSections() ) {
 		mCustomShader->bind();
 		if( section->hasSkeleton() ) {
