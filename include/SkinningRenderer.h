@@ -19,8 +19,6 @@ namespace model {
 	public:
 		virtual ~SkinningRenderer() { }
 		static SkinningRenderer& instance();
-		SkinningRenderer(const SkinningRenderer& that) = delete;
-		SkinningRenderer& operator=(const SkinningRenderer&) = delete;
 		
 		ci::gl::GlslProgRef			getShader() { return mSkinningShader; }
 		const ci::gl::GlslProgRef	getShader() const { return mSkinningShader; }
@@ -32,6 +30,9 @@ namespace model {
 		static void		drawLabels( std::shared_ptr<Skeleton> skeleton, const ci::CameraPersp& camera );
 	private:
 		SkinningRenderer();
+		SkinningRenderer(const SkinningRenderer& that);
+		SkinningRenderer& operator=(const SkinningRenderer&);
+		
 		void	privateDraw( std::shared_ptr<SkinnedMesh> skinnedMesh ) const;
 		void	privateDraw( std::shared_ptr<SkinnedVboMesh> skinnedVboMesh ) const;
 		void	privateDraw( std::shared_ptr<Skeleton> skeleton, bool absolute = true, const std::string& name = "" ) const;

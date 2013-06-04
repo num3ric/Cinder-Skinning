@@ -24,7 +24,7 @@ namespace model {
 	
 	void Actor::setAnimInfo( int animId, float duration, float ticksPerSecond, const std::string& name )
 	{
-		mAnimInfoMap[animId] = {duration, ticksPerSecond, name};
+		mAnimInfoMap[animId] = AnimInfo( duration, ticksPerSecond, name );
 	}
 	
 	float Actor::getAnimDuration( int trackId ) const

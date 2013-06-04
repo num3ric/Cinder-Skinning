@@ -8,6 +8,11 @@ namespace model {
 class Actor {
 public:
 	struct AnimInfo {
+		AnimInfo() {}
+		AnimInfo( float duration, float ticksPerSecond, const std::string &name )
+		: mDuration( duration ), mTicksPerSecond( ticksPerSecond ), mName( name )
+		{}
+		
 		float mDuration;
 		float mTicksPerSecond;
 		std::string mName;
