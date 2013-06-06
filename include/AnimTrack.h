@@ -12,80 +12,67 @@
 
 #include "cinder/Matrix44.h"
 
-/*
- * FIXME: Here, against most good design recommendations, I would have liked the
- * anim curves to be aware of their container (channel) so that they could
- * query it for common data. I can't forward declaring template classes...
- * PImpl maybe? Convoluted?
- */
-
 namespace model {
 
-template< typename T >
 class AnimTrack {
 public:
-	AnimTrack( float duration, float ticksPerSecond )
-	{
-		setAnimDuration( duration );
-		setAnimTicksPerSecond( ticksPerSecond );
+	static std::shared_ptr<AnimTrack> create(float duration, float ticksPerSecond ) {
+		std::shared_ptr<AnimTrack> track( new AnimTrack( duration, ticksPerSecond ) );
+		track->mTranslationCurve = std::unique_ptr<AnimCurve<ci::Vec3f>>( new AnimCurve<ci::Vec3f>( track ) );
+		track->mRotationCurve = std::unique_ptr<AnimCurve<ci::Quatf>>( new AnimCurve<ci::Quatf>( track ) );
+		track->mScalingCurve = std::unique_ptr<AnimCurve<ci::Vec3f>>( new AnimCurve<ci::Vec3f>( track ) );
+		return track;
 	}
 	
 	float	getAnimDuration() { return mDuration; }
-	void	setAnimDuration( float duration )
-	{
-		mDuration = duration;
-		mTranslationCurve.setAnimDuration( duration );
-		mRotationCurve.setAnimDuration( duration );
-		mScalingCurve.setAnimDuration( duration );
-	}
-	
+	void	setAnimDuration( float duration ) { mDuration = duration; }
 	float	getAnimTicksPerSecond() { return mTicksPerSecond; }
-	void	setAnimTicksPerSecond( float ticksPerSecond )
+	void	setAnimTicksPerSecond( float ticksPerSecond ) { mTicksPerSecond = ticksPerSecond; }
+	
+	ci::Vec3f getTranslation( float time ) const
 	{
-		mTicksPerSecond = ticksPerSecond;
-		mTranslationCurve.setAnimTicksPerSecond( ticksPerSecond );
-		mRotationCurve.setAnimTicksPerSecond( ticksPerSecond );
-		mScalingCurve.setAnimTicksPerSecond( ticksPerSecond );
+		return mTranslationCurve->getValue( time );
 	}
 	
-	ci::Vec3<T> getTranslation( float time ) const
+	ci::Quatf getRotation( float time ) const
 	{
-		return mTranslationCurve.getValue( time );
+		return mRotationCurve->getValue( time );
 	}
 	
-	ci::Quaternion<T> getRotation( float time ) const
+	ci::Vec3f getScaling( float time ) const
 	{
-		return mRotationCurve.getValue( time );
+		return mScalingCurve->getValue( time );
 	}
 	
-	ci::Vec3<T> getScaling( float time ) const
+	void getValues( float time, ci::Vec3f* translate, ci::Quatf* rotation,  ci::Vec3f* scale )
 	{
-		return mScalingCurve.getValue( time );
+		*translate = mTranslationCurve->getValue( time );
+		*rotation = mRotationCurve->getValue( time );
+		*scale = mScalingCurve->getValue( time );
 	}
 	
-	void getValues( float time, ci::Vec3<T>* translate, ci::Quaternion<T>* rotation,  ci::Vec3<T>* scale )
+	ci::Matrix44f getTransformation( float time ) const
 	{
-		*translate = mTranslationCurve.getValue( time );
-		*rotation = mRotationCurve.getValue( time );
-		*scale = mScalingCurve.getValue( time );
-	}
-	
-	ci::Matrix44<T> getTransformation( float time ) const
-	{
-		ci::Matrix44<T> t = ci::Matrix44<T>::createScale( mScalingCurve.getValue( time ) );
-		t *= mRotationCurve.getValue( time ).toMatrix44();
-		t.setTranslate( mTranslationCurve.getValue( time ) );
+		ci::Matrix44f t = ci::Matrix44f::createScale( mScalingCurve->getValue( time ) );
+		t *= mRotationCurve->getValue( time ).toMatrix44();
+		t.setTranslate( mTranslationCurve->getValue( time ) );
 		return t;
 	}
 	
-	AnimCurve<ci::Vec3<T>>			mTranslationCurve;
-	AnimCurve<ci::Quaternion<T>>	mRotationCurve;
-	AnimCurve<ci::Vec3<T>>			mScalingCurve;
+	std::unique_ptr<AnimCurve<ci::Vec3f>>	mTranslationCurve;
+	std::unique_ptr<AnimCurve<ci::Quatf>>	mRotationCurve;
+	std::unique_ptr<AnimCurve<ci::Vec3f>>	mScalingCurve;
 private:
+	AnimTrack( float duration, float ticksPerSecond )
+	: mDuration( duration )
+	, mTicksPerSecond( ticksPerSecond )
+	{ }
+	
+	// TODO: Implement copy/assignment operators before rendering them public again.
+	AnimTrack(const AnimTrack& that);
+	AnimTrack& operator=(const AnimTrack&);
+	
 	float mDuration, mTicksPerSecond;
 };
-
-typedef AnimTrack<float> AnimTrackf;
-typedef AnimTrack<double> AnimTrackd;
 	
 }

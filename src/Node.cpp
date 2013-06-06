@@ -158,22 +158,22 @@ namespace model {
 	
 	void Node::addAnimTrack( int trackId, float duration, float ticksPerSecond )
 	{
-		mAnimTracks[trackId] = std::make_shared<AnimTrackf>( duration, ticksPerSecond );
+		mAnimTracks[trackId] = AnimTrack::create( duration, ticksPerSecond );
 	}
 	
 	void Node::addPositionKeyframe( int trackId, float time, const ci::Vec3f& translation )
 	{
-		mAnimTracks[trackId]->mTranslationCurve.addKeyframe( time, translation );
+		mAnimTracks[trackId]->mTranslationCurve->addKeyframe( time, translation );
 	}
 	
 	void Node::addRotationKeyframe( int trackId, float time, const ci::Quatf& rotation )
 	{
-		mAnimTracks[trackId]->mRotationCurve.addKeyframe( time, rotation );
+		mAnimTracks[trackId]->mRotationCurve->addKeyframe( time, rotation );
 	}
 	
 	void Node::addScalingKeyframe( int trackId, float time, const ci::Vec3f& scaling )
 	{
-		mAnimTracks[trackId]->mScalingCurve.addKeyframe( time, scaling );
+		mAnimTracks[trackId]->mScalingCurve->addKeyframe( time, scaling );
 	}
 	
 	bool Node::hasAnimations( int trackId ) const

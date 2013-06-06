@@ -23,6 +23,7 @@
 		8A2D4573B0A745498EAAFF2E /* ASkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C26CA644F28483C8EE4C7E0 /* ASkinnedMesh.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		917073571CB74BA7B14FDC43 /* CustomIOStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C3BC507193C45EE9FA2BF24 /* CustomIOStream.cpp */; };
+		B0AB4C4E1760DABE002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C4D1760DABE002B9DC6 /* AnimCurve.cpp */; };
 		B0C90EC4174FB0E300E73583 /* seymour.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B0C90EC2174FB0E300E73583 /* seymour.jpg */; };
 		B0C90EC5174FB0E300E73583 /* astroboy_walk.dae in Resources */ = {isa = PBXBuildFile; fileRef = B0C90EC3174FB0E300E73583 /* astroboy_walk.dae */; };
 		B0C90EC8174FB1CE00E73583 /* custom_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B0C90EC6174FB1CE00E73583 /* custom_vert.glsl */; };
@@ -69,6 +70,7 @@
 		A00A884A17264A66BB3EC41C /* CustomShaderDemoApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = CustomShaderDemoApp.cpp; path = ../src/CustomShaderDemoApp.cpp; sourceTree = "<group>"; };
 		A1A5D16F87564A848E3BBFF3 /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Actor.cpp; path = ../../../src/Actor.cpp; sourceTree = "<group>"; };
 		AC59AE89AF874AB9B59DF146 /* ASkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ASkinnedMesh.h; path = ../../../include/ASkinnedMesh.h; sourceTree = "<group>"; };
+		B0AB4C4D1760DABE002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
 		B0C90EC2174FB0E300E73583 /* seymour.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = seymour.jpg; path = ../resources/seymour.jpg; sourceTree = "<group>"; };
 		B0C90EC3174FB0E300E73583 /* astroboy_walk.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = astroboy_walk.dae; path = ../resources/astroboy_walk.dae; sourceTree = "<group>"; };
 		B0C90EC6174FB1CE00E73583 /* custom_vert.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; name = custom_vert.glsl; path = ../resources/custom_vert.glsl; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				A1A5D16F87564A848E3BBFF3 /* Actor.cpp */,
+				B0AB4C4D1760DABE002B9DC6 /* AnimCurve.cpp */,
 				9C26CA644F28483C8EE4C7E0 /* ASkinnedMesh.cpp */,
 				5C3BC507193C45EE9FA2BF24 /* CustomIOStream.cpp */,
 				EB2D1EA14A7A4393A69837C2 /* ModelIo.cpp */,
@@ -334,6 +337,7 @@
 				CBC4AB392B9242919EC18BF0 /* SkinnedMesh.cpp in Sources */,
 				43E0CA7798D84C3486EBC512 /* SkinnedVboMesh.cpp in Sources */,
 				4B9EF002D6C1403EB8A91923 /* SkinningRenderer.cpp in Sources */,
+				B0AB4C4E1760DABE002B9DC6 /* AnimCurve.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

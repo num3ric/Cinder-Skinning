@@ -27,6 +27,7 @@
 		A692E0E2D6AD4CDF9D0967A5 /* CustomIOStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3579527AE9864EA18F6EE9A5 /* CustomIOStream.cpp */; };
 		A840802F33954AB491D4B2DD /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = FC3303B7B70C4778BDA50836 /* skinning_vert_normals.glsl */; };
 		B05461B2174E75DF007EB326 /* SkinningRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05461B0174E75DF007EB326 /* SkinningRenderer.cpp */; };
+		B0AB4C4C1760DA63002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C4B1760DA63002B9DC6 /* AnimCurve.cpp */; };
 		CA0F3FBF151E489EAB30863C /* SkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BCDA66896FC45D4A34BC9E4 /* SkinnedMesh.cpp */; };
 		CA8F5606688046DEA53BB8E3 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00E41DE1BBB46D19872ABB7 /* Node.cpp */; };
 		ED03BF1B9D4840618C02F01C /* ASkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70751A09020941608645FBDA /* ASkinnedMesh.cpp */; };
@@ -68,6 +69,7 @@
 		AF09CD6915F84E2BA2E12F60 /* ASkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ASkinnedMesh.h; path = ../../../include/ASkinnedMesh.h; sourceTree = "<group>"; };
 		B05461B0174E75DF007EB326 /* SkinningRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkinningRenderer.cpp; path = ../../../src/SkinningRenderer.cpp; sourceTree = "<group>"; };
 		B05461B4174EFA17007EB326 /* SkinningRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinningRenderer.h; path = ../../../include/SkinningRenderer.h; sourceTree = "<group>"; };
+		B0AB4C4B1760DA63002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
 		B0CCD041D4374E2D91E69E78 /* ModelIo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelIo.h; path = ../../../include/ModelIo.h; sourceTree = "<group>"; };
 		CFA93EBD3EB54D3EBE7D8A64 /* ModelSourceAssimp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelSourceAssimp.h; path = ../../../include/ModelSourceAssimp.h; sourceTree = "<group>"; };
 		D00E41DE1BBB46D19872ABB7 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Node.cpp; path = ../../../src/Node.cpp; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				D4326B5A121F444C866F1C33 /* Actor.cpp */,
+				B0AB4C4B1760DA63002B9DC6 /* AnimCurve.cpp */,
 				70751A09020941608645FBDA /* ASkinnedMesh.cpp */,
 				3579527AE9864EA18F6EE9A5 /* CustomIOStream.cpp */,
 				F4D1AA2177AA442F9A9F9C03 /* ModelIo.cpp */,
@@ -322,6 +325,7 @@
 				CA0F3FBF151E489EAB30863C /* SkinnedMesh.cpp in Sources */,
 				A047C53F91F846229C51596A /* SkinnedVboMesh.cpp in Sources */,
 				B05461B2174E75DF007EB326 /* SkinningRenderer.cpp in Sources */,
+				B0AB4C4C1760DA63002B9DC6 /* AnimCurve.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

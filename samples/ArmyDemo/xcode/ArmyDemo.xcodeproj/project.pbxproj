@@ -26,6 +26,7 @@
 		B035755216F92F8D006B03A1 /* skinning_frag_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B035755016F92F8D006B03A1 /* skinning_frag_normals.glsl */; };
 		B035755316F92F8D006B03A1 /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */; };
 		B05461B9174FABA5007EB326 /* SkinningRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05461B8174FABA5007EB326 /* SkinningRenderer.cpp */; };
+		B0AB4C501760DAEB002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C4F1760DAEB002B9DC6 /* AnimCurve.cpp */; };
 		B0B51F181746A1420019976D /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0B51F171746A1420019976D /* Actor.cpp */; };
 		B26EBCEF443240DDB72B12B1 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D107FE7788D34B7B9C87A59B /* Node.cpp */; };
 		B900D226E3E04DBF987C6AE0 /* SkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6BFF3C5F017C46DB856C4859 /* SkinnedVboMesh.cpp */; };
@@ -65,6 +66,7 @@
 		B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_vert_normals.glsl; path = ../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
 		B05461B8174FABA5007EB326 /* SkinningRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkinningRenderer.cpp; path = ../../../src/SkinningRenderer.cpp; sourceTree = "<group>"; };
 		B05461BA174FABAE007EB326 /* SkinningRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinningRenderer.h; path = ../../../include/SkinningRenderer.h; sourceTree = "<group>"; };
+		B0AB4C4F1760DAEB002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
 		B0B51F151746A1310019976D /* AnimTrack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimTrack.h; path = ../../../include/AnimTrack.h; sourceTree = "<group>"; };
 		B0B51F161746A1350019976D /* Actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Actor.h; path = ../../../include/Actor.h; sourceTree = "<group>"; };
 		B0B51F171746A1420019976D /* Actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Actor.cpp; path = ../../../src/Actor.cpp; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				B0B51F171746A1420019976D /* Actor.cpp */,
+				B0AB4C4F1760DAEB002B9DC6 /* AnimCurve.cpp */,
 				7A4A0D6DC62B4F5395212AAC /* ASkinnedMesh.cpp */,
 				0FC9FBCFAB234C5CB8CCF7B4 /* CustomIOStream.cpp */,
 				F52DCCC9E63A431EA0E04693 /* ModelIo.cpp */,
@@ -370,6 +373,7 @@
 				B900D226E3E04DBF987C6AE0 /* SkinnedVboMesh.cpp in Sources */,
 				B0B51F181746A1420019976D /* Actor.cpp in Sources */,
 				B05461B9174FABA5007EB326 /* SkinningRenderer.cpp in Sources */,
+				B0AB4C501760DAEB002B9DC6 /* AnimCurve.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

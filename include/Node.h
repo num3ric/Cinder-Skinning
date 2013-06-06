@@ -148,7 +148,7 @@ protected:
 	 * This data-structure was chosen because a bone may be
 	 * animated in some animation tracks, and not in others.
 	 * */
-	std::unordered_map< int, std::shared_ptr<AnimTrackf> >	mAnimTracks;
+	std::unordered_map< int, std::shared_ptr<AnimTrack> >	mAnimTracks;
 private:
 	Node( const Node &rhs ); // private to prevent copying; use clone() method instead
 	Node& operator=( const Node &rhs ); // not defined to prevent copying
