@@ -44,7 +44,8 @@ private:
 	
 	vector<Vec3f> mDust;
 	
-	float mFlapAngle, mFlapIncrement;	
+	float mFlapAngle, mFlapIncrement;
+	float mShoulderAngle;
 };
 
 void ProceduralAnimApp::setup()
@@ -70,8 +71,10 @@ void ProceduralAnimApp::setup()
 	mFlapAngle = 0.0f;
 	mFlapIncrement = 18.5f;
 	mAmplitude = 1.0f;
+	mShoulderAngle = 0.0f;
 	mParams.addParam( "Flap speed", &mFlapIncrement, "min=1.0 max=45.0 precision=1" );
 	mParams.addParam( "Amplitude", &mAmplitude, "min=0.0 max=3.0 step=0.05 precision=2" );
+	mParams.addParam( "Shoulder angle", &mShoulderAngle, "min=-1.57 max=0.5 step=0.05 precision=2" );
 	
 	for( int i=0; i<100; ++i ) {
 		mDust.push_back( SCENE_SIZE * Vec3f( Rand::randFloat() - 0.5f,
@@ -110,17 +113,16 @@ void ProceduralAnimApp::update()
 	mFlapAngle += 0.01f * mFlapIncrement;
 	float h = mAmplitude * 0.5f * math<float>::sin( mFlapAngle );
 	float t = mAmplitude * 0.5f * math<float>::sin( mFlapAngle - M_PI_2 );
-	Vec3f axism(1, 0, 0), axist(0, 1, 0);
 
 	SkeletonRef skeleton = mSkinnedVboBird->getSkeleton();		
 	NodeRef midL = skeleton->getBone("Gannet_Lwing_mid");
 	NodeRef midR = skeleton->getBone("Gannet_Rwing_mid");
 	NodeRef tipL = skeleton->getBone("Gannet_Lwing_tip");
 	NodeRef tipR = skeleton->getBone("Gannet_Rwing_tip");
-	midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( axism, t ) );
-	midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( axism, t ) );
-	tipL->setRelativeRotation( Quatf( axist, h ) );
-	tipR->setRelativeRotation( Quatf( axist, h ) );
+	midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( Vec3f::xAxis(), t ) * Quatf( Vec3f::zAxis(), mShoulderAngle ) );
+	midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( Vec3f::xAxis(), t ) * Quatf( Vec3f::zAxis(), mShoulderAngle ) );
+	tipL->setRelativeRotation( Quatf( Vec3f::yAxis(), h ) );
+	tipR->setRelativeRotation( Quatf( Vec3f::yAxis(), h ) );
 	
 	NodeRef head = skeleton->getBone("Gannet_head");
 	head->setRelativeRotation( head->getInitialRelativeRotation().slerp(0.5f, mMayaCam.getCamera().getOrientation() )  );
