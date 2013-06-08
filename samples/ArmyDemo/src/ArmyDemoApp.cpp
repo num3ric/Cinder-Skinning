@@ -47,14 +47,12 @@ private:
 	float							mTime, mFps;
 	params::InterfaceGl				mParams;
 	bool mDrawSkeleton, mDrawMesh, mDrawAbsolute, mEnableWireframe;
-	bool mIsFullScreen;
 };
 
 void ArmyDemoApp::setup()
 {
 	model::Skeleton::mRenderMode = model::Skeleton::RenderMode::CLEANED;
 
-	mIsFullScreen = false;
 	rotationRadius = 20.0f;
 	mLightPos = Vec3f(10.0f, 20.0f, 20.0f);
 	mMouseHorizontalPos = 0;
@@ -98,8 +96,7 @@ void ArmyDemoApp::keyDown( KeyEvent event )
 	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
 		mMeshIndex = math<int>::max(mMeshIndex - 1, 0);
 	} else if( event.getCode() == KeyEvent::KEY_f ) {
-		mIsFullScreen = !mIsFullScreen;
-		app::setFullScreen(mIsFullScreen);
+		app::setFullScreen( !isFullScreen() );
 	}
 }
 

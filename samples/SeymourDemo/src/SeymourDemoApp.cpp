@@ -45,7 +45,6 @@ private:
 	float							mFps;
 	params::InterfaceGl				mParams;
 	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawAbsolute, mEnableSkinning, mEnableWireframe;
-	bool mIsFullScreen;
 };
 
 void SeymourDemo::setup()
@@ -82,7 +81,7 @@ void SeymourDemo::setup()
 	app::console() << *mSkinnedMesh->getSkeleton();
 	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ), mSkinnedMesh->getSkeleton(), nullptr );
 	
-	mSkinnedMesh->getSkeleton()->loopAnim();
+//	mSkinnedMesh->getSkeleton()->loopAnim();
 }
 
 void SeymourDemo::fileDrop( FileDropEvent event )
@@ -108,8 +107,7 @@ void SeymourDemo::keyDown( KeyEvent event )
 	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
 		mMeshIndex = math<int>::max(mMeshIndex - 1, 0);
 	} else if( event.getCode() == KeyEvent::KEY_f ) {
-		mIsFullScreen = !mIsFullScreen;
-		app::setFullScreen(mIsFullScreen);
+		app::setFullScreen( !isFullScreen() );
 	}
 }
 
@@ -146,12 +144,12 @@ void SeymourDemo::resize()
 void SeymourDemo::update()
 {
 	if( mUseVbo && mSkinnedVboMesh->hasSkeleton() ) {
-//		float time = mSkinnedVboMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
-//		mSkinnedVboMesh->update( time, mEnableSkinning );
+		float time = mSkinnedVboMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
+		mSkinnedVboMesh->getSkeleton()->setPose( time );
 		mSkinnedVboMesh->update();
 	} else if( mSkinnedMesh->hasSkeleton() ) {
-//		float time = mSkinnedMesh->getSkeleton()->mAnimationDuration * mMouseHorizontalPos / getWindowWidth();
-//		mSkinnedMesh->update( time, mEnableSkinning );
+		float time = mSkinnedMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
+		mSkinnedMesh->getSkeleton()->setPose( time );
 		mSkinnedMesh->update();
 	}
 	mFps = getAverageFps();

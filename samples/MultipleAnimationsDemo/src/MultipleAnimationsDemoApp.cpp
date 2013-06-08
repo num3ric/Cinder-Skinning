@@ -54,7 +54,6 @@ private:
 	float							mFps;
 	params::InterfaceGl				mParams;
 	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawRelative, mEnableSkinning, mEnableWireframe;
-	bool mIsFullScreen;
 	int mAnimId;
 };
 
@@ -139,8 +138,7 @@ void MultipleAnimationsDemo::keyDown( KeyEvent event )
 	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
 		mMeshIndex = math<int>::max(mMeshIndex - 1, 0);
 	} else if( event.getCode() == KeyEvent::KEY_f ) {
-		mIsFullScreen = !mIsFullScreen;
-		app::setFullScreen(mIsFullScreen);
+		app::setFullScreen(! isFullScreen() );
 	}
 }
 
