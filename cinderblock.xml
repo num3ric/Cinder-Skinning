@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <cinder>
-<block
+    <block
 	name="Skinning"
 	id="org.libcinder.skinning"
 	author="Éric Renaud-Houde"
-	core="true"
-	>
+	license="BSD"
+	summary="Development block for Cinder asset loading, skeletal animations and mesh skinning"
+	git="git://github.com/num3ric/Cinder-Skinning.git"
+	version="0.1"
+	libraryUrl="www.libcinder.org"
+    >
+
 	<sourcePattern>src/*.cpp</sourcePattern>
 	<headerPattern>include/*.h</headerPattern>
     <includePath>include/</includePath>
     <includePath>include/assimp</includePath>
-    <resource>resources/skinning_vert_normals.glsl</resource>
-    <resource>resources/skinning_frag_normals.glsl</resource>
+    <resource name="RES_SKINNING_VERT" type="GLSL">resources/skinning_vert_normals.glsl</resource>
+    <resource name="RES_SKINNING_FRAG" type="GLSL">resources/skinning_frag_normals.glsl</resource>
     
     <platform os="macosx">
         <staticLibrary>lib/macosx/libassimp.a</staticLibrary>
