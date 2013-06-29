@@ -1,4 +1,3 @@
-
 Cinder-Skinning Block
 ================================
 
@@ -35,17 +34,19 @@ Samples Overview
 
 ![02](https://dl.dropboxusercontent.com/u/29102565/block_img/customShader.png "CustomShaderDemo")
 -------------------------
-**ArmyDemo**: shows how it is possible to instantiate multiple instances of an asset where each skinned mesh has individually different animation poses.
+**ArmyDemo**: shows how it is possible to instantiate multiple instances of an asset, where each skinned mesh can individually have different animation poses.
 
 ![03](https://dl.dropboxusercontent.com/u/29102565/block_img/army.png "ArmyDemo")
 -------------------------
-**ProceduralAnim**: demontrates that it is possible to animate skeletons procedurally by interacting directly with transformations at the node level.
+**ProceduralAnim**: demontrates that it is possible to animate skeletons procedurally by interacting directly with transformations at the bone/node level.
 
 ![04](https://dl.dropboxusercontent.com/u/29102565/block_img/proceduralAnim.png "ProceduralAnim")
 -------------------------
-**ProceduralAnim**: illustrates the functionalities related to an asset with multiple animation cycles, and how these animations be blended using blend weights.
+**ProceduralAnim**: illustrates the functionalities related to an asset with multiple animation cycles, and how these animations can be blended using blend weights.
 
 ![05](https://dl.dropboxusercontent.com/u/29102565/block_img/multipleAnim.png "MultipleAnimationsDemo")
+-------------------------
+~~**KinectDemo**~~: This demo needs to be rewritten.
 
 Common Use
 -------------------------
@@ -64,6 +65,9 @@ Rendering can be done via our default renderer implementation: `SkinningRenderer
 
 TODOs
 -------------------------
+
+In no particular order:
+
 * Reinforcing the loader, fail elegantly
 * Cleanup print statements with a logger
 * Finish Kinect sample (skeleton remapping?)
