@@ -16,6 +16,8 @@ using namespace std;
 
 using namespace model;
 
+//TODO: Update & simplify later when I have access to a Kinect!
+
 class KinectDemoApp : public AppNative {
   public:
 	void	setup();
@@ -67,62 +69,62 @@ void KinectDemoApp::mouseDown( MouseEvent event )
 
 void KinectDemoApp::createKinectSkeleton( const KinectSdk::Skeleton& kSkeleton )
 {
-	assert( kSkeleton.size() == 20 && mSkeleton->getNumBones() == 0 );
-	
-	// First pass, fill all the names matching the joint indices
-	for( const auto& entry : kSkeleton ) {
-		const KinectSdk::Bone& kBone = entry.second;
-		std::string id = std::to_string( kBone.getEndJoint() );
-		NodeRef newNode = make_shared<Node>( Matrix44f::identity(), Matrix44f::identity(), id );
-		mSkeleton->insertBone( id, newNode );
-	}
-
-	// Second pass, construct the hierarchy and set the root node
-	for( const auto& entry : kSkeleton ) {
-		const KinectSdk::Bone& kBone = entry.second;
-		std::string id = std::to_string( kBone.getEndJoint() );
-		std::string parentId = std::to_string( kBone.getStartJoint() );
-		if( id != parentId ) {
-			try {
-				NodeRef child = mSkeleton->getBone( id );
-				NodeRef parent = mSkeleton->getBone( parentId );
-				child->setParent( parent );
-				parent->addChild( child );
-				
-			} catch ( const std::out_of_range& ) {
-				app::console() << "No parent:" << parentId << std::endl;
-			}
-		} else if ( id == "0" ) {
-			mSkeleton->setRootNode( mSkeleton->getBone( id ) );
-		}
-	}
+//	assert( kSkeleton.size() == 20 && mSkeleton->getNumBones() == 0 );
+//	
+//	// First pass, fill all the names matching the joint indices
+//	for( const auto& entry : kSkeleton ) {
+//		const KinectSdk::Bone& kBone = entry.second;
+//		std::string id = std::to_string( kBone.getEndJoint() );
+//		NodeRef newNode = make_shared<Node>( Matrix44f::identity(), Matrix44f::identity(), id );
+//		mSkeleton->insertBone( id, newNode );
+//	}
+//
+//	// Second pass, construct the hierarchy and set the root node
+//	for( const auto& entry : kSkeleton ) {
+//		const KinectSdk::Bone& kBone = entry.second;
+//		std::string id = std::to_string( kBone.getEndJoint() );
+//		std::string parentId = std::to_string( kBone.getStartJoint() );
+//		if( id != parentId ) {
+//			try {
+//				NodeRef child = mSkeleton->getBone( id );
+//				NodeRef parent = mSkeleton->getBone( parentId );
+//				child->setParent( parent );
+//				parent->addChild( child );
+//				
+//			} catch ( const std::out_of_range& ) {
+//				app::console() << "No parent:" << parentId << std::endl;
+//			}
+//		} else if ( id == "0" ) {
+//			mSkeleton->setRootNode( mSkeleton->getBone( id ) );
+//		}
+//	}
 }
 
 void KinectDemoApp::update()
 {
 	if ( mKinect->isCapturing() ) {
 		mKinect->update();
-		if( mKinectSkeletons.size() > 0 ) {
-			const KinectSdk::Skeleton& kSkeleton = *mKinectSkeletons.begin();
-			if( kSkeleton.size() == 20 ) {
-				if( mSkeleton != nullptr ) {
-					for(auto entry : kSkeleton ) {
-						const KinectSdk::Bone& kBone = entry.second;
-						NodeRef bone = mSkeleton->getBone( std::to_string( kBone.getEndJoint() ) );
-						Vec3f pos = kBone.getPosition();
-						pos.z *= -1.0f;
-						bone->setAbsolutePosition( pos );
-					}
-					int i = 0;
-				} else { 
-					app::console() << "Skeleton created." << std::endl;
-					mSkeleton = Skeleton::create();
-					createKinectSkeleton( kSkeleton );
-				}
-			} else {
-				app::console() << "Missing bones." << std::endl;
-			}
-		}
+//		if( mKinectSkeletons.size() > 0 ) {
+//			const KinectSdk::Skeleton& kSkeleton = *mKinectSkeletons.begin();
+//			if( kSkeleton.size() == 20 ) {
+//				if( mSkeleton != nullptr ) {
+//					for(auto entry : kSkeleton ) {
+//						const KinectSdk::Bone& kBone = entry.second;
+//						NodeRef bone = mSkeleton->getBone( std::to_string( kBone.getEndJoint() ) );
+//						Vec3f pos = kBone.getPosition();
+//						pos.z *= -1.0f;
+//						bone->setAbsolutePosition( pos );
+//					}
+//					int i = 0;
+//				} else { 
+//					app::console() << "Skeleton created." << std::endl;
+//					mSkeleton = Skeleton::create();
+//					createKinectSkeleton( kSkeleton );
+//				}
+//			} else {
+//				app::console() << "Missing bones." << std::endl;
+//			}
+//		}
 
 		mColor = mKinect->getUserColor( 0 );
 
@@ -146,9 +148,9 @@ void KinectDemoApp::draw()
 		gl::setMatrices( mCamera );
 		gl::color( mColor );
 
-		if( mSkeleton ) {
-			mSkeleton->draw();
-		}
+//		if( mSkeleton ) {
+//			mSkeleton->draw();
+//		}
 	}
 }
 
