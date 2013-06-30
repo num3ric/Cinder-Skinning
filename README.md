@@ -51,17 +51,22 @@ Samples Overview
 Common Use
 -------------------------
 
-Storing and loading a `SkinnedVboMeshRef` called `mCharacter` can be done by the following: `mCharacter = SkinnedVboMesh::create( loadModel( getAssetPath( ... ) ) );`
+Storing and loading a `SkinnedVboMeshRef` called `mCharacter` can be done with the following assignment : `mCharacter = SkinnedVboMesh::create( loadModel( getAssetPath( ... ) ) );`
 or equivalently via
 `mCharacter = SkinnedVboMesh::create( loadModel( loadResource( ... ) ) );`
 
-The equivalent will work for standard `TriMesh` using `SkinnedMesh` instead.
+Use the `SkinnedMesh` class instead of `SkinnedVboMesh` to use `ci::TriMesh`
+instead of a `ci::VboMesh`.
 
 The animation is done at the skeleton level, for example: `mCharacter->getSkeleton()->setPose( time );`
 
-However, animating the skeleton doesn't automatically (for the moment at least) animate a skinned mesh containing that skeleton so a `mCharacter->update();` is necessary.
+However, animating the skeleton doesn't automatically animate a skinned mesh containing it (for the moment at least) so a `mCharacter->update();` is necessary.
 
 Rendering can be done via our default renderer implementation: `SkinningRenderer::draw( mCharacter )`
+
+Architecture
+-------------------------
+![06](https://dl.dropboxusercontent.com/u/29102565/block_img/architecture.png "Architecture diagram")
 
 TODOs
 -------------------------
@@ -76,3 +81,4 @@ In no particular order:
 * Asynchronous loading (shared OpenGL context required)
 * Assimp independance so that models can be saved and loaded (via a standard format) without it
 * Integrate Obj-loader as a ModelSource
+
