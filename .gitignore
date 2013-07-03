@@ -1,13 +1,21 @@
 lib/
+*.gitignore
+
+# MacOSX cruft
+.DS_Store
 build/
 *.xcworkspace/
 xcuserdata/
-.DS_Store
-/*/vc10/Debug
-/*/vc10/ipch
-/*/vc10/Release
+*.user
+
+
+#Windows cruft
+/Debug
+/Release
+/ipch
 *.opensdf
 *.sdf
 *.suo
-*.user
+*.ncb
 *.tlog
+Resources.aps
