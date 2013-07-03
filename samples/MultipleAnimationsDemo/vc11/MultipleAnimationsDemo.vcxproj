@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -106,6 +107,9 @@
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\Actor.cpp" />
+    <ClCompile Include="..\..\..\src\AnimCurve.cpp" />
+    <ClCompile Include="..\..\..\src\SkinningRenderer.cpp" />
     <ClCompile Include="..\src\MultipleAnimationsDemoApp.cpp" />
     <ClCompile Include="..\..\..\src\ASkinnedMesh.cpp" />
     <ClCompile Include="..\..\..\src\CustomIOStream.cpp" />
@@ -119,6 +123,9 @@
     <ClCompile Include="..\..\..\src\SkinnedVboMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\Actor.h" />
+    <ClInclude Include="..\..\..\include\AnimTrack.h" />
+    <ClInclude Include="..\..\..\include\SkinningRenderer.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\..\..\include\AnimCurve.h" />
     <ClInclude Include="..\..\..\include\ASkinnedMesh.h" />

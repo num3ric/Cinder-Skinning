@@ -112,7 +112,7 @@ void ProceduralAnimApp::update()
 	
 	mFlapAngle += 0.01f * mFlapIncrement;
 	float h = mAmplitude * 0.5f * math<float>::sin( mFlapAngle );
-	float t = mAmplitude * 0.5f * math<float>::sin( mFlapAngle - M_PI_2 );
+	float t = mAmplitude * 0.5f * math<float>::sin( mFlapAngle - M_PI / 2 );
 
 	SkeletonRef skeleton = mSkinnedVboBird->getSkeleton();		
 	NodeRef midL = skeleton->getBone("Gannet_Lwing_mid");

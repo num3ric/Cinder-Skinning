@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -103,9 +104,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resources.rc" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\..\..\src\AnimCurve.cpp" />
+    <ClCompile Include="..\..\..\src\SkinningRenderer.cpp" />
     <ClCompile Include="..\src\ProceduralAnimApp.cpp" />
     <ClCompile Include="..\..\..\src\Actor.cpp" />
     <ClCompile Include="..\..\..\src\ASkinnedMesh.cpp" />
@@ -120,6 +120,7 @@
     <ClCompile Include="..\..\..\src\SkinnedVboMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\SkinningRenderer.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\..\..\include\Actor.h" />
     <ClInclude Include="..\..\..\include\AnimCurve.h" />
@@ -134,6 +135,9 @@
     <ClInclude Include="..\..\..\include\Skeleton.h" />
     <ClInclude Include="..\..\..\include\SkinnedMesh.h" />
     <ClInclude Include="..\..\..\include\SkinnedVboMesh.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

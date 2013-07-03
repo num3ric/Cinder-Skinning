@@ -112,7 +112,11 @@ void MultipleAnimationsDemo::setup()
 	
 	
 	// Blend both animations with a factor of one since they affect independent bones (lower vs upper body).
-	mSkinnedMesh->getSkeleton()->loopAnim( { {0, 1.0f}, {7, 1.0f} } );
+	// mSkinnedMesh->getSkeleton()->loopAnim( { {0, 1.0f}, {7, 1.0f} } ); // this beautiful C++11 syntax is not supported on older version of vc11
+	auto weights = std::unordered_map<int, float>();
+	weights[0] = 1.0f;
+	weights[7] = 1.0f;
+	mSkinnedMesh->getSkeleton()->loopAnim( weights );
 }
 
 void MultipleAnimationsDemo::fileDrop( FileDropEvent event )

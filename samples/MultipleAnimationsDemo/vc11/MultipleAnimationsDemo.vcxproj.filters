@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -98,10 +99,28 @@
     <ClInclude Include="..\..\..\include\SkinnedVboMesh.h">
       <Filter>Blocks\Skinning\include</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\..\src\SkinningRenderer.cpp">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Actor.cpp">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AnimCurve.cpp">
+      <Filter>Blocks\Skinning\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\AnimTrack.h">
+      <Filter>Blocks\Skinning\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\SkinningRenderer.h">
+      <Filter>Blocks\Skinning\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Actor.h">
+      <Filter>Blocks\Skinning\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
