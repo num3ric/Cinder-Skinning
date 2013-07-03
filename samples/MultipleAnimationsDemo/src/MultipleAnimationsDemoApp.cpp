@@ -177,15 +177,7 @@ void MultipleAnimationsDemo::resize()
 }
 
 void MultipleAnimationsDemo::update()
-{
-	if( mUseVbo && mSkinnedVboMesh->hasSkeleton() ) {
-//		float time = mSkinnedVboMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
-		mSkinnedVboMesh->update();
-	} else if( mSkinnedMesh->hasSkeleton() ) {
-//		float time = mSkinnedMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
-		mSkinnedMesh->update();
-	}
-	
+{	
 	mFps = getAverageFps();
 	mLightPos.x = rotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
 	mLightPos.z = rotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
@@ -217,8 +209,10 @@ void MultipleAnimationsDemo::draw()
 		gl::enableWireframe();
 	if( mDrawMesh ) {
 		if( mUseVbo ) {
+			mSkinnedVboMesh->update();
 			SkinningRenderer::draw( mSkinnedVboMesh );
 		} else {
+			mSkinnedMesh->update();
 			SkinningRenderer::draw( mSkinnedMesh );
 		}
 	}
