@@ -75,6 +75,7 @@
 		B0C90EC3174FB0E300E73583 /* astroboy_walk.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = astroboy_walk.dae; path = ../resources/astroboy_walk.dae; sourceTree = "<group>"; };
 		B0C90EC6174FB1CE00E73583 /* custom_vert.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; name = custom_vert.glsl; path = ../resources/custom_vert.glsl; sourceTree = "<group>"; };
 		B0C90EC7174FB1CE00E73583 /* custom_frag.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; name = custom_frag.glsl; path = ../resources/custom_frag.glsl; sourceTree = "<group>"; };
+		B0DB9321179A04720010B8E1 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = ../../../include/Debug.h; sourceTree = "<group>"; };
 		B3624D780A4D447FA48EE839 /* CustomIOStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomIOStream.h; path = ../../../include/CustomIOStream.h; sourceTree = "<group>"; };
 		BB63B96D2CD548E298691108 /* Skeleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Skeleton.cpp; path = ../../../src/Skeleton.cpp; sourceTree = "<group>"; };
 		DD7DAE69F25F4F85982CFD98 /* SkinningRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SkinningRenderer.cpp; path = ../../../src/SkinningRenderer.cpp; sourceTree = "<group>"; };
@@ -168,6 +169,7 @@
 		1D58461329EA4981B3B3DA75 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				B0DB9321179A04720010B8E1 /* Debug.h */,
 				DFCA744CC3E64E07ABFEDF6F /* Actor.h */,
 				1E2B38FE457E4AE8AC2D16C7 /* AnimCurve.h */,
 				93F17033C57346B4ADD2D567 /* AnimTrack.h */,

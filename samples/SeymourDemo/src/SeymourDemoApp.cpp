@@ -78,7 +78,7 @@ void SeymourDemo::setup()
 	gl::enableAlphaBlending();
 	
 	mSkinnedMesh = SkinnedMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ) );
-	app::console() << *mSkinnedMesh->getSkeleton();
+//	app::console() << *mSkinnedMesh->getSkeleton();
 	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ), mSkinnedMesh->getSkeleton(), nullptr );
 	
 //	mSkinnedMesh->getSkeleton()->loopAnim();

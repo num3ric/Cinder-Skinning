@@ -70,6 +70,7 @@
 		B0B51F151746A1310019976D /* AnimTrack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimTrack.h; path = ../../../include/AnimTrack.h; sourceTree = "<group>"; };
 		B0B51F161746A1350019976D /* Actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Actor.h; path = ../../../include/Actor.h; sourceTree = "<group>"; };
 		B0B51F171746A1420019976D /* Actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Actor.cpp; path = ../../../src/Actor.cpp; sourceTree = "<group>"; };
+		B0DB9320179A04450010B8E1 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = ../../../include/Debug.h; sourceTree = "<group>"; };
 		B0E7FADB16F8E5D000A2B16F /* maggot3.md5anim */ = {isa = PBXFileReference; lastKnownFileType = text; name = maggot3.md5anim; path = ../assets/maggot3.md5anim; sourceTree = "<group>"; };
 		B0E7FADC16F8E5D000A2B16F /* maggot3.md5mesh */ = {isa = PBXFileReference; lastKnownFileType = text; name = maggot3.md5mesh; path = ../assets/maggot3.md5mesh; sourceTree = "<group>"; };
 		B0EFE2D416FA1E84005953E3 /* magtongue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = magtongue.png; path = ../assets/magtongue.png; sourceTree = "<group>"; };
@@ -279,6 +280,7 @@
 		EF8679AA9D4E4FD6B9536BC0 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				B0DB9320179A04450010B8E1 /* Debug.h */,
 				B0B51F161746A1350019976D /* Actor.h */,
 				26985BA9596145349B2F79C6 /* AnimCurve.h */,
 				B0B51F151746A1310019976D /* AnimTrack.h */,
