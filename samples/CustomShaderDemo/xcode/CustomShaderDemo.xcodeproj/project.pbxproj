@@ -20,7 +20,6 @@
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
 		636AB1FFD1A84ADEB45BB5F5 /* ModelIo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB2D1EA14A7A4393A69837C2 /* ModelIo.cpp */; };
 		811934C717B64416975005C7 /* ModelTargetSkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0B6633775D47478B9C88E15F /* ModelTargetSkinnedMesh.cpp */; };
-		8A2D4573B0A745498EAAFF2E /* ASkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9C26CA644F28483C8EE4C7E0 /* ASkinnedMesh.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		917073571CB74BA7B14FDC43 /* CustomIOStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5C3BC507193C45EE9FA2BF24 /* CustomIOStream.cpp */; };
 		B0AB4C4E1760DABE002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C4D1760DABE002B9DC6 /* AnimCurve.cpp */; };
@@ -66,10 +65,9 @@
 		85FF8A2B3F484072A77C4B24 /* ModelIo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelIo.h; path = ../../../include/ModelIo.h; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* CustomShaderDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomShaderDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93F17033C57346B4ADD2D567 /* AnimTrack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimTrack.h; path = ../../../include/AnimTrack.h; sourceTree = "<group>"; };
-		9C26CA644F28483C8EE4C7E0 /* ASkinnedMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ASkinnedMesh.cpp; path = ../../../src/ASkinnedMesh.cpp; sourceTree = "<group>"; };
 		A00A884A17264A66BB3EC41C /* CustomShaderDemoApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = CustomShaderDemoApp.cpp; path = ../src/CustomShaderDemoApp.cpp; sourceTree = "<group>"; };
 		A1A5D16F87564A848E3BBFF3 /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Actor.cpp; path = ../../../src/Actor.cpp; sourceTree = "<group>"; };
-		AC59AE89AF874AB9B59DF146 /* ASkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ASkinnedMesh.h; path = ../../../include/ASkinnedMesh.h; sourceTree = "<group>"; };
+		B016EB85179A070300514E65 /* AMeshSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AMeshSection.h; path = ../../../include/AMeshSection.h; sourceTree = "<group>"; };
 		B0AB4C4D1760DABE002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
 		B0C90EC2174FB0E300E73583 /* seymour.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = seymour.jpg; path = ../resources/seymour.jpg; sourceTree = "<group>"; };
 		B0C90EC3174FB0E300E73583 /* astroboy_walk.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = astroboy_walk.dae; path = ../resources/astroboy_walk.dae; sourceTree = "<group>"; };
@@ -173,7 +171,7 @@
 				DFCA744CC3E64E07ABFEDF6F /* Actor.h */,
 				1E2B38FE457E4AE8AC2D16C7 /* AnimCurve.h */,
 				93F17033C57346B4ADD2D567 /* AnimTrack.h */,
-				AC59AE89AF874AB9B59DF146 /* ASkinnedMesh.h */,
+				B016EB85179A070300514E65 /* AMeshSection.h */,
 				B3624D780A4D447FA48EE839 /* CustomIOStream.h */,
 				85FF8A2B3F484072A77C4B24 /* ModelIo.h */,
 				3D0EA1599049448AA80B461E /* ModelSourceAssimp.h */,
@@ -246,7 +244,6 @@
 			children = (
 				A1A5D16F87564A848E3BBFF3 /* Actor.cpp */,
 				B0AB4C4D1760DABE002B9DC6 /* AnimCurve.cpp */,
-				9C26CA644F28483C8EE4C7E0 /* ASkinnedMesh.cpp */,
 				5C3BC507193C45EE9FA2BF24 /* CustomIOStream.cpp */,
 				EB2D1EA14A7A4393A69837C2 /* ModelIo.cpp */,
 				F82BC353F18F4E3AB9DE844C /* ModelSourceAssimp.cpp */,
@@ -328,7 +325,6 @@
 			files = (
 				4CAF23B1FF584AAA856FF5C9 /* CustomShaderDemoApp.cpp in Sources */,
 				EEE0A118F70848B797EE252F /* Actor.cpp in Sources */,
-				8A2D4573B0A745498EAAFF2E /* ASkinnedMesh.cpp in Sources */,
 				917073571CB74BA7B14FDC43 /* CustomIOStream.cpp in Sources */,
 				636AB1FFD1A84ADEB45BB5F5 /* ModelIo.cpp in Sources */,
 				170D9D813AE540919D1C4C54 /* ModelSourceAssimp.cpp in Sources */,

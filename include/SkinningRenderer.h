@@ -6,7 +6,7 @@
 #include "cinder/Camera.h"
 #include "cinder/gl/GlslProg.h"
 
-#include "ASkinnedMesh.h"
+#include "AMeshSection.h"
 #include "Node.h"
 
 namespace model {
@@ -42,7 +42,7 @@ namespace model {
 		static std::unique_ptr<SkinningRenderer> mInstance;
 		static std::once_flag mOnceFlag;
 		
-		void drawSection( const ASkinnedMesh& section, std::function<void()> drawMesh ) const;
+		void drawSection( const AMeshSection& section, std::function<void()> drawMesh ) const;
 		//! Determines whether the node should be rendered as part of the skeleton.
 		bool	isVisibleNode( std::shared_ptr<Skeleton> skeleton, const std::shared_ptr<Node>& node ) const;
 		//! Draw the visible nodes/bones of the skeleton by traversing recursively its node transformation hierarchy.

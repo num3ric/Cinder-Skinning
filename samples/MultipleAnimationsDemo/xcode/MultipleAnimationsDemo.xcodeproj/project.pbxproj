@@ -29,7 +29,6 @@
 		D6AA4C0BF4C24BEFB99ED751 /* SkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 045643637826417391E3DD02 /* SkinnedMesh.cpp */; };
 		DD68FB37BC504FD4A9A7684F /* SkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55E3642445364524899B9B28 /* SkinnedVboMesh.cpp */; };
 		DF2A268730804474AEAD28F5 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6D7BD7BEDF7F479284A7C1BB /* CinderApp.icns */; };
-		EA315A69BE154C77981085DD /* ASkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DA5BDA84DE2447A8DADD1B9 /* ASkinnedMesh.cpp */; };
 		EC6334D0F2864036A61F8AC7 /* ModelTargetSkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1AED46D1EBA43A9B34F0467 /* ModelTargetSkinnedVboMesh.cpp */; };
 		F7A8930A1FF149F4AC8FEABD /* ModelIo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C985791981047C1905354E7 /* ModelIo.cpp */; };
 /* End PBXBuildFile section */
@@ -44,7 +43,6 @@
 		06CF9B65782048D186AF2C69 /* Skeleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Skeleton.cpp; path = ../../../src/Skeleton.cpp; sourceTree = "<group>"; };
 		0DD7F9DFDEBC4034A10F6292 /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; name = skinning_frag_normals.glsl; path = ../../../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		17486383B05847A190DC8C39 /* ASkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ASkinnedMesh.h; path = ../../../include/ASkinnedMesh.h; sourceTree = "<group>"; };
 		1C985791981047C1905354E7 /* ModelIo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ModelIo.cpp; path = ../../../src/ModelIo.cpp; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -65,10 +63,10 @@
 		8432912CBED64E98BC318DC3 /* Skeleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Skeleton.h; path = ../../../include/Skeleton.h; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* MultipleAnimationsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultipleAnimationsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		965F0ABD7F5C4CBB8342DD6C /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; name = skinning_vert_normals.glsl; path = ../../../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
-		9DA5BDA84DE2447A8DADD1B9 /* ASkinnedMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ASkinnedMesh.cpp; path = ../../../src/ASkinnedMesh.cpp; sourceTree = "<group>"; };
 		A79F9B36A5D742C9BA9E4544 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
 		B00EF4582FBF4B0EBC0206AB /* SkinnedVboMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinnedVboMesh.h; path = ../../../include/SkinnedVboMesh.h; sourceTree = "<group>"; };
 		B016E8BD1739114700303599 /* Actor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Actor.cpp; path = ../../../src/Actor.cpp; sourceTree = "<group>"; };
+		B016EB84179A06E400514E65 /* AMeshSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AMeshSection.h; path = ../../../include/AMeshSection.h; sourceTree = "<group>"; };
 		B05461BB174FADDB007EB326 /* SkinningRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkinningRenderer.cpp; path = ../../../src/SkinningRenderer.cpp; sourceTree = "<group>"; };
 		B05461BD174FADE3007EB326 /* SkinningRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinningRenderer.h; path = ../../../include/SkinningRenderer.h; sourceTree = "<group>"; };
 		B0AB4C491760DA46002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
@@ -205,7 +203,6 @@
 			children = (
 				B016E8BD1739114700303599 /* Actor.cpp */,
 				B0AB4C491760DA46002B9DC6 /* AnimCurve.cpp */,
-				9DA5BDA84DE2447A8DADD1B9 /* ASkinnedMesh.cpp */,
 				CFFECF1CF2934117BC749DE9 /* CustomIOStream.cpp */,
 				1C985791981047C1905354E7 /* ModelIo.cpp */,
 				E1FB6253959047018FEFDBA7 /* ModelSourceAssimp.cpp */,
@@ -236,7 +233,7 @@
 				B0E6A5E1173866360076B9C9 /* AnimTrack.h */,
 				368E362A0965481BB5A676DA /* AnimCurve.h */,
 				B0E6A5E21738790B0076B9C9 /* Actor.h */,
-				17486383B05847A190DC8C39 /* ASkinnedMesh.h */,
+				B016EB84179A06E400514E65 /* AMeshSection.h */,
 				35CAAA269EB94328A21F0BCA /* CustomIOStream.h */,
 				4ADF72FF764F4C4E9EA67817 /* ModelIo.h */,
 				D7361A32E07640399A9E7FF6 /* ModelSourceAssimp.h */,
@@ -315,7 +312,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				79166D9385E94D83AFD2A00D /* MultipleAnimationsDemoApp.cpp in Sources */,
-				EA315A69BE154C77981085DD /* ASkinnedMesh.cpp in Sources */,
 				562E427AFEFC4C2D99858938 /* CustomIOStream.cpp in Sources */,
 				F7A8930A1FF149F4AC8FEABD /* ModelIo.cpp in Sources */,
 				C3E46282EBF5423EB7C24E3C /* ModelSourceAssimp.cpp in Sources */,

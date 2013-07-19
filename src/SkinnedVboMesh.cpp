@@ -16,7 +16,7 @@
 namespace model {
 
 SkinnedVboMesh::MeshSection::MeshSection()
-: ASkinnedMesh()
+: AMeshSection()
 { }
 
 void SkinnedVboMesh::MeshSection::setVboMesh( size_t numVertices, size_t numIndices, ci::gl::VboMesh::Layout layout, GLenum primitiveType )

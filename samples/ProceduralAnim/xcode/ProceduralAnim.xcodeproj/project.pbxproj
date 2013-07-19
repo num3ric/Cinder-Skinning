@@ -30,7 +30,6 @@
 		B0AB4C4C1760DA63002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C4B1760DA63002B9DC6 /* AnimCurve.cpp */; };
 		CA0F3FBF151E489EAB30863C /* SkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BCDA66896FC45D4A34BC9E4 /* SkinnedMesh.cpp */; };
 		CA8F5606688046DEA53BB8E3 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00E41DE1BBB46D19872ABB7 /* Node.cpp */; };
-		ED03BF1B9D4840618C02F01C /* ASkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 70751A09020941608645FBDA /* ASkinnedMesh.cpp */; };
 		F91CA773A39D496D9CB35F69 /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4326B5A121F444C866F1C33 /* Actor.cpp */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +54,6 @@
 		5B2DB7C2081D445EB50BBD6E /* SkinnedVboMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinnedVboMesh.h; path = ../../../include/SkinnedVboMesh.h; sourceTree = "<group>"; };
 		61AFD6A1803043A5BAE524BC /* AnimTrack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimTrack.h; path = ../../../include/AnimTrack.h; sourceTree = "<group>"; };
 		62A8A2EF4D414162A8858AE3 /* ModelSourceAssimp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ModelSourceAssimp.cpp; path = ../../../src/ModelSourceAssimp.cpp; sourceTree = "<group>"; };
-		70751A09020941608645FBDA /* ASkinnedMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ASkinnedMesh.cpp; path = ../../../src/ASkinnedMesh.cpp; sourceTree = "<group>"; };
 		71DC2FF155B0470E8449C306 /* AnimCurve.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimCurve.h; path = ../../../include/AnimCurve.h; sourceTree = "<group>"; };
 		7BCDA66896FC45D4A34BC9E4 /* SkinnedMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SkinnedMesh.cpp; path = ../../../src/SkinnedMesh.cpp; sourceTree = "<group>"; };
 		7E51FC3E096C4C838E8A84F3 /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; name = skinning_frag_normals.glsl; path = ../../../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
@@ -66,7 +64,7 @@
 		A01ECD27677248DEA99B8F19 /* ProceduralAnim_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = ProceduralAnim_Prefix.pch; sourceTree = "<group>"; };
 		A18478C9C47E4E2A86D439B6 /* SkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinnedMesh.h; path = ../../../include/SkinnedMesh.h; sourceTree = "<group>"; };
 		A43B8BF24A5F46198DB56D20 /* Actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Actor.h; path = ../../../include/Actor.h; sourceTree = "<group>"; };
-		AF09CD6915F84E2BA2E12F60 /* ASkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ASkinnedMesh.h; path = ../../../include/ASkinnedMesh.h; sourceTree = "<group>"; };
+		B016EB83179A06D100514E65 /* AMeshSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AMeshSection.h; path = ../../../include/AMeshSection.h; sourceTree = "<group>"; };
 		B05461B0174E75DF007EB326 /* SkinningRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkinningRenderer.cpp; path = ../../../src/SkinningRenderer.cpp; sourceTree = "<group>"; };
 		B05461B4174EFA17007EB326 /* SkinningRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinningRenderer.h; path = ../../../include/SkinningRenderer.h; sourceTree = "<group>"; };
 		B0AB4C4B1760DA63002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 			children = (
 				D4326B5A121F444C866F1C33 /* Actor.cpp */,
 				B0AB4C4B1760DA63002B9DC6 /* AnimCurve.cpp */,
-				70751A09020941608645FBDA /* ASkinnedMesh.cpp */,
 				3579527AE9864EA18F6EE9A5 /* CustomIOStream.cpp */,
 				F4D1AA2177AA442F9A9F9C03 /* ModelIo.cpp */,
 				62A8A2EF4D414162A8858AE3 /* ModelSourceAssimp.cpp */,
@@ -215,9 +212,9 @@
 			children = (
 				B0DB9322179A04A40010B8E1 /* Debug.h */,
 				A43B8BF24A5F46198DB56D20 /* Actor.h */,
+				B016EB83179A06D100514E65 /* AMeshSection.h */,
 				71DC2FF155B0470E8449C306 /* AnimCurve.h */,
 				61AFD6A1803043A5BAE524BC /* AnimTrack.h */,
-				AF09CD6915F84E2BA2E12F60 /* ASkinnedMesh.h */,
 				075D510341F2476EAD344489 /* CustomIOStream.h */,
 				B0CCD041D4374E2D91E69E78 /* ModelIo.h */,
 				CFA93EBD3EB54D3EBE7D8A64 /* ModelSourceAssimp.h */,
@@ -316,7 +313,6 @@
 			files = (
 				39F3133DA16F4C27B2ED74FE /* ProceduralAnimApp.cpp in Sources */,
 				F91CA773A39D496D9CB35F69 /* Actor.cpp in Sources */,
-				ED03BF1B9D4840618C02F01C /* ASkinnedMesh.cpp in Sources */,
 				A692E0E2D6AD4CDF9D0967A5 /* CustomIOStream.cpp in Sources */,
 				A4FA19E1690C495D89E8069E /* ModelIo.cpp in Sources */,
 				7C930370CD9C4A3AA723D91D /* ModelSourceAssimp.cpp in Sources */,

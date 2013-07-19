@@ -19,7 +19,7 @@ namespace model {
 	
 class Skeleton;
 
-class ASkinnedMesh
+class AMeshSection
 {
 public:
 	bool	hasTexture() { return mMatInfo.mTexture; }
@@ -47,7 +47,7 @@ public:
 	
 	bool					isAnimated() { return mIsAnimated; }
 protected:
-	ASkinnedMesh()
+	AMeshSection()
 	: mIsAnimated( false )
 	, mHasNormals( false )
 	, mHasDefaultTransformation( false )

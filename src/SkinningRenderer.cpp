@@ -59,7 +59,7 @@ namespace model {
 		instance().privateDrawLabels( skeleton, camera );
 	}
 	
-	void SkinningRenderer::drawSection( const ASkinnedMesh& section, std::function<void()> drawMesh ) const
+	void SkinningRenderer::drawSection( const AMeshSection& section, std::function<void()> drawMesh ) const
 	{
 		if( section.hasDefaultTransformation() ) {
 			ci::gl::pushModelView();

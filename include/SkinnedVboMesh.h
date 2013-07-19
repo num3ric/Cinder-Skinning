@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "ASkinnedMesh.h"
+#include "AMeshSection.h"
 
 #include "cinder/app/App.h"
 #include "cinder/gl/Vbo.h"
@@ -27,7 +27,7 @@ class SkinnedVboMesh
 public:
 	static const int MAXBONES = 92;
 	
-	struct MeshSection : public ASkinnedMesh
+	struct MeshSection : public AMeshSection
 	{
 		MeshSection();
 		void updateMesh( bool enableSkinning = true ) override;

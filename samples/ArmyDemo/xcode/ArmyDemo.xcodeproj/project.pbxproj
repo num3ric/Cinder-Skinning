@@ -19,7 +19,6 @@
 		50EC2807172E4FEEA2D95619 /* ModelIo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F52DCCC9E63A431EA0E04693 /* ModelIo.cpp */; };
 		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
 		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
-		6AF9452E41EA47EAA5617BF3 /* ASkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7A4A0D6DC62B4F5395212AAC /* ASkinnedMesh.cpp */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		96EAC00FC34D4E4DA997B66F /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7DBC53518CB34DF1BE988F38 /* Skeleton.cpp */; };
 		A2EE3622016F441091A5976C /* SkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6075DFDA442546D7B9A2AE29 /* SkinnedMesh.cpp */; };
@@ -56,12 +55,12 @@
 		6BFF3C5F017C46DB856C4859 /* SkinnedVboMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SkinnedVboMesh.cpp; path = ../../../src/SkinnedVboMesh.cpp; sourceTree = "<group>"; };
 		6FDCC2B20C2B49689B0AEE40 /* ModelTargetSkinnedMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ModelTargetSkinnedMesh.cpp; path = ../../../src/ModelTargetSkinnedMesh.cpp; sourceTree = "<group>"; };
 		7580736AFE6545129AA26C5B /* SkinnedVboMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinnedVboMesh.h; path = ../../../include/SkinnedVboMesh.h; sourceTree = "<group>"; };
-		7A4A0D6DC62B4F5395212AAC /* ASkinnedMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ASkinnedMesh.cpp; path = ../../../src/ASkinnedMesh.cpp; sourceTree = "<group>"; };
 		7DBC53518CB34DF1BE988F38 /* Skeleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Skeleton.cpp; path = ../../../src/Skeleton.cpp; sourceTree = "<group>"; };
 		80E81F2E5AEB41A48903F135 /* ModelSourceAssimp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ModelSourceAssimp.cpp; path = ../../../src/ModelSourceAssimp.cpp; sourceTree = "<group>"; };
 		8AE11FB8D45E40B080316092 /* CustomIOStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomIOStream.h; path = ../../../include/CustomIOStream.h; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* ArmyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArmyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2A26E6655E44BD289C6E43D /* ModelSourceAssimp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelSourceAssimp.h; path = ../../../include/ModelSourceAssimp.h; sourceTree = "<group>"; };
+		B016EB86179A071600514E65 /* AMeshSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AMeshSection.h; path = ../../../include/AMeshSection.h; sourceTree = "<group>"; };
 		B035755016F92F8D006B03A1 /* skinning_frag_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_frag_normals.glsl; path = ../resources/skinning_frag_normals.glsl; sourceTree = "<group>"; };
 		B035755116F92F8D006B03A1 /* skinning_vert_normals.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = skinning_vert_normals.glsl; path = ../resources/skinning_vert_normals.glsl; sourceTree = "<group>"; };
 		B05461B8174FABA5007EB326 /* SkinningRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkinningRenderer.cpp; path = ../../../src/SkinningRenderer.cpp; sourceTree = "<group>"; };
@@ -97,7 +96,6 @@
 		E0342F9FA69F4D069C6D9975 /* ModelIo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelIo.h; path = ../../../include/ModelIo.h; sourceTree = "<group>"; };
 		F4EBEEEC42EE45C093BE55B0 /* SkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinnedMesh.h; path = ../../../include/SkinnedMesh.h; sourceTree = "<group>"; };
 		F52DCCC9E63A431EA0E04693 /* ModelIo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ModelIo.cpp; path = ../../../src/ModelIo.cpp; sourceTree = "<group>"; };
-		F7451C60BD01423A963B94D7 /* ASkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ASkinnedMesh.h; path = ../../../include/ASkinnedMesh.h; sourceTree = "<group>"; };
 		F7639A9B1D0B4C1C82D7DD8C /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Node.h; path = ../../../include/Node.h; sourceTree = "<group>"; };
 		FD1F82670961432DA0099F73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE6EEA551511480F9AD2C9A0 /* ArmyDemo_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = ArmyDemo_Prefix.pch; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 			children = (
 				B0B51F171746A1420019976D /* Actor.cpp */,
 				B0AB4C4F1760DAEB002B9DC6 /* AnimCurve.cpp */,
-				7A4A0D6DC62B4F5395212AAC /* ASkinnedMesh.cpp */,
 				0FC9FBCFAB234C5CB8CCF7B4 /* CustomIOStream.cpp */,
 				F52DCCC9E63A431EA0E04693 /* ModelIo.cpp */,
 				80E81F2E5AEB41A48903F135 /* ModelSourceAssimp.cpp */,
@@ -284,7 +281,7 @@
 				B0B51F161746A1350019976D /* Actor.h */,
 				26985BA9596145349B2F79C6 /* AnimCurve.h */,
 				B0B51F151746A1310019976D /* AnimTrack.h */,
-				F7451C60BD01423A963B94D7 /* ASkinnedMesh.h */,
+				B016EB86179A071600514E65 /* AMeshSection.h */,
 				8AE11FB8D45E40B080316092 /* CustomIOStream.h */,
 				E0342F9FA69F4D069C6D9975 /* ModelIo.h */,
 				A2A26E6655E44BD289C6E43D /* ModelSourceAssimp.h */,
@@ -363,7 +360,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				07DA3799E6924ABEBFAA9AC1 /* ArmyDemoApp.cpp in Sources */,
-				6AF9452E41EA47EAA5617BF3 /* ASkinnedMesh.cpp in Sources */,
 				4C4E0FADC1E541DD961D93F0 /* CustomIOStream.cpp in Sources */,
 				50EC2807172E4FEEA2D95619 /* ModelIo.cpp in Sources */,
 				D43F588027774FB4BBB89DB6 /* ModelSourceAssimp.cpp in Sources */,

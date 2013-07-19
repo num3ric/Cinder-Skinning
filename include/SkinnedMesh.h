@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ASkinnedMesh.h"
+#include "AMeshSection.h"
 
 #include "cinder/TriMesh.h"
 
@@ -16,9 +16,9 @@ typedef std::shared_ptr< class SkinnedMesh > SkinnedMeshRef;
 class SkinnedMesh
 {
 public:
-	struct MeshSection : public ASkinnedMesh
+	struct MeshSection : public AMeshSection
 	{
-		MeshSection() : ASkinnedMesh() { }
+		MeshSection() : AMeshSection() { }
 		void updateMesh( bool enableSkinning = true ) override;
 		
 		std::string mName;
