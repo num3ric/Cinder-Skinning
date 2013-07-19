@@ -3,6 +3,7 @@
 #include "cinder/Vector.h"
 #include "cinder/gl/Texture.h"
 #include "cinder/gl/Material.h"
+#include "cinder/Exception.h"
 
 #include <array>
 
@@ -56,6 +57,30 @@ public:
 	virtual bool	hasMaterials( int section = -1 ) const = 0;
 	
   	virtual	void	load( ModelTarget *target ) = 0;
+};
+	
+class ModelIoException : public ci::Exception
+{
+public:
+	ModelIoException() { mMessage[0] = 0; }
+	ModelIoException( const std::string &message ) throw();
+	
+	virtual const char * what() const throw() { return mMessage; }
+	
+private:
+	char	mMessage[256];
+};
+
+class LoadErrorException : public ModelIoException {
+public:
+	LoadErrorException() : ModelIoException() { }
+	LoadErrorException( const std::string &message ) throw() : ModelIoException( "Load error:" + message ) { };
+};
+
+class ModelTargetException : public ModelIoException {
+public:
+	ModelTargetException() : ModelIoException() {}
+	ModelTargetException( const std::string &message ) throw() : ModelIoException( "Target error:" + message ) { };
 };
 
 //! Load model with assimp, the only loader we have for now.

@@ -56,4 +56,10 @@ ModelSourceAssimpRef loadModel( const ci::fs::path& modelPath, const ci::fs::pat
 	return ModelSourceAssimp::create( modelPath, rootAssetFolderPath );
 }
 
+ModelIoException::ModelIoException( const std::string &message ) throw()
+: ModelIoException()
+{
+	strncpy( mMessage, message.c_str(), 255 );
+}
+
 } //end namespace model

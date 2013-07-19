@@ -85,7 +85,7 @@ void ModelTargetSkinnedVboMesh::loadTex( const std::vector<ci::Vec2f>& texCoords
 void ModelTargetSkinnedVboMesh::loadSkeleton( const SkeletonRef& skeleton )
 {
 	if( skeleton->getNumBones() > SkinnedVboMesh::MAXBONES )
-		throw "Skeleton has more bones than maximal the number allowed.";
+		throw ModelTargetException( "Skeleton has more bones than maximal the number allowed." );
 	
 	mSkinnedVboMesh->setSkeleton( skeleton );
 }

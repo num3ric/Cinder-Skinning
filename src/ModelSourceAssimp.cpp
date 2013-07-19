@@ -71,8 +71,7 @@ namespace ai {
 	
 	model::NodeRef generateNodeHierarchy( model::Skeleton* skeleton, const aiNode* ainode, const model::NodeRef& parent, ci::Matrix44f derivedTransformation, int level )
 	{
-		if( !ainode )
-			throw "Invalid ainode";
+		assert( ainode );
 		
 		derivedTransformation *= ai::get( ainode->mTransformation );
 		std::string name = ai::get( ainode->mName );
@@ -350,9 +349,9 @@ ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::f
 	//TODO: make own exception class to catch
 	if( !mAiScene ) {
 		ci::app::console() << mImporter->GetErrorString() << std::endl;
-		throw mImporter->GetErrorString();
+		throw LoadErrorException( mImporter->GetErrorString() );
 	} else if ( !mAiScene->HasMeshes() ) {
-		throw "Scene has no meshes.";
+		throw LoadErrorException( "Scene has no meshes." );
 	}
 	
 	unsigned int numBones = 0;
