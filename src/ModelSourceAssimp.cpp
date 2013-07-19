@@ -1,6 +1,7 @@
 #include "ModelSourceAssimp.h"
 #include "CustomIOStream.h"
 #include "Skeleton.h"
+#include "Debug.h"
 
 #include "assimp/postprocess.h"
 #include "cinder/ImageIo.h"
@@ -110,7 +111,7 @@ namespace ai {
 					model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
 					float tsecs = ( anim->mTicksPerSecond != 0 ) ? (float) anim->mTicksPerSecond : 25.0f;
 					bone->addAnimTrack( a, float( anim->mDuration ), tsecs );
-					ci::app::console() << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
+					LOG_M << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
 					for( unsigned int k=0; k < nodeAnim->mNumPositionKeys; ++k) {
 						const aiVectorKey& key = nodeAnim->mPositionKeys[k];
 						bone->addPositionKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
@@ -124,7 +125,7 @@ namespace ai {
 						bone->addScalingKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
 					}
 				} catch ( const std::out_of_range& ) {
-					ci::app::console() << "Anim node " << ai::get(nodeAnim->mNodeName) << " is not a bone." << std::endl;
+					LOG_M << "Anim node " << ai::get(nodeAnim->mNodeName) << " is not a bone." << std::endl;
 				}
 			}
 		}
@@ -178,13 +179,13 @@ namespace ai {
 		
 		aiString name;
 		mtl->Get( AI_MATKEY_NAME, name );
-		ci::app::console() << "material " << ai::get( name ) << std::endl;
+		LOG_M << "material " << ai::get( name ) << std::endl;
 		// Culling
 		int twoSided;
 		if ( ( AI_SUCCESS == mtl->Get( AI_MATKEY_TWOSIDED, twoSided ) ) && twoSided ) {
 			matInfo->mTwoSided = true;
 			matInfo->mMaterial.setFace( GL_FRONT_AND_BACK );
-			ci::app::console() << " two sided" << std::endl;
+			LOG_M << " two sided" << std::endl;
 		} else {
 			matInfo->mTwoSided = false;
 			matInfo->mMaterial.setFace( GL_FRONT );
@@ -193,23 +194,23 @@ namespace ai {
 		aiColor4D dcolor, scolor, acolor, ecolor, tcolor;
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_DIFFUSE, dcolor ) ) {
 			matInfo->mMaterial.setDiffuse( ai::get( dcolor ) );
-			ci::app::console() << " diffuse: " << ai::get( dcolor ) << std::endl;
+			LOG_M << " diffuse: " << ai::get( dcolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_SPECULAR, scolor ) ) {
 			matInfo->mMaterial.setSpecular( ai::get( scolor ) );
-			ci::app::console() << " specular: " << ai::get( scolor ) << std::endl;
+			LOG_M << " specular: " << ai::get( scolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_AMBIENT, acolor ) ) {
 			matInfo->mMaterial.setAmbient( ai::get( acolor ) );
-			ci::app::console() << " ambient: " << ai::get( acolor ) << std::endl;
+			LOG_M << " ambient: " << ai::get( acolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_EMISSIVE, ecolor ) ) {
 			matInfo->mMaterial.setEmission( ai::get( ecolor ) );
-			ci::app::console() << " emission: " << ai::get( ecolor ) << std::endl;
+			LOG_M << " emission: " << ai::get( ecolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_TRANSPARENT, tcolor ) ) {
 			matInfo->mTransparentColor =  ai::get( tcolor );
-			ci::app::console() << " transparent: " << ai::get( tcolor ) << std::endl;
+			LOG_M << " transparent: " << ai::get( tcolor ) << std::endl;
 		}
 		
 		// Load Textures
@@ -218,7 +219,7 @@ namespace ai {
 		
 		// TODO: handle other aiTextureTypes
 		if ( AI_SUCCESS == mtl->GetTexture( aiTextureType_DIFFUSE, texIndex, &texPath ) ) {
-			ci::app::console() << " diffuse texture " << texPath.data;
+			LOG_M << " diffuse texture " << texPath.data;
 			ci::fs::path texFsPath( texPath.data );
 			ci::fs::path modelFolder = modelPath.parent_path();
 			ci::fs::path realPath;
@@ -232,11 +233,11 @@ namespace ai {
 			if ( AI_SUCCESS == mtl->Get( AI_MATKEY_TEXFLAGS(aiTextureType_DIFFUSE, 0), texFlag ) ) {
 				if( texFlag == aiTextureFlags_UseAlpha ) {
 					matInfo->mUseAlpha = true;
-					ci::app::console() << " Texture uses alpha." << std::endl;
+					LOG_M << " Texture uses alpha." << std::endl;
 				}
 			}
 			
-			ci::app::console() << " [" << realPath.string() << "]" << std::endl;
+			LOG_M << " [" << realPath.string() << "]" << std::endl;
 			
 			// texture wrap
 			ci::gl::Texture::Format format;
@@ -298,7 +299,7 @@ namespace ai {
 				// fix based on the work of javi.agenjo, https://github.com/gaborpapp/Cinder/commit/3e7302
 				matInfo->mTexture = ci::gl::Texture::loadDds( ci::loadFile( realPath )->createStream(), format );
 				if ( !matInfo->mTexture )
-					ci::app::console() << "failed to laod dds..." << std::endl;
+					LOG_M << "failed to laod dds..." << std::endl;
 			} else {
 				matInfo->mTexture = ci::gl::Texture( ci::loadImage( realPath ), format );
 			}
@@ -348,7 +349,7 @@ ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::f
 	
 	//TODO: make own exception class to catch
 	if( !mAiScene ) {
-		ci::app::console() << mImporter->GetErrorString() << std::endl;
+		LOG_M << mImporter->GetErrorString() << std::endl;
 		throw LoadErrorException( mImporter->GetErrorString() );
 	} else if ( !mAiScene->HasMeshes() ) {
 		throw LoadErrorException( "Scene has no meshes." );
@@ -422,11 +423,11 @@ void ModelSourceAssimp::load( ModelTarget *target )
 		const aiMesh* aimesh = mAiScene->mMeshes[i];
 		std::string name = ai::get( aimesh->mName );
 		
-		ci::app::console() << "loading mesh " << i;
+		LOG_M << "loading mesh " << i;
 		if ( name != "" )
-			ci::app::console() << " [" << name << "]";
-		ci::app::console() << " #faces: " << aimesh->mNumFaces;
-		ci::app::console() << " #vertices: " << aimesh->mNumVertices << std::endl;
+			LOG_M << " [" << name << "]";
+		LOG_M << " #faces: " << aimesh->mNumFaces;
+		LOG_M << " #vertices: " << aimesh->mNumVertices << std::endl;
 		
 		target->setActiveSection( i );
 		
