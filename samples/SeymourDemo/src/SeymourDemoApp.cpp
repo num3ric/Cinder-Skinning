@@ -16,6 +16,8 @@ using namespace std;
 #include "Skeleton.h"
 #include "SkinningRenderer.h"
 
+#include "Treadmill.h"
+
 using namespace model;
 
 class SeymourDemo : public AppNative {
@@ -41,20 +43,22 @@ private:
 	float							rotationRadius;
 	Vec3f							mLightPos;
 	
-	int								mMeshIndex;
 	float							mFps;
 	params::InterfaceGl				mParams;
-	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawAbsolute, mEnableSkinning, mEnableWireframe;
+	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawAbsolute, mEnableWireframe;
+	
+	std::unique_ptr<Treadmill> mTreadmill;
 };
 
 void SeymourDemo::setup()
 {
 	model::Skeleton::mRenderMode = model::Skeleton::RenderMode::CLEANED;
+	
+	mTreadmill = std::unique_ptr<Treadmill>( new Treadmill() );
 
 	rotationRadius = 20.0f;
 	mLightPos = Vec3f(0, 20.0f, 0);
 	mMouseHorizontalPos = 0;
-	mMeshIndex = 0;
 	mUseVbo = true;
 	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
 	mParams.addParam( "Fps", &mFps, "", true );
@@ -68,8 +72,6 @@ void SeymourDemo::setup()
 	mParams.addParam( "Draw Labels", &mDrawLabels );
 	mDrawAbsolute = true;
 	mParams.addParam( "Abolute skeleton", &mDrawAbsolute );
-	mEnableSkinning = true;
-	mParams.addParam( "Skinning", &mEnableSkinning );
 	mEnableWireframe = false;
 	mParams.addParam( "Wireframe", &mEnableWireframe );
 	
@@ -98,15 +100,7 @@ void SeymourDemo::fileDrop( FileDropEvent event )
 
 void SeymourDemo::keyDown( KeyEvent event )
 {
-	if( event.getCode() == KeyEvent::KEY_m ) {
-		mDrawAbsolute = !mDrawAbsolute;
-	} else if( event.getCode() == KeyEvent::KEY_s ) {
-		mEnableSkinning = !mEnableSkinning;
-	} else if( event.getCode() == KeyEvent::KEY_UP ) {
-		mMeshIndex++;
-	} else if( event.getCode() == KeyEvent::KEY_DOWN ) {
-		mMeshIndex = math<int>::max(mMeshIndex - 1, 0);
-	} else if( event.getCode() == KeyEvent::KEY_f ) {
+	if( event.getCode() == KeyEvent::KEY_f ) {
 		app::setFullScreen( !isFullScreen() );
 	}
 }
@@ -173,7 +167,7 @@ void SeymourDemo::draw()
 	light.enable();
 	
 	
-	gl::drawVector(mLightPos, Vec3f::zero() );
+//	gl::drawVector(mLightPos, Vec3f::zero() );
 	
 	gl::enable( GL_LIGHTING );
 	gl::enable( GL_NORMALIZE );
@@ -197,6 +191,10 @@ void SeymourDemo::draw()
 	if( mDrawLabels ) {
 		SkinningRenderer::drawLabels( mSkinnedVboMesh->getSkeleton(),  mMayaCam.getCamera() );
 	}
+	
+	gl::disable( GL_CULL_FACE );
+		
+	mTreadmill->draw( mMouseHorizontalPos / getWindowWidth() );
 	
 	mParams.draw();
 	

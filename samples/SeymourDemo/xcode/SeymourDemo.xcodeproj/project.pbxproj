@@ -28,6 +28,9 @@
 		B051926B1744ED95007A921C /* skinning_frag_no_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B01F84971744EA1700AA62D4 /* skinning_frag_no_normals.glsl */; };
 		B05461B7174FAA0A007EB326 /* SkinningRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05461B6174FAA0A007EB326 /* SkinningRenderer.cpp */; };
 		B0AB4C481760ABCD002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C461760ABCD002B9DC6 /* AnimCurve.cpp */; };
+		B0FF4252179A0F9D007CCE39 /* Treadmill.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0FF4250179A0F9D007CCE39 /* Treadmill.cpp */; };
+		B0FF4256179A2094007CCE39 /* treadmill_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B0FF4253179A205D007CCE39 /* treadmill_vert.glsl */; };
+		B0FF4257179A2099007CCE39 /* treadmill_frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B0FF4254179A2072007CCE39 /* treadmill_frag.glsl */; };
 		B999A80CA3924F5A9E8F61DC /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9DDE6E7EAA6496D8D7E3844 /* Skeleton.cpp */; };
 		BFB888FB70554572B0D0D39A /* ModelTargetSkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05F4ABBFD6AC47A2A3C7D2D6 /* ModelTargetSkinnedMesh.cpp */; };
 		D1AE18B1746240DFB8BC018E /* ModelTargetSkinnedVboMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2BC06C948E8B4006AD29A071 /* ModelTargetSkinnedVboMesh.cpp */; };
@@ -76,6 +79,10 @@
 		B05461B6174FAA0A007EB326 /* SkinningRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkinningRenderer.cpp; path = ../../../src/SkinningRenderer.cpp; sourceTree = "<group>"; };
 		B0AB4C461760ABCD002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
 		B0DB931E1799E0390010B8E1 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = ../../../include/Debug.h; sourceTree = "<group>"; };
+		B0FF4250179A0F9D007CCE39 /* Treadmill.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Treadmill.cpp; path = ../src/Treadmill.cpp; sourceTree = "<group>"; };
+		B0FF4251179A0F9D007CCE39 /* Treadmill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Treadmill.h; path = ../src/Treadmill.h; sourceTree = "<group>"; };
+		B0FF4253179A205D007CCE39 /* treadmill_vert.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = treadmill_vert.glsl; path = ../resources/treadmill_vert.glsl; sourceTree = "<group>"; };
+		B0FF4254179A2072007CCE39 /* treadmill_frag.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; name = treadmill_frag.glsl; path = ../resources/treadmill_frag.glsl; sourceTree = "<group>"; };
 		BBEA026A1577471A89F8FB62 /* ModelTargetSkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelTargetSkinnedMesh.h; path = ../../../include/ModelTargetSkinnedMesh.h; sourceTree = "<group>"; };
 		C51E03FB6BB14738840BBD7D /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Node.cpp; path = ../../../src/Node.cpp; sourceTree = "<group>"; };
 		CCE6160D84AB4309962A6988 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
@@ -116,6 +123,8 @@
 			isa = PBXGroup;
 			children = (
 				344C88BFFC2246ADB469B8F4 /* SeymourDemoApp.cpp */,
+				B0FF4250179A0F9D007CCE39 /* Treadmill.cpp */,
+				B0FF4251179A0F9D007CCE39 /* Treadmill.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -179,6 +188,8 @@
 			children = (
 				2BC98BCB55134B558109EC71 /* CinderApp.icns */,
 				0E1BE547961C4AA2A48E98A2 /* Info.plist */,
+				B0FF4253179A205D007CCE39 /* treadmill_vert.glsl */,
+				B0FF4254179A2072007CCE39 /* treadmill_frag.glsl */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -309,6 +320,8 @@
 				0F4795547ED4410E962DE84E /* CinderApp.icns in Resources */,
 				B035754E16F92F41006B03A1 /* skinning_frag_normals.glsl in Resources */,
 				B035754F16F92F41006B03A1 /* skinning_vert_normals.glsl in Resources */,
+				B0FF4256179A2094007CCE39 /* treadmill_vert.glsl in Resources */,
+				B0FF4257179A2099007CCE39 /* treadmill_frag.glsl in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +345,7 @@
 				B00A7FAF17412BCF00131FD9 /* Actor.cpp in Sources */,
 				B05461B7174FAA0A007EB326 /* SkinningRenderer.cpp in Sources */,
 				B0AB4C481760ABCD002B9DC6 /* AnimCurve.cpp in Sources */,
+				B0FF4252179A0F9D007CCE39 /* Treadmill.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
