@@ -80,9 +80,9 @@
 		B0AB4C461760ABCD002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
 		B0DB931E1799E0390010B8E1 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = ../../../include/Debug.h; sourceTree = "<group>"; };
 		B0FF4250179A0F9D007CCE39 /* Treadmill.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Treadmill.cpp; path = ../src/Treadmill.cpp; sourceTree = "<group>"; };
-		B0FF4251179A0F9D007CCE39 /* Treadmill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Treadmill.h; path = ../src/Treadmill.h; sourceTree = "<group>"; };
 		B0FF4253179A205D007CCE39 /* treadmill_vert.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = treadmill_vert.glsl; path = ../resources/treadmill_vert.glsl; sourceTree = "<group>"; };
 		B0FF4254179A2072007CCE39 /* treadmill_frag.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; name = treadmill_frag.glsl; path = ../resources/treadmill_frag.glsl; sourceTree = "<group>"; };
+		B0FFD43B179AA4110048C890 /* Treadmill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Treadmill.h; path = ../include/Treadmill.h; sourceTree = "<group>"; };
 		BBEA026A1577471A89F8FB62 /* ModelTargetSkinnedMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelTargetSkinnedMesh.h; path = ../../../include/ModelTargetSkinnedMesh.h; sourceTree = "<group>"; };
 		C51E03FB6BB14738840BBD7D /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Node.cpp; path = ../../../src/Node.cpp; sourceTree = "<group>"; };
 		CCE6160D84AB4309962A6988 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
@@ -124,7 +124,6 @@
 			children = (
 				344C88BFFC2246ADB469B8F4 /* SeymourDemoApp.cpp */,
 				B0FF4250179A0F9D007CCE39 /* Treadmill.cpp */,
-				B0FF4251179A0F9D007CCE39 /* Treadmill.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -178,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				CCE6160D84AB4309962A6988 /* Resources.h */,
+				B0FFD43B179AA4110048C890 /* Treadmill.h */,
 				87FC624A6C5647E69C8BEE2A /* SeymourDemo_Prefix.pch */,
 			);
 			name = Headers;
