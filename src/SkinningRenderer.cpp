@@ -34,8 +34,8 @@ namespace model {
 			mSkinningShader = ci::gl::GlslProg::create( ci::app::loadResource(RES_SKINNING_VERT), ci::app::loadResource(RES_SKINNING_FRAG) );
 		}
 		catch( ci::gl::GlslProgCompileExc &exc ) {
-			std::cout << "Shader compile error: " << std::endl;
-			std::cout << exc.what();
+			ci::app::console() << "Shader compile error: " << std::endl;
+			ci::app::console() << exc.what();
 		}
 	}
 	
@@ -148,6 +148,7 @@ namespace model {
 	
 	void SkinningRenderer::privateDraw( SkeletonRef skeleton, bool absolute, const std::string& name ) const
 	{
+		//TODO: remove push all_attribs for performance
 		glPushAttrib( GL_ALL_ATTRIB_BITS );
 		glPushClientAttrib( GL_CLIENT_ALL_ATTRIB_BITS );
 		ci::gl::disable( GL_LIGHTING );
@@ -164,12 +165,12 @@ namespace model {
 	void SkinningRenderer::privateDrawLabels( SkeletonRef skeleton, const ci::CameraPersp& camera ) const
 	{
 		ci::Matrix44f mv = ci::gl::getModelView();
-		glPushAttrib( GL_ALL_ATTRIB_BITS );
-		glPushClientAttrib( GL_CLIENT_ALL_ATTRIB_BITS );
+		glPushAttrib( GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT );
 		ci::gl::disable( GL_LIGHTING );
 		ci::gl::enableAlphaBlending();
 		ci::gl::disableDepthRead();
 		ci::gl::disableDepthWrite();
+		ci::gl::pushMatrices();
 		ci::gl::setMatricesWindow( ci::app::getWindowSize() );
 		skeleton->traverseNodes( skeleton->getRootNode(),
 								[=] ( NodeRef n ) {
@@ -177,7 +178,7 @@ namespace model {
 										drawLabel(*n, camera, mv );
 									}
 								} );
-		glPopClientAttrib();
+		ci::gl::popMatrices();
 		glPopAttrib();
 	}
 
