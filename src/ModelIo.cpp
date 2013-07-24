@@ -57,8 +57,9 @@ ModelSourceAssimpRef loadModel( const ci::fs::path& modelPath, const ci::fs::pat
 }
 
 ModelIoException::ModelIoException( const std::string &message ) throw()
-: ModelIoException()
+//: ModelIoException() no constructor delegation in VS2012 :(
 {
+	mMessage[0] = 0;
 	strncpy( mMessage, message.c_str(), 255 );
 }
 

@@ -18,4 +18,8 @@ xcuserdata/
 *.suo
 *.ncb
 *.tlog
+*.idb
+*.pdb
+*.psess
+*.vspx
 Resources.aps

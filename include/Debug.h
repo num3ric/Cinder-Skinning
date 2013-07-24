@@ -5,7 +5,7 @@
 
 #include "cinder/app/App.h"
 
-#define NDEBUG
+//#define NDEBUG //preprocessor definition
 
 #if defined( CINDER_COCOA )
 #define LOG_FUNCTION_CALL __PRETTY_FUNCTION__

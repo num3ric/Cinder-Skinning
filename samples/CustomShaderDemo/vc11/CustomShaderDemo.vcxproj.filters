@@ -39,9 +39,6 @@
     <ClCompile Include="..\..\..\src\Actor.cpp">
       <Filter>Blocks\Skinning\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\ASkinnedMesh.cpp">
-      <Filter>Blocks\Skinning\src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\CustomIOStream.cpp">
       <Filter>Blocks\Skinning\src</Filter>
     </ClCompile>
@@ -81,9 +78,6 @@
     <ClInclude Include="..\..\..\include\AnimTrack.h">
       <Filter>Blocks\Skinning\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\ASkinnedMesh.h">
-      <Filter>Blocks\Skinning\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\CustomIOStream.h">
       <Filter>Blocks\Skinning\include</Filter>
     </ClInclude>
@@ -121,6 +115,12 @@
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\AMeshSection.h">
+      <Filter>Blocks\Skinning\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Debug.h">
+      <Filter>Blocks\Skinning\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

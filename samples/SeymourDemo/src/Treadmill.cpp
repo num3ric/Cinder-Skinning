@@ -8,6 +8,8 @@
 
 #include "Treadmill.h"
 
+#include "cinder/app/App.h"
+#include "cinder/ImageIo.h"
 #include "cinder/gl/gl.h"
 #include "Resources.h"
 
@@ -23,11 +25,11 @@ Treadmill::Treadmill()
 	mShadow = gl::Texture::create( loadImage( app::getAssetPath("shadow.png") ) );
 	
 	try {
-		mShader = ci::gl::GlslProg::create( ci::app::loadResource(RES_TMILL_VERT), ci::app::loadResource(RES_TMILL_FRAG) );
+		mShader = gl::GlslProg::create( app::loadResource(RES_TMILL_VERT), app::loadResource(RES_TMILL_FRAG) );
 	}
-	catch( ci::gl::GlslProgCompileExc &exc ) {
-		ci::app::console() << "Shader compile error: " << std::endl;
-		ci::app::console() << exc.what();
+	catch( gl::GlslProgCompileExc &exc ) {
+		app::console() << "Shader compile error: " << std::endl;
+		app::console() << exc.what();
 	}
 	
 	gl::enable( mTexture->getTarget() );

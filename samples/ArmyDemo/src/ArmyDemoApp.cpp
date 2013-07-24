@@ -145,7 +145,9 @@ void ArmyDemoApp::draw()
 
 	gl::enable( GL_LIGHTING );
 	gl::enable( GL_NORMALIZE );
-	
+	gl::enableDepthWrite();
+	gl::enableDepthRead();
+
 	gl::scale(0.1f, 0.1f, 0.1f);
 	
 	

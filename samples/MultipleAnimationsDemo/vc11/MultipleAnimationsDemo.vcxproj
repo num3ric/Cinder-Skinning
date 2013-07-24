@@ -111,7 +111,6 @@
     <ClCompile Include="..\..\..\src\AnimCurve.cpp" />
     <ClCompile Include="..\..\..\src\SkinningRenderer.cpp" />
     <ClCompile Include="..\src\MultipleAnimationsDemoApp.cpp" />
-    <ClCompile Include="..\..\..\src\ASkinnedMesh.cpp" />
     <ClCompile Include="..\..\..\src\CustomIOStream.cpp" />
     <ClCompile Include="..\..\..\src\ModelIo.cpp" />
     <ClCompile Include="..\..\..\src\ModelSourceAssimp.cpp" />
@@ -124,11 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Actor.h" />
+    <ClInclude Include="..\..\..\include\AMeshSection.h" />
     <ClInclude Include="..\..\..\include\AnimTrack.h" />
+    <ClInclude Include="..\..\..\include\Debug.h" />
     <ClInclude Include="..\..\..\include\SkinningRenderer.h" />
     <ClInclude Include="..\include\Resources.h" />
     <ClInclude Include="..\..\..\include\AnimCurve.h" />
-    <ClInclude Include="..\..\..\include\ASkinnedMesh.h" />
     <ClInclude Include="..\..\..\include\CustomIOStream.h" />
     <ClInclude Include="..\..\..\include\ModelIo.h" />
     <ClInclude Include="..\..\..\include\ModelSourceAssimp.h" />
