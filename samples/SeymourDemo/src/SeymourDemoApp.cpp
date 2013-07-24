@@ -133,6 +133,7 @@ void SeymourDemo::resize()
 	CameraPersp cam = mMayaCam.getCamera();
 	cam.setAspectRatio( getWindowAspectRatio() );
 	mMayaCam.setCurrentCam( cam );
+	gl::enableDepthRead();
 }
 
 void SeymourDemo::update()
