@@ -1,4 +1,3 @@
-/* --- These variables must be preserved for the vbo skinning. ---- */
 const int MAXBONES = 92;
 
 attribute vec3 position;
@@ -9,7 +8,6 @@ attribute vec4 boneIndices;
 
 uniform mat4 boneMatrices[MAXBONES];
 uniform mat4 invTransposeMatrices[MAXBONES];
-/* ---------------------------------------------------------------- */
 
 varying vec2 Tc;
 varying vec3 V, N, L;

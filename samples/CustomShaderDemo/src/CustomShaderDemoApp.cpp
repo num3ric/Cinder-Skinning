@@ -37,10 +37,9 @@ void CustomShaderDemo::setup()
 	mLightPos = Vec3f(0, 20.0f, 0);
 	try {
 		mCustomShader = gl::GlslProg::create( loadResource(RES_CUSTOM_VERT), loadResource(RES_CUSTOM_FRAG) );
-	}
-	catch( ci::gl::GlslProgCompileExc &exc ) {
-		std::cout << "Shader compile error: " << std::endl;
-		std::cout << exc.what();
+	} catch( ci::gl::GlslProgCompileExc &exc ) {
+		console() << "Shader compile error: " << std::endl;
+		console() << exc.what();
 	}
 	
 	/* Here we pass the custom shader to the skinned vbo mesh so that its
