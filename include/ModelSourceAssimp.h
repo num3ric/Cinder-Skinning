@@ -44,7 +44,7 @@ namespace ai {
 	const aiNode* findMeshNode( const std::string& meshName, const aiScene* aiscene, const aiNode* ainode );
 	
 	//FIXME: Move into private namespace?
-	std::shared_ptr<class model::Skeleton> loadSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root = nullptr );
+	std::shared_ptr<class model::Skeleton> getSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root = nullptr );
 	
 	std::shared_ptr<model::Node> generateNodeHierarchy(model::Skeleton* skeleton,
 												const aiNode* ainode,
@@ -54,17 +54,17 @@ namespace ai {
 	
 	void generateAnimationCurves( model::Skeleton* skeleton, const aiScene* aiscene );
 	
-	std::vector<ci::Vec3f> loadPositions( const aiMesh* aimesh );
+	std::vector<ci::Vec3f> getPositions( const aiMesh* aimesh );
 
-	std::vector<ci::Vec3f> loadNormals( const aiMesh* aimesh );
+	std::vector<ci::Vec3f> getNormals( const aiMesh* aimesh );
 
-	std::vector<ci::Vec2f> loadTexCoords( const aiMesh* aimesh );
+	std::vector<ci::Vec2f> getTexCoords( const aiMesh* aimesh );
 
-	std::vector<uint32_t> loadIndices( const aiMesh* aimesh );
+	std::vector<uint32_t> getIndices( const aiMesh* aimesh );
 	
-	model::MaterialInfo loadTexture( const aiScene* aiscene, const aiMesh *aimesh, ci::fs::path modelPath, ci::fs::path rootPath = ""  );
+	model::MaterialInfo getTexture( const aiScene* aiscene, const aiMesh *aimesh, ci::fs::path modelPath, ci::fs::path rootPath = ""  );
 	
-	std::vector<model::BoneWeights> loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton );
+	std::vector<model::BoneWeights> getBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton );
 	
 	//TODO: Use when there is no bones
 	ci::Matrix44f getDefaultTransformation( const std::string& name, const aiScene* aiscene, model::Skeleton* skeleton );

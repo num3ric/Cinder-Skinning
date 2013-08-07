@@ -49,7 +49,7 @@ namespace ai {
 		return nullptr;
 	}
 	
-	model::SkeletonRef loadSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root )
+	model::SkeletonRef getSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root )
 	{
 		root = ( root ) ? root : aiscene->mRootNode;
 		
@@ -98,7 +98,6 @@ namespace ai {
 	
 	void generateAnimationCurves( model::Skeleton* skeleton, const aiScene* aiscene )
 	{
-		//TODO: Handle multiple animations correctly, right now this actually works only for one aiAnimation
 		for( unsigned int a=0; a < aiscene->mNumAnimations; ++a) {
 			aiAnimation* anim = aiscene->mAnimations[a];
 			
@@ -131,7 +130,7 @@ namespace ai {
 		}
 	}
 	
-	std::vector<ci::Vec3f> loadPositions( const aiMesh* aimesh )
+	std::vector<ci::Vec3f> getPositions( const aiMesh* aimesh )
 	{
 		std::vector<ci::Vec3f> positions;
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
@@ -140,7 +139,7 @@ namespace ai {
 		return positions;
 	}
 	
-	std::vector<ci::Vec3f> loadNormals( const aiMesh* aimesh )
+	std::vector<ci::Vec3f> getNormals( const aiMesh* aimesh )
 	{
 		std::vector<ci::Vec3f> normals;
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
@@ -151,7 +150,7 @@ namespace ai {
 	
 	
 	
-	std::vector<ci::Vec2f> loadTexCoords( const aiMesh* aimesh )
+	std::vector<ci::Vec2f> getTexCoords( const aiMesh* aimesh )
 	{
 		std::vector<ci::Vec2f> texCoords;
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
@@ -162,7 +161,7 @@ namespace ai {
 		return texCoords;
 	}
 	
-	std::vector<uint32_t> loadIndices( const aiMesh* aimesh )
+	std::vector<uint32_t> getIndices( const aiMesh* aimesh )
 	{
 		std::vector<uint32_t> indices;
 		for( unsigned int i=0; i < aimesh->mNumFaces; ++i ) {
@@ -180,7 +179,7 @@ namespace ai {
 		return indices;
 	}
 	
-	model::MaterialInfo loadTexture( const aiScene* aiscene, const aiMesh *aimesh, ci::fs::path modelPath, ci::fs::path rootPath )
+	model::MaterialInfo getTexture( const aiScene* aiscene, const aiMesh *aimesh, ci::fs::path modelPath, ci::fs::path rootPath )
 	{
 		model::MaterialInfo matInfo;
 		// Handle material info
@@ -316,7 +315,7 @@ namespace ai {
 		return matInfo;
 	}
 	
-	std::vector<model::BoneWeights> loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton )
+	std::vector<model::BoneWeights> getBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton )
 	{
 		std::vector<model::BoneWeights> boneWeights;
 		unsigned int nbBones = aimesh->mNumBones;
@@ -399,7 +398,7 @@ void ModelSourceAssimp::load( ModelTarget *target )
 {
 	SkeletonRef skeleton = target->getSkeleton();
 	if( mHasSkeleton && skeleton == nullptr ) {
-		skeleton = ai::loadSkeleton( mHasAnimations, mAiScene );
+		skeleton = ai::getSkeleton( mHasAnimations, mAiScene );
 	}
 	
 	for( unsigned int i=0; i< mAiScene->mNumMeshes; ++i ) {
@@ -414,21 +413,21 @@ void ModelSourceAssimp::load( ModelTarget *target )
 		
 		target->setActiveSection( i );
 		target->loadName( name );
-		target->loadIndices( ai::loadIndices( aimesh ) );
-		target->loadVertexPositions( ai::loadPositions( aimesh ) );
+		target->loadIndices( ai::getIndices( aimesh ) );
+		target->loadVertexPositions( ai::getPositions( aimesh ) );
 		
 		if( mSections[i].mHasNormals ) {
-			target->loadVertexNormals( ai::loadNormals( aimesh ) );
+			target->loadVertexNormals( ai::getNormals( aimesh ) );
 		}
 		
 		if( mSections[i].mHasMaterials ) {
-			target->loadTex( ai::loadTexCoords( aimesh ),
-							 ai::loadTexture(mAiScene, aimesh, mModelPath, mRootAssetFolderPath ) );
+			target->loadTex( ai::getTexCoords( aimesh ),
+							 ai::getTexture(mAiScene, aimesh, mModelPath, mRootAssetFolderPath ) );
 		}
 		
 		if( mSections[i].mHasSkeleton && skeleton ) {
 			target->loadSkeleton( skeleton );
-			target->loadBoneWeights( ai::loadBoneWeights( aimesh, skeleton.get() ) );
+			target->loadBoneWeights( ai::getBoneWeights( aimesh, skeleton.get() ) );
 		} else {
 			const aiNode* ainode = ai::findMeshNode( name, mAiScene, mAiScene->mRootNode );
 			if( ainode ) {
