@@ -14,64 +14,43 @@ class model::Node;
 
 namespace ai {
 	
+	//! Assimp loader settings/flags.
 	extern unsigned int flags;
 	
 	//! Convert aiVector3D to ci::Vec3f.
-	inline ci::Vec3f get( const aiVector3D &v ) {
-		return ci::Vec3f( v.x, v.y, v.z );
-	}
-	
+	inline ci::Vec3f				get( const aiVector3D &v );
 	//! Convert aiQuaternion to ci::Quatf.
-	inline ci::Quatf get( const aiQuaternion &q ) {
-		return ci::Quatf( q.w, q.x, q.y, q.z );
-	}
-	
+	inline ci::Quatf				get( const aiQuaternion &q );
 	//! Convert aiMatrix4x4 to ci::Matrix44f.
-	inline ci::Matrix44f get( const aiMatrix4x4 &m ) {
-		return ci::Matrix44f( &m.a1, true );
-	}
-	
+	inline ci::Matrix44f			get( const aiMatrix4x4 &m );
 	//! Convert aiColor4D to ci::ColorAf.
-	inline ci::ColorAf get( const aiColor4D &c ) {
-		return ci::ColorAf( c.r, c.g, c.b, c.a );
-	}
-	
+	inline ci::ColorAf				get( const aiColor4D &c );
 	//! Convert aiString to std::string.
-	inline std::string get( const aiString &s ) {
-		return std::string( s.data );
-	}
-	
-	const aiNode* findMeshNode( const std::string& meshName, const aiScene* aiscene, const aiNode* ainode );
-	
-	//FIXME: Move into private namespace?
-	std::shared_ptr<class model::Skeleton> getSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root = nullptr );
-	
-	std::shared_ptr<model::Node> generateNodeHierarchy(model::Skeleton* skeleton,
-												const aiNode* ainode,
-												const std::shared_ptr<model::Node>& parent = nullptr,
-												ci::Matrix44f derivedTransformation = ci::Matrix44f::identity(),
-												int level = 0 );
-	
-	void generateAnimationCurves( model::Skeleton* skeleton, const aiScene* aiscene );
-	
-	std::vector<ci::Vec3f> getPositions( const aiMesh* aimesh );
+	inline std::string				get( const aiString &s );
+	//! Extract vertex positions from an assimp mesh section.
+	std::vector<ci::Vec3f>			getPositions( const aiMesh* aimesh );
+	//! Extract vertex normals from an assimp mesh section.
+	std::vector<ci::Vec3f>			getNormals( const aiMesh* aimesh );
+	//! Extract vertex texture coordinates from an assimp mesh section.
+	std::vector<ci::Vec2f>			getTexCoords( const aiMesh* aimesh );
+	//! Extract vertex indices from an assimp mesh section.
+	std::vector<uint32_t>			getIndices( const aiMesh* aimesh );
+	//! Extract material information (including textures) for a mesh section.
+	model::MaterialInfo				getTexture( const aiScene* aiscene, const aiMesh *aimesh, ci::fs::path modelPath, ci::fs::path rootPath = ""  );
+	//! Extract skeletal bone weights for each vertex of an assimp mesh section.
+	std::vector<model::BoneWeights>	getBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton );
+	//! Extract a mesh section's default transformation (use when there is no bones)
+	ci::Matrix44f					getDefaultTransformation( const std::string& name, const aiScene* aiscene, model::Skeleton* skeleton );
 
-	std::vector<ci::Vec3f> getNormals( const aiMesh* aimesh );
-
-	std::vector<ci::Vec2f> getTexCoords( const aiMesh* aimesh );
-
-	std::vector<uint32_t> getIndices( const aiMesh* aimesh );
-	
-	model::MaterialInfo getTexture( const aiScene* aiscene, const aiMesh *aimesh, ci::fs::path modelPath, ci::fs::path rootPath = ""  );
-	
-	std::vector<model::BoneWeights> getBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton );
-	
-	//TODO: Use when there is no bones
-	ci::Matrix44f getDefaultTransformation( const std::string& name, const aiScene* aiscene, model::Skeleton* skeleton );
-
+	//! Construct skeleton from assimp scene.
+	std::shared_ptr<class model::Skeleton>	getSkeleton( const aiScene* aiscene,
+														 bool hasAnimations,
+														 const aiNode* root = nullptr );
+	//! Traverse assimp nodes to find the aiNode with specified name.
+	const aiNode*							findMeshNode( const std::string& meshName,
+														  const aiScene* aiscene,
+														  const aiNode* ainode );
 }
-
-
 
 namespace model {
 
@@ -83,17 +62,16 @@ class ModelSourceAssimp : public ModelSource {
 		SectionInfo()
 		: mHasNormals( false ), mHasSkeleton( false ), mHasMaterials( false ), mNumVertices( 0 ), mNumIndices( 0 )
 		{ }
-		bool mHasNormals;
-		bool mHasSkeleton;
-		bool mHasMaterials;
-		size_t mNumVertices;
-		size_t mNumIndices;
-		void log();
+		bool	mHasNormals;
+		bool	mHasSkeleton;
+		bool	mHasMaterials;
+		size_t	mNumVertices;
+		size_t	mNumIndices;
+		void	log();
 	};
-	bool mHasSkeleton;
-	bool mHasAnimations;
+	bool		mHasSkeleton;
+	bool		mHasAnimations;
 public:
-//	static ModelSourceRef	create( DataSourceRef dataSource );
 	static ModelSourceAssimpRef	create( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath = ""  );
 	
 	virtual size_t	getNumSections() const override { return mSections.size(); }
@@ -118,7 +96,7 @@ private:
 	ci::fs::path						mModelPath;
 	//! Root asset folder (textures in a model may not reside in the same directory as the model).
 	ci::fs::path						mRootAssetFolderPath;
-
+	//! Information extracted (upon class instantiation) from assimp about each model section
 	std::vector<SectionInfo>			mSections;
 };
 

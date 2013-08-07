@@ -31,103 +31,29 @@ namespace ai {
 //	aiProcess_SplitLargeMeshes |
 //	aiProcess_FindInstances |
 	
-	
-	const aiNode* findMeshNode( const std::string& meshName, const aiScene* aiscene, const aiNode* ainode )
-	{			
-		for( unsigned i=0; i<ainode->mNumMeshes; ++i ) {
-			if( meshName == ai::get( aiscene->mMeshes[ ainode->mMeshes[i] ]->mName ) ) {
-				return ainode;
-			}
-		}
-		
-		for( unsigned n=0; n < ainode->mNumChildren; ++n) {
-			const aiNode* goalNode = findMeshNode( meshName, aiscene, ainode->mChildren[n] );
-			if( goalNode != nullptr )
-				return goalNode;
-		}
-		
-		return nullptr;
+	ci::Vec3f get( const aiVector3D &v )
+	{
+		return ci::Vec3f( v.x, v.y, v.z );
 	}
 	
-	model::SkeletonRef getSkeleton( bool hasAnimations, const aiScene* aiscene, const aiNode* root )
+	ci::Quatf get( const aiQuaternion &q )
 	{
-		root = ( root ) ? root : aiscene->mRootNode;
-		
-		std::unordered_set<std::string> boneNames;
-		for( unsigned int m=0; m < aiscene->mNumMeshes; ++m ) {
-			aiMesh * mesh = aiscene->mMeshes[m];
-			for( unsigned int b=0; b < mesh->mNumBones; ++b) {
-				std::string name = ai::get( mesh->mBones[b]->mName );
-				boneNames.insert( name );
-			}
-		}
-		
-		model::SkeletonRef skeleton = model::Skeleton::create( boneNames );
-		skeleton->setRootNode( generateNodeHierarchy( skeleton.get(), root ) );
-		if( hasAnimations ) {
-			generateAnimationCurves( skeleton.get(), aiscene );
-		}
-		return skeleton;
+		return ci::Quatf( q.w, q.x, q.y, q.z );
 	}
 	
-	model::NodeRef generateNodeHierarchy( model::Skeleton* skeleton, const aiNode* ainode, const model::NodeRef& parent, ci::Matrix44f derivedTransformation, int level )
+	ci::Matrix44f get( const aiMatrix4x4 &m )
 	{
-		assert( ainode );
-		
-		derivedTransformation *= ai::get( ainode->mTransformation );
-		std::string name = ai::get( ainode->mName );
-		
-		// store transform
-		aiVector3D position, scaling;
-		aiQuaternion rotation;
-		ainode->mTransformation.Decompose( scaling, rotation, position );
-		model::NodeRef node = model::NodeRef( new model::Node( ai::get(position), ai::get(rotation), ai::get(scaling), name, parent, level ) );
-		
-		if( skeleton->hasBone( name ) ) {
-			node->setBoneIndex( skeleton->findBoneIndex( name ) );
-			skeleton->insertBone(name, node);
-		}
-		
-		for( unsigned int c=0; c < ainode->mNumChildren; ++c) {
-			model::NodeRef child = generateNodeHierarchy( skeleton, ainode->mChildren[c], node, derivedTransformation, level + 1);
-			node->addChild( child );
-		}
-		return node;
+		return ci::Matrix44f( &m.a1, true );
 	}
 	
-	
-	void generateAnimationCurves( model::Skeleton* skeleton, const aiScene* aiscene )
+	ci::ColorAf get( const aiColor4D &c )
 	{
-		for( unsigned int a=0; a < aiscene->mNumAnimations; ++a) {
-			aiAnimation* anim = aiscene->mAnimations[a];
-			
-			skeleton->setAnimInfo( int(a), (float) anim->mDuration, (float) anim->mTicksPerSecond, ai::get( anim->mName ) );
-			
-			for( unsigned int c=0; c < anim->mNumChannels; ++c ) {
-				aiNodeAnim* nodeAnim = anim->mChannels[c];
-				
-				try {
-					model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
-					float tsecs = ( anim->mTicksPerSecond != 0 ) ? (float) anim->mTicksPerSecond : 25.0f;
-					bone->addAnimTrack( a, float( anim->mDuration ), tsecs );
-					LOG_M << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
-					for( unsigned int k=0; k < nodeAnim->mNumPositionKeys; ++k) {
-						const aiVectorKey& key = nodeAnim->mPositionKeys[k];
-						bone->addPositionKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
-					}
-					for( unsigned int k=0; k < nodeAnim->mNumRotationKeys; ++k) {
-						const aiQuatKey& key = nodeAnim->mRotationKeys[k];
-						bone->addRotationKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
-					}
-					for( unsigned int k=0; k < nodeAnim->mNumScalingKeys; ++k) {
-						const aiVectorKey& key = nodeAnim->mScalingKeys[k];
-						bone->addScalingKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
-					}
-				} catch ( const std::out_of_range& ) {
-					LOG_M << "Anim node " << ai::get(nodeAnim->mNodeName) << " is not a bone." << std::endl;
-				}
-			}
-		}
+		return ci::ColorAf( c.r, c.g, c.b, c.a );
+	}
+	
+	std::string get( const aiString &s )
+	{
+		return std::string( s.data );
 	}
 	
 	std::vector<ci::Vec3f> getPositions( const aiMesh* aimesh )
@@ -148,14 +74,12 @@ namespace ai {
 		return normals;
 	}
 	
-	
-	
 	std::vector<ci::Vec2f> getTexCoords( const aiMesh* aimesh )
 	{
 		std::vector<ci::Vec2f> texCoords;
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
 			texCoords.push_back( ci::Vec2f(aimesh->mTextureCoords[0][i].x,
-									   aimesh->mTextureCoords[0][i].y) );
+										   aimesh->mTextureCoords[0][i].y) );
 		}
 		assert( texCoords.size() > 0 );
 		return texCoords;
@@ -344,7 +268,110 @@ namespace ai {
 		}
 		return boneWeights;
 	}
-}
+	
+	const aiNode* findMeshNode( const std::string& meshName, const aiScene* aiscene, const aiNode* ainode )
+	{			
+		for( unsigned i=0; i<ainode->mNumMeshes; ++i ) {
+			if( meshName == ai::get( aiscene->mMeshes[ ainode->mMeshes[i] ]->mName ) ) {
+				return ainode;
+			}
+		}
+		
+		for( unsigned n=0; n < ainode->mNumChildren; ++n) {
+			const aiNode* goalNode = findMeshNode( meshName, aiscene, ainode->mChildren[n] );
+			if( goalNode != nullptr )
+				return goalNode;
+		}
+		
+		return nullptr;
+	}
+	
+	model::NodeRef generateNodeHierarchy(model::Skeleton* skeleton,
+										 const aiNode* ainode,
+										 const std::shared_ptr<model::Node>& parent = nullptr,
+										 ci::Matrix44f derivedTransformation = ci::Matrix44f::identity(),
+										 int level = 0 )
+	{
+		assert( ainode );
+		
+		derivedTransformation *= ai::get( ainode->mTransformation );
+		std::string name = ai::get( ainode->mName );
+		
+		// store transform
+		aiVector3D position, scaling;
+		aiQuaternion rotation;
+		ainode->mTransformation.Decompose( scaling, rotation, position );
+		model::NodeRef node = model::NodeRef( new model::Node( ai::get(position), ai::get(rotation), ai::get(scaling), name, parent, level ) );
+		
+		if( skeleton->hasBone( name ) ) {
+			node->setBoneIndex( skeleton->findBoneIndex( name ) );
+			skeleton->insertBone(name, node);
+		}
+		
+		for( unsigned int c=0; c < ainode->mNumChildren; ++c) {
+			model::NodeRef child = generateNodeHierarchy( skeleton, ainode->mChildren[c], node, derivedTransformation, level + 1);
+			node->addChild( child );
+		}
+		return node;
+	}
+	
+	
+	void generateAnimationCurves( model::SkeletonRef skeleton, const aiScene* aiscene )
+	{
+		for( unsigned int a=0; a < aiscene->mNumAnimations; ++a) {
+			aiAnimation* anim = aiscene->mAnimations[a];
+			
+			skeleton->setAnimInfo( int(a), (float) anim->mDuration, (float) anim->mTicksPerSecond, ai::get( anim->mName ) );
+			
+			for( unsigned int c=0; c < anim->mNumChannels; ++c ) {
+				aiNodeAnim* nodeAnim = anim->mChannels[c];
+				
+				try {
+					model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
+					float tsecs = ( anim->mTicksPerSecond != 0 ) ? (float) anim->mTicksPerSecond : 25.0f;
+					bone->addAnimTrack( a, float( anim->mDuration ), tsecs );
+					LOG_M << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
+					for( unsigned int k=0; k < nodeAnim->mNumPositionKeys; ++k) {
+						const aiVectorKey& key = nodeAnim->mPositionKeys[k];
+						bone->addPositionKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
+					}
+					for( unsigned int k=0; k < nodeAnim->mNumRotationKeys; ++k) {
+						const aiQuatKey& key = nodeAnim->mRotationKeys[k];
+						bone->addRotationKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
+					}
+					for( unsigned int k=0; k < nodeAnim->mNumScalingKeys; ++k) {
+						const aiVectorKey& key = nodeAnim->mScalingKeys[k];
+						bone->addScalingKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
+					}
+				} catch ( const std::out_of_range& ) {
+					LOG_M << "Anim node " << ai::get(nodeAnim->mNodeName) << " is not a bone." << std::endl;
+				}
+			}
+		}
+	}
+	
+	model::SkeletonRef getSkeleton( const aiScene* aiscene, bool hasAnimations, const aiNode* root )
+	{
+		root = ( root ) ? root : aiscene->mRootNode;
+		
+		std::unordered_set<std::string> boneNames;
+		for( unsigned int m=0; m < aiscene->mNumMeshes; ++m ) {
+			aiMesh * mesh = aiscene->mMeshes[m];
+			for( unsigned int b=0; b < mesh->mNumBones; ++b) {
+				std::string name = ai::get( mesh->mBones[b]->mName );
+				boneNames.insert( name );
+			}
+		}
+		
+		model::SkeletonRef skeleton = model::Skeleton::create( boneNames );
+		skeleton->setRootNode( generateNodeHierarchy( skeleton.get(), root ) );
+		if( hasAnimations ) {
+			generateAnimationCurves( skeleton, aiscene );
+		}
+		return skeleton;
+	}
+	
+} //end namespace ai
 
 namespace model {
 	
@@ -398,7 +425,7 @@ void ModelSourceAssimp::load( ModelTarget *target )
 {
 	SkeletonRef skeleton = target->getSkeleton();
 	if( mHasSkeleton && skeleton == nullptr ) {
-		skeleton = ai::getSkeleton( mHasAnimations, mAiScene );
+		skeleton = ai::getSkeleton( mAiScene, mHasAnimations );
 	}
 	
 	for( unsigned int i=0; i< mAiScene->mNumMeshes; ++i ) {
