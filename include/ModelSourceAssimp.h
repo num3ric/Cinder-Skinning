@@ -54,17 +54,17 @@ namespace ai {
 	
 	void generateAnimationCurves( model::Skeleton* skeleton, const aiScene* aiscene );
 	
-	void loadPositions( const aiMesh* aimesh, std::vector<ci::Vec3f>* positions );
+	std::vector<ci::Vec3f> loadPositions( const aiMesh* aimesh );
 
-	void loadNormals( const aiMesh* aimesh, std::vector<ci::Vec3f>* normals );
+	std::vector<ci::Vec3f> loadNormals( const aiMesh* aimesh );
 
-	void loadTexCoords( const aiMesh* aimesh, std::vector<ci::Vec2f>* texCoords );
+	std::vector<ci::Vec2f> loadTexCoords( const aiMesh* aimesh );
 
-	void loadIndices( const aiMesh* aimesh, std::vector<uint32_t>* indices );
+	std::vector<uint32_t> loadIndices( const aiMesh* aimesh );
 	
-	void loadTexture( const aiScene* aiscene, const aiMesh *aimesh, model::MaterialInfo* texInfo, ci::fs::path modelPath, ci::fs::path rootPath = ""  );
+	model::MaterialInfo loadTexture( const aiScene* aiscene, const aiMesh *aimesh, ci::fs::path modelPath, ci::fs::path rootPath = ""  );
 	
-	void loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton, std::vector<model::BoneWeights>* boneWeights  );
+	std::vector<model::BoneWeights> loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton );
 	
 	//TODO: Use when there is no bones
 	ci::Matrix44f getDefaultTransformation( const std::string& name, const aiScene* aiscene, model::Skeleton* skeleton );

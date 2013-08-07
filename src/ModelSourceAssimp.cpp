@@ -131,49 +131,58 @@ namespace ai {
 		}
 	}
 	
-	void loadPositions( const aiMesh* aimesh, std::vector<ci::Vec3f>* positions )
+	std::vector<ci::Vec3f> loadPositions( const aiMesh* aimesh )
 	{
-		std::vector<ci::Vec3f> vertices;
+		std::vector<ci::Vec3f> positions;
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
-			positions->push_back( ai::get( aimesh->mVertices[i] ) );
+			positions.push_back( ai::get( aimesh->mVertices[i] ) );
 		}
+		return positions;
 	}
 	
-	void loadNormals( const aiMesh* aimesh, std::vector<ci::Vec3f>* normals )
+	std::vector<ci::Vec3f> loadNormals( const aiMesh* aimesh )
 	{
+		std::vector<ci::Vec3f> normals;
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
-			normals->push_back( -ai::get( aimesh->mNormals[i] ) );
+			normals.push_back( -ai::get( aimesh->mNormals[i] ) );
 		}
+		return normals;
 	}
 	
 	
 	
-	void loadTexCoords( const aiMesh* aimesh, std::vector<ci::Vec2f>* texCoords )
+	std::vector<ci::Vec2f> loadTexCoords( const aiMesh* aimesh )
 	{
+		std::vector<ci::Vec2f> texCoords;
 		for( unsigned int i=0; i < aimesh->mNumVertices; ++i ) {
-			texCoords->push_back( ci::Vec2f(aimesh->mTextureCoords[0][i].x,
+			texCoords.push_back( ci::Vec2f(aimesh->mTextureCoords[0][i].x,
 									   aimesh->mTextureCoords[0][i].y) );
 		}
+		assert( texCoords.size() > 0 );
+		return texCoords;
 	}
 	
-	void loadIndices( const aiMesh* aimesh, std::vector<uint32_t>* indices )
+	std::vector<uint32_t> loadIndices( const aiMesh* aimesh )
 	{
+		std::vector<uint32_t> indices;
 		for( unsigned int i=0; i < aimesh->mNumFaces; ++i ) {
 			aiFace aiface = aimesh->mFaces[i];
 			unsigned numIndices = aiface.mNumIndices;
 			assert( numIndices <= 3 );
 			for(int n=0; n < 3; ++n) {
 				if ( numIndices == 2 && n == 2 ) {
-					indices->push_back( aiface.mIndices[1] );
+					indices.push_back( aiface.mIndices[1] );
 				} else {
-					indices->push_back( aiface.mIndices[n] );
+					indices.push_back( aiface.mIndices[n] );
 				}
 			}
 		}
+		return indices;
 	}
 	
-	void loadTexture( const aiScene* aiscene, const aiMesh *aimesh, model::MaterialInfo* matInfo, ci::fs::path modelPath, ci::fs::path rootPath )
+	model::MaterialInfo loadTexture( const aiScene* aiscene, const aiMesh *aimesh, ci::fs::path modelPath, ci::fs::path rootPath )
 	{
+		model::MaterialInfo matInfo;
 		// Handle material info
 		aiMaterial *mtl = aiscene->mMaterials[ aimesh->mMaterialIndex ];
 		
@@ -183,33 +192,33 @@ namespace ai {
 		// Culling
 		int twoSided;
 		if ( ( AI_SUCCESS == mtl->Get( AI_MATKEY_TWOSIDED, twoSided ) ) && twoSided ) {
-			matInfo->mTwoSided = true;
-			matInfo->mMaterial.setFace( GL_FRONT_AND_BACK );
+			matInfo.mTwoSided = true;
+			matInfo.mMaterial.setFace( GL_FRONT_AND_BACK );
 			LOG_M << " two sided" << std::endl;
 		} else {
-			matInfo->mTwoSided = false;
-			matInfo->mMaterial.setFace( GL_FRONT );
+			matInfo.mTwoSided = false;
+			matInfo.mMaterial.setFace( GL_FRONT );
 		}
 		
 		aiColor4D dcolor, scolor, acolor, ecolor, tcolor;
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_DIFFUSE, dcolor ) ) {
-			matInfo->mMaterial.setDiffuse( ai::get( dcolor ) );
+			matInfo.mMaterial.setDiffuse( ai::get( dcolor ) );
 			LOG_M << " diffuse: " << ai::get( dcolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_SPECULAR, scolor ) ) {
-			matInfo->mMaterial.setSpecular( ai::get( scolor ) );
+			matInfo.mMaterial.setSpecular( ai::get( scolor ) );
 			LOG_M << " specular: " << ai::get( scolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_AMBIENT, acolor ) ) {
-			matInfo->mMaterial.setAmbient( ai::get( acolor ) );
+			matInfo.mMaterial.setAmbient( ai::get( acolor ) );
 			LOG_M << " ambient: " << ai::get( acolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_EMISSIVE, ecolor ) ) {
-			matInfo->mMaterial.setEmission( ai::get( ecolor ) );
+			matInfo.mMaterial.setEmission( ai::get( ecolor ) );
 			LOG_M << " emission: " << ai::get( ecolor ) << std::endl;
 		}
 		if ( AI_SUCCESS == mtl->Get( AI_MATKEY_COLOR_TRANSPARENT, tcolor ) ) {
-			matInfo->mTransparentColor =  ai::get( tcolor );
+			matInfo.mTransparentColor =  ai::get( tcolor );
 			LOG_M << " transparent: " << ai::get( tcolor ) << std::endl;
 		}
 		
@@ -232,7 +241,7 @@ namespace ai {
 			int texFlag;
 			if ( AI_SUCCESS == mtl->Get( AI_MATKEY_TEXFLAGS(aiTextureType_DIFFUSE, 0), texFlag ) ) {
 				if( texFlag == aiTextureFlags_UseAlpha ) {
-					matInfo->mUseAlpha = true;
+					matInfo.mUseAlpha = true;
 					LOG_M << " Texture uses alpha." << std::endl;
 				}
 			}
@@ -297,23 +306,25 @@ namespace ai {
 			if ( ext == ".dds" ) {
 				// FIXME: loadDds does not seem to work with mipmaps in the latest cinder version
 				// fix based on the work of javi.agenjo, https://github.com/gaborpapp/Cinder/commit/3e7302
-				matInfo->mTexture = ci::gl::Texture::loadDds( ci::loadFile( realPath )->createStream(), format );
-				if ( !matInfo->mTexture )
+				matInfo.mTexture = ci::gl::Texture::loadDds( ci::loadFile( realPath )->createStream(), format );
+				if ( !matInfo.mTexture )
 					LOG_M << "failed to laod dds..." << std::endl;
 			} else {
-				matInfo->mTexture = ci::gl::Texture( ci::loadImage( realPath ), format );
+				matInfo.mTexture = ci::gl::Texture( ci::loadImage( realPath ), format );
 			}
 		}
+		return matInfo;
 	}
 	
-	void loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton, std::vector<model::BoneWeights>* boneWeights  )
+	std::vector<model::BoneWeights> loadBoneWeights( const aiMesh* aimesh, const model::Skeleton* skeleton )
 	{
+		std::vector<model::BoneWeights> boneWeights;
 		unsigned int nbBones = aimesh->mNumBones;
 		std::string name = ai::get( aimesh->mName );
 		
 		// Create a list of empty bone weights mirroring the # of vertices
 		for( unsigned v=0; v < aimesh->mNumVertices; ++v ) {
-			boneWeights->push_back( model::BoneWeights() );
+			boneWeights.push_back( model::BoneWeights() );
 		}
 		
 		for( unsigned b=0; b < nbBones; ++b ){
@@ -329,9 +340,10 @@ namespace ai {
 			for( unsigned int w=0; w<aibone->mNumWeights; ++w ) {
 				float weight = aibone->mWeights[w].mWeight;
 				int boneWeightIndex = int( aibone->mWeights[w].mVertexId );
-				(*boneWeights)[boneWeightIndex].addWeight( bone, weight );
+				boneWeights[boneWeightIndex].addWeight( bone, weight );
 			}
 		}
+		return boneWeights;
 	}
 }
 
@@ -396,43 +408,27 @@ void ModelSourceAssimp::load( ModelTarget *target )
 		const aiMesh* aimesh = mAiScene->mMeshes[i];
 		std::string name = ai::get( aimesh->mName );
 		
-		LOG_M << "loading mesh " << i;
-		if ( name != "" )
-			LOG_M << " [" << name << "]";
-		LOG_M << " #faces: " << aimesh->mNumFaces;
-		LOG_M << " #vertices: " << aimesh->mNumVertices << std::endl;
+		LOG_M	<< "loading mesh " << i << " [" << name << "]"
+				<< " #faces:" << aimesh->mNumFaces
+				<< " #vertices:" << aimesh->mNumVertices << std::endl;
 		
 		target->setActiveSection( i );
-		
-		std::vector<ci::Vec3f> positions;
-		std::vector<uint32_t> indices;
-		// TODO: Clean up ai:: calls using C++11 features to return object directly
-		ai::loadPositions( aimesh, &positions );
-		ai::loadIndices( aimesh, &indices );
 		target->loadName( name );
-		target->loadIndices( indices );
-		target->loadVertexPositions( positions );
+		target->loadIndices( ai::loadIndices( aimesh ) );
+		target->loadVertexPositions( ai::loadPositions( aimesh ) );
 		
 		if( mSections[i].mHasNormals ) {
-			std::vector<ci::Vec3f> normals;
-			ai::loadNormals( aimesh, &normals );
-			target->loadVertexNormals( normals );
+			target->loadVertexNormals( ai::loadNormals( aimesh ) );
 		}
 		
 		if( mSections[i].mHasMaterials ) {
-			std::vector<ci::Vec2f> texCoords;
-			MaterialInfo matInfo;
-			ai::loadTexCoords( aimesh, &texCoords );
-			assert( texCoords.size() > 0 );
-			ai::loadTexture(mAiScene, aimesh, &matInfo, mModelPath, mRootAssetFolderPath );
-			target->loadTex( texCoords, matInfo );
+			target->loadTex( ai::loadTexCoords( aimesh ),
+							 ai::loadTexture(mAiScene, aimesh, mModelPath, mRootAssetFolderPath ) );
 		}
 		
 		if( mSections[i].mHasSkeleton && skeleton ) {
 			target->loadSkeleton( skeleton );
-			std::vector<BoneWeights> boneWeights;
-			ai::loadBoneWeights( aimesh, skeleton.get(), &boneWeights );
-			target->loadBoneWeights( boneWeights );
+			target->loadBoneWeights( ai::loadBoneWeights( aimesh, skeleton.get() ) );
 		} else {
 			const aiNode* ainode = ai::findMeshNode( name, mAiScene, mAiScene->mRootNode );
 			if( ainode ) {
