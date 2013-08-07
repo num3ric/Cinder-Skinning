@@ -79,33 +79,30 @@ typedef std::shared_ptr< class ModelSourceAssimp > ModelSourceAssimpRef;
 
 class ModelSourceAssimp : public ModelSource {
 	
-	struct ModelInfo {
-		ModelInfo()
-		:mHasNormals( false )
-		, mHasSkeleton( false )
-		, mHasAnimations( false )
-		, mNumSections( 1 )
+	struct SectionInfo {
+		SectionInfo()
+		: mHasNormals( false ), mHasSkeleton( false ), mHasMaterials( false ), mNumVertices( 0 ), mNumIndices( 0 )
 		{ }
 		bool mHasNormals;
 		bool mHasSkeleton;
-		bool mHasAnimations;
-		std::vector<bool> mHasMaterials;
-		std::vector<size_t> mNumVertices;
-		std::vector<size_t> mNumIndices;
-		size_t mNumSections;
+		bool mHasMaterials;
+		size_t mNumVertices;
+		size_t mNumIndices;
+		void log();
 	};
+	bool mHasSkeleton;
+	bool mHasAnimations;
 public:
 //	static ModelSourceRef	create( DataSourceRef dataSource );
 	static ModelSourceAssimpRef	create( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath = ""  );
 	
-	virtual size_t	getNumSections() const override { return mModelInfo.mNumSections; }
-	virtual size_t	getNumVertices( int section = -1 ) const override;
-	virtual size_t	getNumIndices( int section = -1 )  const override;
-	//TODO: Maybe the following functions should also have a per section argument
-	virtual bool	hasNormals() const override { return mModelInfo.mHasNormals; }
-  	virtual bool	hasSkeleton() const override { return mModelInfo.mHasSkeleton; }
-	virtual bool	hasAnimations() const override { return mModelInfo.mHasAnimations; }
-	virtual bool	hasMaterials( int section = -1 ) const override;
+	virtual size_t	getNumSections() const override { return mSections.size(); }
+	virtual size_t	getNumVertices( int section = 0 ) const override { return mSections[section].mNumVertices; }
+	virtual size_t	getNumIndices( int section = 0 )  const override { return mSections[section].mNumIndices; }
+	virtual bool	hasNormals( int section = 0 ) const override { return mSections[section].mHasNormals; }
+  	virtual bool	hasSkeleton( int section = 0 ) const override { return mSections[section].mHasSkeleton; }
+	virtual bool	hasMaterials( int section = 0 ) const override { return mSections[section].mHasMaterials; }
+	virtual bool	hasAnimations() const override { return mHasAnimations; }
 	
 	virtual void	load( ModelTarget *target ) override;
 	
@@ -122,7 +119,7 @@ private:
 	//! Root asset folder (textures in a model may not reside in the same directory as the model).
 	ci::fs::path						mRootAssetFolderPath;
 
-	ModelInfo mModelInfo;
+	std::vector<SectionInfo>			mSections;
 };
 
 } //end namespace model

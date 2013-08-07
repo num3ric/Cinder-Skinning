@@ -49,12 +49,12 @@ private:
 class ModelSource {
 public:
 	virtual size_t	getNumSections() const = 0;
-	virtual size_t	getNumVertices( int section = -1 ) const = 0;
-	virtual size_t	getNumIndices( int section = -1 )  const = 0;
-	virtual bool	hasNormals() const = 0;
-  	virtual bool	hasSkeleton() const = 0;
+	virtual size_t	getNumVertices( int section = 0 ) const = 0;
+	virtual size_t	getNumIndices( int section = 0 )  const = 0;
+	virtual bool	hasNormals( int section = 0 ) const = 0;
+  	virtual bool	hasSkeleton( int section = 0 ) const = 0;
 	virtual bool	hasAnimations() const = 0;
-	virtual bool	hasMaterials( int section = -1 ) const = 0;
+	virtual bool	hasMaterials( int section = 0 ) const = 0;
 	
   	virtual	void	load( ModelTarget *target ) = 0;
 };

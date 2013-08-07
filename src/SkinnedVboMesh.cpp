@@ -65,7 +65,7 @@ SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, ci::gl::GlslProgRef 
 		//positions
 		layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT3, 0 ));
 		
-		if( modelSource->hasNormals() ) {
+		if( modelSource->hasNormals(i) ) {
 			//normals
 			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT3, 0 ));
 		}
@@ -75,7 +75,7 @@ SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, ci::gl::GlslProgRef 
 			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT2, 0 ));
 		}
 		
-		if( modelSource->hasSkeleton() ) {
+		if( modelSource->hasSkeleton(i) ) {
 			//boneweights
 			layout.mCustomStatic.push_back(std::make_pair(ci::gl::VboMesh::Layout::CUSTOM_ATTR_FLOAT4, 0 ));
 			//boneindices
@@ -88,7 +88,6 @@ SkinnedVboMesh::SkinnedVboMesh( ModelSourceRef modelSource, ci::gl::GlslProgRef 
 		mMeshSections.push_back( section );
 	}
 	mActiveSection = mMeshSections[0];
-	
 	
 	ModelTargetSkinnedVboMesh target( this );
 	modelSource->load( &target );

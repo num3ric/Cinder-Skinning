@@ -31,7 +31,12 @@ void ModelTargetSkinnedVboMesh::setCustomAttribute( GLuint location, const std::
 {
 	MeshVboSectionRef sect = mSkinnedVboMesh->getActiveSection();
 	mSkinnedVboMesh->getShader()->bind();
-	sect->getVboMesh().setCustomStaticLocation( location, mSkinnedVboMesh->getShader()->getAttribLocation( name ) );
+	GLint attribLocation = mSkinnedVboMesh->getShader()->getAttribLocation( name );
+
+	if( attribLocation < 0 )
+		throw ModelTargetException( "Discrepancy between what the model target expects and what its shader attributes use." );
+
+	sect->getVboMesh().setCustomStaticLocation( location, attribLocation );
 	mSkinnedVboMesh->getShader()->unbind();
 }
 
@@ -45,6 +50,13 @@ void ModelTargetSkinnedVboMesh::setActiveSection( int index )
 std::shared_ptr<Skeleton> ModelTargetSkinnedVboMesh::getSkeleton() const
 {
 	return mSkinnedVboMesh->getSkeleton();
+}
+
+void ModelTargetSkinnedVboMesh::loadIndices( const std::vector<uint32_t>& indices )
+{
+	ci::gl::VboMesh& vboMesh = mSkinnedVboMesh->getActiveSection()->getVboMesh();
+	vboMesh.bufferIndices( indices );
+	vboMesh.unbindBuffers();
 }
 
 void ModelTargetSkinnedVboMesh::loadVertexPositions( const std::vector<ci::Vec3f>& positions )
@@ -63,13 +75,6 @@ void ModelTargetSkinnedVboMesh::loadVertexNormals( const std::vector<ci::Vec3f>&
 	bufferSubData< std::vector<ci::Vec3f> >( normals, dataSize );
 	setCustomAttribute( mAttribLocation, "normal" );
 	incrementOffsets( dataSize );
-}
-
-void ModelTargetSkinnedVboMesh::loadIndices( const std::vector<uint32_t>& indices )
-{
-	ci::gl::VboMesh& vboMesh = mSkinnedVboMesh->getActiveSection()->getVboMesh();
-	vboMesh.bufferIndices( indices );
-	vboMesh.unbindBuffers();
 }
 
 void ModelTargetSkinnedVboMesh::loadTex( const std::vector<ci::Vec2f>& texCoords, const MaterialInfo& matInfo )

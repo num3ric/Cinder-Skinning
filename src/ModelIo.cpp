@@ -48,11 +48,15 @@ void ModelTarget::loadDefaultTransformation( const ci::Matrix44f& transformation
 	
 ModelSourceAssimpRef loadModel( const ci::DataSourceRef dataSource )
 {
-	return ModelSourceAssimp::create( dataSource->getFilePath() );
+	ci::fs::path relativePath = dataSource->getFilePath();
+	if( relativePath.empty() )
+		relativePath = ci::fs::path( dataSource->getFilePathHint() );
+	return ModelSourceAssimp::create( relativePath );
 }
 
 ModelSourceAssimpRef loadModel( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath )
 {
+
 	return ModelSourceAssimp::create( modelPath, rootAssetFolderPath );
 }
 

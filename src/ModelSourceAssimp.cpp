@@ -336,6 +336,13 @@ namespace ai {
 }
 
 namespace model {
+	
+	void ModelSourceAssimp::SectionInfo::log()
+	{
+		LOG_V	<< "Normals :" << mHasNormals
+				<< " Skeleton :" << mHasSkeleton
+				<< " Materials :" << mHasMaterials << std::endl;
+	}
 
 ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath )
 {
@@ -347,7 +354,6 @@ ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::f
 //	mImporter->SetIOHandler( new CustomIOSystem() );
 	mAiScene = mImporter->ReadFile( mModelPath.string(), ai::flags );
 	
-	//TODO: make own exception class to catch
 	if( !mAiScene ) {
 		LOG_M << mImporter->GetErrorString() << std::endl;
 		throw LoadErrorException( mImporter->GetErrorString() );
@@ -355,19 +361,21 @@ ModelSourceAssimp::ModelSourceAssimp( const ci::fs::path& modelPath, const ci::f
 		throw LoadErrorException( "Scene has no meshes." );
 	}
 	
-	unsigned int numBones = 0;
 	for( unsigned int m=0; m < mAiScene->mNumMeshes; ++m ) {
 		aiMesh * mesh = mAiScene->mMeshes[m];
-		numBones += mesh->mNumBones;
-		mModelInfo.mHasNormals = mModelInfo.mHasNormals || mesh->HasNormals();
-		
-		mModelInfo.mNumVertices.push_back( mesh->mNumVertices );
-		mModelInfo.mNumIndices.push_back( 3 * mesh->mNumFaces );
-		mModelInfo.mHasMaterials.push_back( mAiScene->HasMaterials() && mesh->GetNumUVChannels() > 0 );
+		SectionInfo sectionInfo;
+		sectionInfo.mHasSkeleton = mesh->HasBones();
+		sectionInfo.mHasNormals = mesh->HasNormals();
+		sectionInfo.mNumVertices = mesh->mNumVertices;
+		sectionInfo.mNumIndices = 3 * mesh->mNumFaces;
+		sectionInfo.mHasMaterials = mAiScene->HasMaterials() && mesh->GetNumUVChannels() > 0;
+		mSections.push_back( sectionInfo );
 	}
-	mModelInfo.mHasSkeleton = (numBones > 0);
-	mModelInfo.mHasAnimations = mAiScene->HasAnimations();
-	mModelInfo.mNumSections = mAiScene->mNumMeshes;
+
+	mHasAnimations = mAiScene->HasAnimations();
+	for( const SectionInfo& section : mSections ) {
+		mHasSkeleton = mHasSkeleton || section.mHasSkeleton;
+	}
 }
 
 ModelSourceAssimpRef ModelSourceAssimp::create( const ci::fs::path& modelPath, const ci::fs::path& rootAssetFolderPath )
@@ -375,51 +383,16 @@ ModelSourceAssimpRef ModelSourceAssimp::create( const ci::fs::path& modelPath, c
 	return ModelSourceAssimpRef( new ModelSourceAssimp( modelPath, rootAssetFolderPath ) );
 }
 
-size_t getTotal( const std::vector<size_t> v )
-{
-	size_t total = 0;
-	for( size_t i=0; i< v.size(); ++i ) {
-		total += v[i];
-	}
-	return total;
-}
-
-size_t ModelSourceAssimp::getNumVertices( int section ) const
-{
-	if( section == -1 ) {
-		return getTotal( mModelInfo.mNumVertices );
-	}
-	
-	return mModelInfo.mNumVertices[section];
-}
-size_t ModelSourceAssimp::getNumIndices( int section )  const
-{
-	if( section == -1 ) {
-		return getTotal( mModelInfo.mNumIndices );
-	}
-
-	return mModelInfo.mNumIndices[section];
-}
-	
-bool ModelSourceAssimp::hasMaterials( int section ) const
-{
-	if( section == -1 ) {
-		return mAiScene->HasMaterials();
-	}
-	
-	return mModelInfo.mHasMaterials[section];
-}
-
 void ModelSourceAssimp::load( ModelTarget *target )
 {
 	SkeletonRef skeleton = target->getSkeleton();
-	bool loadSkeleton = false;
-	if( mModelInfo.mHasSkeleton && skeleton == nullptr ) {
-		skeleton = ai::loadSkeleton( mModelInfo.mHasAnimations, mAiScene );
-		loadSkeleton = true;
+	if( mHasSkeleton && skeleton == nullptr ) {
+		skeleton = ai::loadSkeleton( mHasAnimations, mAiScene );
 	}
 	
 	for( unsigned int i=0; i< mAiScene->mNumMeshes; ++i ) {
+		mSections[i].log();
+
 		const aiMesh* aimesh = mAiScene->mMeshes[i];
 		std::string name = ai::get( aimesh->mName );
 		
@@ -433,31 +406,30 @@ void ModelSourceAssimp::load( ModelTarget *target )
 		
 		std::vector<ci::Vec3f> positions;
 		std::vector<uint32_t> indices;
+		// TODO: Clean up ai:: calls using C++11 features to return object directly
 		ai::loadPositions( aimesh, &positions );
 		ai::loadIndices( aimesh, &indices );
 		target->loadName( name );
 		target->loadIndices( indices );
 		target->loadVertexPositions( positions );
 		
-		if( mModelInfo.mHasNormals ) {
+		if( mSections[i].mHasNormals ) {
 			std::vector<ci::Vec3f> normals;
 			ai::loadNormals( aimesh, &normals );
 			target->loadVertexNormals( normals );
 		}
 		
-		if( mModelInfo.mHasMaterials[i] ) {
+		if( mSections[i].mHasMaterials ) {
 			std::vector<ci::Vec2f> texCoords;
 			MaterialInfo matInfo;
 			ai::loadTexCoords( aimesh, &texCoords );
+			assert( texCoords.size() > 0 );
 			ai::loadTexture(mAiScene, aimesh, &matInfo, mModelPath, mRootAssetFolderPath );
 			target->loadTex( texCoords, matInfo );
 		}
 		
-//		if( mModelInfo.mHasSkeleton ) {
-		if( aimesh->HasBones() ) {
-			if( loadSkeleton )
-				target->loadSkeleton( skeleton );
-			
+		if( mSections[i].mHasSkeleton && skeleton ) {
+			target->loadSkeleton( skeleton );
 			std::vector<BoneWeights> boneWeights;
 			ai::loadBoneWeights( aimesh, skeleton.get(), &boneWeights );
 			target->loadBoneWeights( boneWeights );
@@ -467,7 +439,6 @@ void ModelSourceAssimp::load( ModelTarget *target )
 				target->loadDefaultTransformation( ai::get( ainode->mTransformation) );
 			}
 		}
-//		}
 	}
 }
 
