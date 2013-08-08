@@ -98,10 +98,6 @@ void MultipleAnimationsDemo::setup()
 	mParams.addButton( "Loop Anim", std::bind( &MultipleAnimationsDemo::loopAnim, this) );
 	mParams.addButton( "Stop Anim", std::bind( &MultipleAnimationsDemo::stopAnim, this) );
 	
-	//	gl::enableDepthWrite();
-	gl::enableDepthRead();
-	gl::enableAlphaBlending();
-	
 	mSkinnedMesh = SkinnedMesh::create( loadModel( getAssetPath( "Sinbad.mesh.xml" ) ) );
 	app::console() << mSkinnedMesh->getSkeleton().get();
 	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "Sinbad.mesh.xml" ) ), mSkinnedMesh->getSkeleton() );
@@ -157,6 +153,9 @@ void MultipleAnimationsDemo::resize()
 	CameraPersp cam = mMayaCam.getCamera();
 	cam.setAspectRatio( getWindowAspectRatio() );
 	mMayaCam.setCurrentCam( cam );
+//	gl::enableDepthWrite();
+	gl::enableDepthRead();
+	gl::enableAlphaBlending();
 }
 
 void MultipleAnimationsDemo::update()

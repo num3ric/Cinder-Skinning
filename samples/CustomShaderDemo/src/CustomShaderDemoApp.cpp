@@ -48,7 +48,6 @@ void CustomShaderDemo::setup()
 	 * are set as the asset is loaded. */
 	mSeymour = SkinnedVboMesh::create( loadModel( loadResource( RES_SEYMOUR ) ), nullptr, mCustomShader );
 	mSeymour->getSkeleton()->loopAnim();
-	gl::enableDepthRead();
 }
 
 void CustomShaderDemo::mouseDown( MouseEvent event )
@@ -76,6 +75,7 @@ void CustomShaderDemo::resize()
 	CameraPersp cam = mMayaCam.getCamera();
 	cam.setAspectRatio( getWindowAspectRatio() );
 	mMayaCam.setCurrentCam( cam );
+	gl::enableDepthRead();
 }
 
 void CustomShaderDemo::update()
