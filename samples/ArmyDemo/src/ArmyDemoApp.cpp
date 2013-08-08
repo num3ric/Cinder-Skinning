@@ -16,9 +16,9 @@ using namespace std;
 #include "Skeleton.h"
 #include "SkinningRenderer.h"
 
-const int ROW_LEN = 12;
+const int ROW_LEN = 10;
 const int NUM_MONSTERS = ROW_LEN * ROW_LEN;
-const float SPACING = 75.0f;
+const float SPACING = 85.0f;
 
 using namespace model;
 
@@ -132,7 +132,6 @@ void ArmyDemoApp::update()
 
 void ArmyDemoApp::draw()
 {
-	// clear out the window with black
 	gl::clear( Color::black() );
 	gl::setMatrices( mMayaCam.getCamera() );
 	gl::translate(0, -5.0f, 0.0f);
@@ -150,11 +149,11 @@ void ArmyDemoApp::draw()
 
 	gl::scale(0.1f, 0.1f, 0.1f);
 	
-	
 	if ( mEnableWireframe )
 		gl::enableWireframe();
-	for(int i=0; i<=(ROW_LEN-1); ++i) {
-		for(int j=0; j<=(ROW_LEN-1); ++j ) {
+	
+	for(int i=0; i < ROW_LEN; ++i) {
+		for(int j=0; j < ROW_LEN; ++j ) {
 			gl::pushModelView();
 			gl::translate(SPACING * (i - 0.5f * ROW_LEN), 0, SPACING * (j - 0.5f * ROW_LEN));
 			mSkinnedVboMesh->getSkeleton()->setPose( mTime + 2.0f*( i * j )/NUM_MONSTERS );
@@ -168,6 +167,7 @@ void ArmyDemoApp::draw()
 			gl::popModelView();
 		}
 	}
+	
 	if ( mEnableWireframe )
 		gl::disableWireframe();
 	

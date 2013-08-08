@@ -1,11 +1,13 @@
 #include "cinder/app/AppNative.h"
 #include "cinder/gl/gl.h"
+#include "cinder/gl/GlslProg.h"
 #include "cinder/Camera.h"
 #include "cinder/MayaCamUI.h"
 #include "cinder/gl/Light.h"
 #include "cinder/params/Params.h"
 #include "cinder/Rand.h"
 
+#include "Resources.h"
 #include "Node.h"
 #include "Skeleton.h"
 #include "SkinnedVboMesh.h"
@@ -18,13 +20,15 @@ using namespace std;
 
 using namespace model;
 
-const float SCENE_SIZE = 70.0f;
+const int NB_CLOUD_PARTICLES = 20;
+const float SCENE_SIZE = 60.0f;
 
 class ProceduralAnimApp : public AppNative {
   public:
 	void setup();
 	void mouseDown( MouseEvent event );
 	void mouseDrag( MouseEvent event );
+	void keyDown( KeyEvent event );
 	void resize();
 	void update();
 	void draw();
@@ -43,6 +47,8 @@ private:
 	float mAmplitude;
 	
 	vector<Vec3f> mDust;
+	gl::TextureRef dustParticleTex;
+	gl::GlslProgRef mDustShader;
 	
 	float mFlapAngle, mFlapIncrement;
 	float mShoulderAngle;
@@ -76,13 +82,19 @@ void ProceduralAnimApp::setup()
 	mParams.addParam( "Amplitude", &mAmplitude, "min=0.0 max=3.0 step=0.05 precision=2" );
 	mParams.addParam( "Shoulder angle", &mShoulderAngle, "min=-1.57 max=0.5 step=0.05 precision=2" );
 	
-	for( int i=0; i<100; ++i ) {
+	for( int i=0; i<NB_CLOUD_PARTICLES; ++i ) {
 		mDust.push_back( SCENE_SIZE * Vec3f( Rand::randFloat() - 0.5f,
 									  Rand::randFloat() - 0.5f,
 									  Rand::randFloat() - 0.5f ) );
 	}
-	
-	gl::enableDepthRead();
+	dustParticleTex = gl::Texture::create( loadImage( getAssetPath( "particle.png" ) ) );
+	try {
+		mDustShader = gl::GlslProg::create( app::loadResource(RES_CLOUD_VERT), app::loadResource(RES_CLOUD_FRAG) );
+	}
+	catch( gl::GlslProgCompileExc &exc ) {
+		app::console() << "Shader compile error: " << std::endl;
+		app::console() << exc.what();
+	}
 }
 
 void ProceduralAnimApp::mouseDown( MouseEvent event )
@@ -96,6 +108,13 @@ void ProceduralAnimApp::mouseDrag( MouseEvent event )
 	bool middle = event.isMiddleDown() || ( event.isMetaDown() && event.isLeftDown() );
 	bool right = event.isRightDown() || ( event.isControlDown() && event.isLeftDown() );
 	mMayaCam.mouseDrag( event.getPos(), event.isLeftDown() && !middle && !right, middle, right );
+}
+
+void ProceduralAnimApp::keyDown( KeyEvent event )
+{
+	if( event.getCode() == KeyEvent::KEY_f ) {
+		app::setFullScreen( !isFullScreen() );
+	}
 }
 
 void ProceduralAnimApp::resize()
@@ -144,8 +163,8 @@ void ProceduralAnimApp::draw()
 {
 	// clear out the window with black
 	gl::clear( Color( 0.4f, 0.5f, 0.6f ) );
-	
 	gl::setMatrices( mMayaCam.getCamera() );
+	gl::enableDepthRead();
 	
 	gl::Light light( gl::Light::DIRECTIONAL, 0 );
 	light.setAmbient( Color::white() );
@@ -184,10 +203,21 @@ void ProceduralAnimApp::draw()
 	
 	Vec3f mRight, mUp;
 	mMayaCam.getCamera().getBillboardVectors(&mRight, &mUp);
-	for( const auto& d : mDust ) {
-		gl::drawBillboard(d, Vec2f(0.2f, 0.2f), 0.0f, mRight, mUp);
-	}
+//	gl::disableDepthRead();
+	gl::disableDepthWrite();
+	gl::enableAlphaBlending();
+	dustParticleTex->enableAndBind();
 	
+	mDustShader->bind();
+	mDustShader->uniform( "tex", 0 );
+	for( const auto& d : mDust ) {
+		mDustShader->uniform( "transparency", 1.0f - math<float>::abs(d.z)/(SCENE_SIZE/2.0f) );
+		gl::drawBillboard(d, Vec2f(60.f, 60.f), 0.0f, mRight, mUp);
+	}
+	mDustShader->unbind();
+	
+	dustParticleTex->unbind();
+
 	mParams.draw();
 }
 

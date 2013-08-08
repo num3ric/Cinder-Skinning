@@ -46,6 +46,7 @@ private:
 	float							mFps;
 	params::InterfaceGl				mParams;
 	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawAbsolute, mEnableWireframe;
+	bool mDrawTreadmill;
 	
 	std::unique_ptr<Treadmill> mTreadmill;
 };
@@ -54,6 +55,7 @@ void SeymourDemo::setup()
 {
 	model::Skeleton::mRenderMode = model::Skeleton::RenderMode::CLEANED;
 	
+	mDrawTreadmill = true;
 	mTreadmill = std::unique_ptr<Treadmill>( new Treadmill() );
 
 	rotationRadius = 20.0f;
@@ -96,6 +98,7 @@ void SeymourDemo::fileDrop( FileDropEvent event )
 //	catch( ... ) {
 //		console() << "unable to load the asset!" << std::endl;
 //	};
+	mDrawTreadmill = false;
 }
 
 void SeymourDemo::keyDown( KeyEvent event )
@@ -185,17 +188,20 @@ void SeymourDemo::draw()
 	if ( mEnableWireframe )
 		gl::disableWireframe();
 	
-	if( mDrawSkeleton) {
-		SkinningRenderer::draw( mSkinnedVboMesh->getSkeleton(), mDrawAbsolute );
-	}
-	
-	if( mDrawLabels ) {
-		SkinningRenderer::drawLabels( mSkinnedVboMesh->getSkeleton(),  mMayaCam.getCamera() );
-	}
-	
-	gl::disable( GL_CULL_FACE );
+	if( mSkinnedVboMesh->getSkeleton() ) {
+		if( mDrawSkeleton) {
+			SkinningRenderer::draw( mSkinnedVboMesh->getSkeleton(), mDrawAbsolute );
+		}
 		
-	mTreadmill->draw( mMouseHorizontalPos / getWindowWidth() );
+		if( mDrawLabels ) {
+			SkinningRenderer::drawLabels( mSkinnedVboMesh->getSkeleton(),  mMayaCam.getCamera() );
+		}
+	}
+	
+	if( mDrawTreadmill ) {
+		gl::disable( GL_CULL_FACE );
+		mTreadmill->draw( mMouseHorizontalPos / getWindowWidth() );
+	}
 	
 	mParams.draw();
 	

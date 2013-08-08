@@ -19,6 +19,7 @@ public:
 	void setup();
 	void mouseDown( MouseEvent event );
 	void mouseDrag( MouseEvent event );
+	void keyDown( KeyEvent event );
 	void resize();
 	void update();
 	void draw();
@@ -61,6 +62,13 @@ void CustomShaderDemo::mouseDrag( MouseEvent event )
 	bool middle = event.isMiddleDown() || ( event.isMetaDown() && event.isLeftDown() );
 	bool right = event.isRightDown() || ( event.isControlDown() && event.isLeftDown() );
 	mMayaCam.mouseDrag( event.getPos(), event.isLeftDown() && !middle && !right, middle, right );
+}
+
+void CustomShaderDemo::keyDown( KeyEvent event )
+{
+	if( event.getCode() == KeyEvent::KEY_f ) {
+		app::setFullScreen( !isFullScreen() );
+	}
 }
 
 void CustomShaderDemo::resize()

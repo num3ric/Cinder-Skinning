@@ -27,6 +27,8 @@
 		A692E0E2D6AD4CDF9D0967A5 /* CustomIOStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3579527AE9864EA18F6EE9A5 /* CustomIOStream.cpp */; };
 		A840802F33954AB491D4B2DD /* skinning_vert_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = FC3303B7B70C4778BDA50836 /* skinning_vert_normals.glsl */; };
 		B05461B2174E75DF007EB326 /* SkinningRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05461B0174E75DF007EB326 /* SkinningRenderer.cpp */; };
+		B073B02A17B3B71F00B80822 /* cloud_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B073B02817B3B6F900B80822 /* cloud_vert.glsl */; };
+		B073B02B17B3B71F00B80822 /* cloud_frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B073B02917B3B6F900B80822 /* cloud_frag.glsl */; };
 		B0AB4C4C1760DA63002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C4B1760DA63002B9DC6 /* AnimCurve.cpp */; };
 		CA0F3FBF151E489EAB30863C /* SkinnedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BCDA66896FC45D4A34BC9E4 /* SkinnedMesh.cpp */; };
 		CA8F5606688046DEA53BB8E3 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D00E41DE1BBB46D19872ABB7 /* Node.cpp */; };
@@ -67,6 +69,8 @@
 		B016EB83179A06D100514E65 /* AMeshSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AMeshSection.h; path = ../../../include/AMeshSection.h; sourceTree = "<group>"; };
 		B05461B0174E75DF007EB326 /* SkinningRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SkinningRenderer.cpp; path = ../../../src/SkinningRenderer.cpp; sourceTree = "<group>"; };
 		B05461B4174EFA17007EB326 /* SkinningRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkinningRenderer.h; path = ../../../include/SkinningRenderer.h; sourceTree = "<group>"; };
+		B073B02817B3B6F900B80822 /* cloud_vert.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; name = cloud_vert.glsl; path = ../resources/cloud_vert.glsl; sourceTree = "<group>"; };
+		B073B02917B3B6F900B80822 /* cloud_frag.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; name = cloud_frag.glsl; path = ../resources/cloud_frag.glsl; sourceTree = "<group>"; };
 		B0AB4C4B1760DA63002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
 		B0CCD041D4374E2D91E69E78 /* ModelIo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelIo.h; path = ../../../include/ModelIo.h; sourceTree = "<group>"; };
 		B0DB9322179A04A40010B8E1 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = ../../../include/Debug.h; sourceTree = "<group>"; };
@@ -192,6 +196,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B073B02817B3B6F900B80822 /* cloud_vert.glsl */,
+				B073B02917B3B6F900B80822 /* cloud_frag.glsl */,
 				7E558DF2106B43798DA8370B /* CinderApp.icns */,
 				24E82371DC234E9EBF237C50 /* Info.plist */,
 			);
@@ -298,6 +304,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B073B02A17B3B71F00B80822 /* cloud_vert.glsl in Resources */,
+				B073B02B17B3B71F00B80822 /* cloud_frag.glsl in Resources */,
 				204ABB52EB414AF0A2054986 /* CinderApp.icns in Resources */,
 				A840802F33954AB491D4B2DD /* skinning_vert_normals.glsl in Resources */,
 				1B0658993FD446E687B1E6A4 /* skinning_frag_normals.glsl in Resources */,
