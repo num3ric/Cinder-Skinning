@@ -71,14 +71,14 @@ Architecture
 TODOs
 -------------------------
 
-In no particular order:
-
+With the graphics cinder rewrite:
 * Reinforcing the loader, fail elegantly
-* Cleanup print statements with a logger
-* Finish Kinect sample (skeleton remapping?)
-* Add tests, starting with the anim curves
-* Progress on animation API (including animation blending if possible)
 * Asynchronous loading (shared OpenGL context required)
+
+In general:
+* Progress on animation API (timeline, animation blending)
+* Finish Kinect sample (skeleton remapping?)
+* Samples are great, but tests would help, especially for the anim curves code
 * Assimp independance so that models can be saved and loaded (via a standard format) without it
 * Integrate Obj-loader as a ModelSource
 
