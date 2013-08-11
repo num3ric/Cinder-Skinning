@@ -1,5 +1,0 @@
-#include "../include/Resources.h"
-
-1	ICON	"..\\resources\\cinder_app_icon.ico"
-1		"..\\..\\..\\resources\\skinning_vert_normals.glsl"
-2		"..\\..\\..\\resources\\skinning_frag_normals.glsl"

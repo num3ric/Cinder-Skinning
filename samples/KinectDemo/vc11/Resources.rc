@@ -1,4 +1,0 @@
-#include "../include/Resources.h"
-
-RES_SKINNING_VERT
-RES_SKINNING_FRAG
