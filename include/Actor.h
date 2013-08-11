@@ -36,7 +36,7 @@ public:
 	void			loopAnim( const std::unordered_map<int, float>& trackWeights );
 	void			stop();
 	
-	void			setAnimSpeed( float factor );
+//	void			setAnimSpeed( float factor );
 	
 protected:
 	void			privateUpdate( int trackId );

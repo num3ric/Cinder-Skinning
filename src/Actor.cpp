@@ -94,11 +94,5 @@ namespace model {
 	{
 		mAnimTime.stop();
 	}
-	
-	void Actor::setAnimSpeed( float factor )
-	{
-		ci::TimelineItemRef timelineItem =  ci::app::timeline().find( &mAnimTime );
-//		timelineItem->setDuration(<#float newDuration#>);
-	}
 
 } //end namespace model
