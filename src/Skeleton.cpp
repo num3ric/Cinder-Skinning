@@ -134,8 +134,10 @@ std::ostream& operator<<( std::ostream& o, const Skeleton& skeleton )
 						   [& o] (NodeRef node)
 						   {
 							   o << "Node:" << node->getName() << " level:" << node->getLevel();
-							   if( node->hasParent() ) {
-								   o << " parent:" << node->getParent()->getName();
+							   
+							   auto parent = node->getParent().lock();
+							   if( parent ) {
+								   o << " parent:" << parent->getName();
 							   }
 							   o << std::endl;
 							   o << "Position:" << node->getAbsolutePosition() << std::endl;

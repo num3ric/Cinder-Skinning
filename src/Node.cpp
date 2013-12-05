@@ -189,9 +189,10 @@ namespace model {
 	void Node::update() const
 	{
 		// update orientation
-		if ( hasParent() ) {
-			const ci::Quatf& parentRotation = mParent->getAbsoluteRotation();
-			const ci::Vec3f& parentScale = mParent->getAbsoluteScale();
+		std::shared_ptr<Node> parent( mParent.lock() );
+		if ( parent ) {
+			const ci::Quatf& parentRotation = parent->getAbsoluteRotation();
+			const ci::Vec3f& parentScale = parent->getAbsoluteScale();
 			
 			mAbsoluteRotation = mRelativeRotation * parentRotation;
 			mAbsoluteScale = mRelativeScale * parentScale;
@@ -199,7 +200,7 @@ namespace model {
 			// change position vector based on parent's rotation & scale
 			mAbsolutePosition = ( parentScale * mRelativePosition ) * parentRotation;
 			// add altered position vector to parent's
-			mAbsolutePosition += mParent->getAbsolutePosition();
+			mAbsolutePosition += parent->getAbsolutePosition();
 		} else {
 			mAbsoluteRotation = mRelativeRotation;
 			mAbsoluteScale = mRelativeScale;

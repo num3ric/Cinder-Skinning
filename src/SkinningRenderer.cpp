@@ -185,7 +185,7 @@ namespace model {
 	bool SkinningRenderer::isVisibleNode( SkeletonRef skeleton, const NodeRef& node ) const
 	{
 		if( Skeleton::mRenderMode == Skeleton::RenderMode::CLEANED) {
-			NodeRef parent = node->getParent();
+			NodeRef parent = node->getParent().lock();
 			return  parent &&
 			(skeleton->hasBone( node->getName() ) || skeleton->hasBone( parent->getName() ) ) &&
 			parent->getInitialRelativePosition() != ci::Vec3f::zero();
@@ -248,7 +248,7 @@ namespace model {
 	{
 		if( !node.hasParent() ) return;
 		ci::Vec3f currentPos = node.getAbsolutePosition();
-		ci::Vec3f parentPos = node.getParent()->getAbsolutePosition();
+		ci::Vec3f parentPos = node.getParent().lock()->getAbsolutePosition();
 		ci::gl::color( node.isAnimated() ? ci::Color(1.0f, 0.0f, 0.0f) : ci::Color(0.0f, 1.0f, 0.0f) );
 		if( mode == Node::RenderMode::CONNECTED ) {
 			drawConnected( currentPos, parentPos);
