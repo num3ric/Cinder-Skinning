@@ -14,20 +14,6 @@ namespace model {
 
 Skeleton::RenderMode Skeleton::mRenderMode = Skeleton::RenderMode::FULL;
 
-SkeletonRef Skeleton::create( const std::unordered_set<std::string>& boneNames )
-{
-	SkeletonRef inst( new Skeleton() );
-	for( const std::string& name : boneNames ) {
-		inst->insertBone( name, nullptr );
-	}
-	return inst;
-}
-
-Skeleton::Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames )
-: mRootNode( root )
-, mBoneNames( boneNames )
-{ }
-
 void cloneTraversal( const NodeRef& origin, NodeRef& copy )
 {
 	for( const auto& originChild : origin->getChildren() ) {
@@ -79,12 +65,6 @@ void Skeleton::setBlendedPose( float time, const std::unordered_map<int, float>&
 				  } );
 }
 
-int Skeleton::findBoneIndex( const std::string& name ) const
-{
-	auto it = mBoneNames.find( name );
-	return std::distance( mBoneNames.begin(), it );
-}
-
 bool Skeleton::hasBone( const std::string& name ) const
 {
 	return mBoneNames.find( name ) != mBoneNames.end();
@@ -104,9 +84,15 @@ NodeRef Skeleton::getNode(const std::string& name) const
 	return findNode( name, mRootNode );
 }
 
-void Skeleton::insertBone(const std::string &name, const NodeRef &bone)
+void Skeleton::addBone(const std::string &name, const NodeRef &bone)
 {
-	mBoneNames[name] = bone;
+	static int index = 0;
+	
+	if( mBoneNames.count(name) == 0 ) {
+		mBoneNames[name] = bone;
+		bone->setBoneIndex( index  );
+		++index;
+	}
 }
 
 NodeRef Skeleton::findNode( const std::string& name, const NodeRef& node ) const

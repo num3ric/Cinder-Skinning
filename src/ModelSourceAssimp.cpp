@@ -288,6 +288,7 @@ namespace ai {
 	
 	model::NodeRef generateNodeHierarchy(model::Skeleton* skeleton,
 										 const aiNode* ainode,
+										 const std::unordered_set<std::string>& boneNames,
 										 const std::shared_ptr<model::Node>& parent = nullptr,
 										 ci::Matrix44f derivedTransformation = ci::Matrix44f::identity(),
 										 int level = 0 )
@@ -303,13 +304,12 @@ namespace ai {
 		ainode->mTransformation.Decompose( scaling, rotation, position );
 		model::NodeRef node = model::NodeRef( new model::Node( ai::get(position), ai::get(rotation), ai::get(scaling), name, parent, level ) );
 		
-		if( skeleton->hasBone( name ) ) {
-			node->setBoneIndex( skeleton->findBoneIndex( name ) );
-			skeleton->insertBone(name, node);
+		if( boneNames.count(name) > 0 ) {
+			skeleton->addBone(name, node);
 		}
 		
 		for( unsigned int c=0; c < ainode->mNumChildren; ++c) {
-			model::NodeRef child = generateNodeHierarchy( skeleton, ainode->mChildren[c], node, derivedTransformation, level + 1);
+			model::NodeRef child = generateNodeHierarchy( skeleton, ainode->mChildren[c], boneNames, node, derivedTransformation, level + 1);
 			node->addChild( child );
 		}
 		return node;
@@ -362,8 +362,8 @@ namespace ai {
 			}
 		}
 		
-		model::SkeletonRef skeleton = model::Skeleton::create( boneNames );
-		skeleton->setRootNode( generateNodeHierarchy( skeleton.get(), root ) );
+		model::SkeletonRef skeleton = model::Skeleton::create();
+		skeleton->setRootNode( generateNodeHierarchy( skeleton.get(), root, boneNames ) );
 		if( hasAnimations ) {
 			generateAnimationCurves( skeleton, aiscene );
 		}

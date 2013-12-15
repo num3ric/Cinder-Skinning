@@ -110,8 +110,8 @@ namespace model {
 				mSkinningShader->uniform( "isAnimated", section->isAnimated() );
 				mSkinningShader->uniform( "texture", 0 );
 				if( section->hasSkeleton() ) {
-					mSkinningShader->uniform( "boneMatrices", section->boneMatrices->data(), SkinnedVboMesh::MAXBONES );
-					mSkinningShader->uniform( "invTransposeMatrices", section->invTransposeMatrices->data(), SkinnedVboMesh::MAXBONES );
+					mSkinningShader->uniform( "boneMatrices", section->mBoneMatricesPtr->data(), SkinnedVboMesh::MAXBONES );
+					mSkinningShader->uniform( "invTransposeMatrices", section->mInvTransposeMatricesPtr->data(), SkinnedVboMesh::MAXBONES );
 				}
 				ci::gl::draw( section->getVboMesh() );
 				//    ci::gl::drawRange(mVbo, 0, mVbo.getNumIndices()*3);

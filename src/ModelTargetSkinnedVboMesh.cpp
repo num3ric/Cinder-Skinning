@@ -123,8 +123,8 @@ void ModelTargetSkinnedVboMesh::loadBoneWeights( const std::vector<BoneWeights>&
 	setCustomAttribute( mAttribLocation, "boneIndices" );
 	incrementOffsets( dataSize );
 	
-	mSkinnedVboMesh->getActiveSection()->boneMatrices = &mSkinnedVboMesh->mBoneMatrices;
-	mSkinnedVboMesh->getActiveSection()->invTransposeMatrices = &mSkinnedVboMesh->mInvTransposeMatrices;
+	mSkinnedVboMesh->getActiveSection()->mBoneMatricesPtr = &mSkinnedVboMesh->mBoneMatrices;
+	mSkinnedVboMesh->getActiveSection()->mInvTransposeMatricesPtr = &mSkinnedVboMesh->mInvTransposeMatrices;
 }
 	
 void ModelTargetSkinnedVboMesh::loadDefaultTransformation( const ci::Matrix44f& transformation )

@@ -35,7 +35,7 @@ public:
 	std::weak_ptr<Node>&			getParent() { return mParent; }
 	void				setParent( NodeRef parent );
 	
-	int		numChildren() const { return mChildren.size(); }
+	int		getNumChildren() const { return mChildren.size(); }
 	bool	hasChildren() const { return !mChildren.empty(); }
 	bool	hasParent()   const { return mParent.expired(); }
 	

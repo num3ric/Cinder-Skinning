@@ -36,8 +36,8 @@ public:
 		const ci::gl::VboMesh&	getVboMesh() const { return mVboMesh; }
 		void				setVboMesh( size_t numVertices, size_t numIndices, ci::gl::VboMesh::Layout layout, GLenum primitiveType );
 		
-		std::array<ci::Matrix44f, MAXBONES>* boneMatrices;
-		std::array<ci::Matrix44f, MAXBONES>* invTransposeMatrices;
+		std::array<ci::Matrix44f, MAXBONES>* mBoneMatricesPtr;
+		std::array<ci::Matrix44f, MAXBONES>* mInvTransposeMatricesPtr;
 	private:
 		ci::gl::VboMesh mVboMesh;
 	};

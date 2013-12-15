@@ -12,7 +12,7 @@
 #include "Actor.h"
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <unordered_set>
 #include <functional>
 
@@ -37,9 +37,6 @@ public:
 	static enum RenderMode mRenderMode;
 	
 	static SkeletonRef create() { return SkeletonRef( new Skeleton() ); }
-	//! Initialize a skeleton with bone names first so that when bones are created, we can set their bone index with findBoneIndex (used for gpu skinning)
-	static SkeletonRef create( const std::unordered_set<std::string>& boneNames );
-	static SkeletonRef create( NodeRef root, std::map<std::string, NodeRef> boneNames ) { return SkeletonRef( new Skeleton( root, boneNames ) ); }
 	
 	//! Deep copy of the node hierarchy and names map. Heavy, non-recommended operation. Prefer extracting different informations out of the same skeleton.
 	virtual SkeletonRef clone() const;
@@ -53,22 +50,21 @@ public:
 	const NodeRef&	getRootNode() const { return mRootNode; }
 	void			setRootNode( const NodeRef& root ) { mRootNode = root; }
 	
-	int				findBoneIndex( const std::string& name ) const;
 	bool			hasBone( const std::string& name ) const;
 	NodeRef			getBone( const std::string& name ) const;
 	int				getNumBones() { return mBoneNames.size(); }
 	
-	void			insertBone( const std::string& name, const NodeRef& bone );
+	//! Adds bone node to name -> NodeRef map.
+	void			addBone( const std::string& name, const NodeRef& bone );
 	
-	const std::map<std::string, NodeRef>&	getBoneNames() const { return mBoneNames; }
-	std::map<std::string, NodeRef>&			getBoneNames() { return mBoneNames; }
+	const std::unordered_map<std::string, NodeRef>&		getBoneNames() const { return mBoneNames; }
+	std::unordered_map<std::string, NodeRef>&			getBoneNames() { return mBoneNames; }
 	
 	NodeRef			getNode( const std::string& name) const;
 	
 	void			traverseNodes( const NodeRef& node, std::function<void(NodeRef)> visit ) const;
 protected:
 	Skeleton() { };
-	explicit Skeleton( NodeRef root, std::map<std::string, NodeRef> boneNames );
 	
 	//! Find the node by traversing the hierarchy
 	NodeRef findNode( const std::string& name, const NodeRef& node ) const;
@@ -80,7 +76,7 @@ private:
 	Skeleton& operator=( const Skeleton &rhs ); // not defined to prevent copying
 	
 	NodeRef mRootNode;
-	std::map<std::string, NodeRef> mBoneNames;
+	std::unordered_map<std::string, NodeRef> mBoneNames;
 };
 
 extern std::ostream& operator<<( std::ostream& lhs, const Skeleton& rhs );

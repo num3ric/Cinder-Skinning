@@ -32,9 +32,9 @@ void SkinnedVboMesh::MeshSection::updateMesh( bool enableSkinning )
 			if( i >= MAXBONES )
 				break;
 			NodeRef bone = entry.second;
-			(*boneMatrices)[i] = bone->getAbsoluteTransformation() * *bone->getOffset();
-			(*invTransposeMatrices)[i] = (*boneMatrices)[i].orthonormalInverted();
-			(*invTransposeMatrices)[i].transpose();
+			(*mBoneMatricesPtr)[bone->getBoneIndex()] = bone->getAbsoluteTransformation() * *bone->getOffset();
+			(*mInvTransposeMatricesPtr)[bone->getBoneIndex()] = (*mBoneMatricesPtr)[bone->getBoneIndex()].orthonormalInverted();
+			(*mInvTransposeMatricesPtr)[bone->getBoneIndex()].transpose();
 			++i;
 		}
 		mIsAnimated = true;
