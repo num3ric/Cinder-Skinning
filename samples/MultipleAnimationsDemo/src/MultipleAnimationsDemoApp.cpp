@@ -58,12 +58,12 @@ private:
 
 void MultipleAnimationsDemo::playAnim()
 {
-	mSkinnedMesh->getSkeleton()->playAnim( mAnimId );
+	mSkinnedMesh->getSkeleton()->playAnim( app::timeline(), mAnimId );
 }
 
 void MultipleAnimationsDemo::loopAnim()
 {
-	mSkinnedMesh->getSkeleton()->loopAnim( mAnimId );
+	mSkinnedMesh->getSkeleton()->loopAnim( app::timeline(), mAnimId );
 }
 
 void MultipleAnimationsDemo::stopAnim()
@@ -108,7 +108,7 @@ void MultipleAnimationsDemo::setup()
 	auto weights = std::unordered_map<int, float>();
 	weights[0] = 1.0f;
 	weights[7] = 1.0f;
-	mSkinnedMesh->getSkeleton()->loopAnim( weights );
+	mSkinnedMesh->getSkeleton()->loopAnim( app::timeline(), weights );
 }
 
 void MultipleAnimationsDemo::fileDrop( FileDropEvent event )

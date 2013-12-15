@@ -47,7 +47,7 @@ void CustomShaderDemo::setup()
 	 * shader attributes (position, normal, texcoord, boneWeights & boneIndices)
 	 * are set as the asset is loaded. */
 	mSeymour = SkinnedVboMesh::create( loadModel( loadResource( RES_SEYMOUR ) ), nullptr, mCustomShader );
-	mSeymour->getSkeleton()->loopAnim();
+	mSeymour->getSkeleton()->loopAnim( app::timeline() );
 }
 
 void CustomShaderDemo::mouseDown( MouseEvent event )
@@ -112,8 +112,8 @@ void CustomShaderDemo::draw()
 	for( const SkinnedVboMesh::MeshVboSectionRef& section : mSeymour->getSections() ) {
 		mCustomShader->bind();
 		if( section->hasSkeleton() ) {
-			mCustomShader->uniform( "boneMatrices", section->boneMatrices->data(), SkinnedVboMesh::MAXBONES );
-			mCustomShader->uniform( "invTransposeMatrices", section->invTransposeMatrices->data(), SkinnedVboMesh::MAXBONES );
+			mCustomShader->uniform( "boneMatrices", section->mBoneMatricesPtr->data(), SkinnedVboMesh::MAXBONES );
+			mCustomShader->uniform( "invTransposeMatrices", section->mInvTransposeMatricesPtr->data(), SkinnedVboMesh::MAXBONES );
 		}
 		ci::gl::draw( section->getVboMesh() );
 		mCustomShader->unbind();

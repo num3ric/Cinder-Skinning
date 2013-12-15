@@ -27,6 +27,18 @@
 		B051926A1744ED95007A921C /* skinning_vert_no_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B01F84961744EA1700AA62D4 /* skinning_vert_no_normals.glsl */; };
 		B051926B1744ED95007A921C /* skinning_frag_no_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B01F84971744EA1700AA62D4 /* skinning_frag_no_normals.glsl */; };
 		B05461B7174FAA0A007EB326 /* SkinningRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05461B6174FAA0A007EB326 /* SkinningRenderer.cpp */; };
+		B0A3DA55185D789600AA6588 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C51E03FB6BB14738840BBD7D /* Node.cpp */; };
+		B0A3DA57185D78A600AA6588 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C461760ABCD002B9DC6 /* AnimCurve.cpp */; };
+		B0A3DA61185D7CA000AA6588 /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A9DDE6E7EAA6496D8D7E3844 /* Skeleton.cpp */; };
+		B0A3DA62185D7CAE00AA6588 /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B00A7FAE17412BCF00131FD9 /* Actor.cpp */; };
+		B0A3DA63185D7F9000AA6588 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784AF0FF439BC000DE1D7 /* Accelerate.framework */; };
+		B0A3DA64185D7F9000AA6588 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */; };
+		B0A3DA65185D7F9000AA6588 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
+		B0A3DA66185D7F9000AA6588 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
+		B0A3DA67185D7F9000AA6588 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
+		B0A3DA68185D7F9000AA6588 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
+		B0A3DA69185D7F9000AA6588 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0091D8F80E81B9330029341E /* OpenGL.framework */; };
+		B0A3DA6A185D7F9000AA6588 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		B0AB4C481760ABCD002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C461760ABCD002B9DC6 /* AnimCurve.cpp */; };
 		B0D5425E18494A19002B2BA8 /* NodeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D5424E1849492C002B2BA8 /* NodeTest.cpp */; };
 		B0FF4252179A0F9D007CCE39 /* Treadmill.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0FF4250179A0F9D007CCE39 /* Treadmill.cpp */; };
@@ -127,6 +139,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0A3DA6A185D7F9000AA6588 /* Cocoa.framework in Frameworks */,
+				B0A3DA63185D7F9000AA6588 /* Accelerate.framework in Frameworks */,
+				B0A3DA67185D7F9000AA6588 /* QTKit.framework in Frameworks */,
+				B0A3DA64185D7F9000AA6588 /* AudioToolbox.framework in Frameworks */,
+				B0A3DA69185D7F9000AA6588 /* OpenGL.framework in Frameworks */,
+				B0A3DA66185D7F9000AA6588 /* CoreAudio.framework in Frameworks */,
+				B0A3DA65185D7F9000AA6588 /* AudioUnit.framework in Frameworks */,
+				B0A3DA68185D7F9000AA6588 /* CoreVideo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,7 +425,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0A3DA57185D78A600AA6588 /* AnimCurve.cpp in Sources */,
 				B0D5425E18494A19002B2BA8 /* NodeTest.cpp in Sources */,
+				B0A3DA61185D7CA000AA6588 /* Skeleton.cpp in Sources */,
+				B0A3DA55185D789600AA6588 /* Node.cpp in Sources */,
+				B0A3DA62185D7CAE00AA6588 /* Actor.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +469,7 @@
 				OTHER_LDFLAGS = (
 					$CINDER_PATH/lib/macosx/libboost_unit_test_framework.a,
 					$CINDER_PATH/lib/macosx/libboost_filesystem.a,
+					$CINDER_PATH/lib/libcinder_d.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -477,6 +502,7 @@
 				OTHER_LDFLAGS = (
 					$CINDER_PATH/lib/macosx/libboost_unit_test_framework.a,
 					$CINDER_PATH/lib/macosx/libboost_filesystem.a,
+					"\"$(CINDER_PATH)/lib/libcinder.a\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
