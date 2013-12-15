@@ -64,7 +64,7 @@ public:
 	
 	void			traverseNodes( const NodeRef& node, std::function<void(NodeRef)> visit ) const;
 protected:
-	Skeleton() { };
+	Skeleton();
 	
 	//! Find the node by traversing the hierarchy
 	NodeRef findNode( const std::string& name, const NodeRef& node ) const;

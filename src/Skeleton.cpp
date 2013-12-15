@@ -13,6 +13,9 @@
 namespace model {
 
 Skeleton::RenderMode Skeleton::mRenderMode = Skeleton::RenderMode::FULL;
+	
+Skeleton::Skeleton()
+{ }
 
 void cloneTraversal( const NodeRef& origin, NodeRef& copy )
 {
@@ -86,12 +89,9 @@ NodeRef Skeleton::getNode(const std::string& name) const
 
 void Skeleton::addBone(const std::string &name, const NodeRef &bone)
 {
-	static int index = 0;
-	
 	if( mBoneNames.count(name) == 0 ) {
+		bone->setBoneIndex( mBoneNames.size() );
 		mBoneNames[name] = bone;
-		bone->setBoneIndex( index  );
-		++index;
 	}
 }
 
