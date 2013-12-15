@@ -178,13 +178,8 @@ namespace model {
 	
 	bool Node::hasAnimations( int trackId ) const
 	{
-		try {
-			mAnimTracks.at( trackId );
-			return true;
-		} catch ( const std::out_of_range& ) {
-			return false;
-		}
-	}	
+		return mAnimTracks.count( trackId ) > 0;
+	}
 	
 	void Node::update() const
 	{

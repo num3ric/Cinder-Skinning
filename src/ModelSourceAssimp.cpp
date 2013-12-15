@@ -325,9 +325,8 @@ namespace ai {
 			
 			for( unsigned int c=0; c < anim->mNumChannels; ++c ) {
 				aiNodeAnim* nodeAnim = anim->mChannels[c];
-				
-				try {
-					model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
+				model::NodeRef bone = skeleton->getBone( ai::get(nodeAnim->mNodeName) );
+				if( bone ) {
 					float tsecs = ( anim->mTicksPerSecond != 0 ) ? (float) anim->mTicksPerSecond : 25.0f;
 					bone->addAnimTrack( a, float( anim->mDuration ), tsecs );
 					LOG_M << " Duration: " << anim->mDuration << " seconds:" << tsecs << std::endl;
@@ -343,7 +342,7 @@ namespace ai {
 						const aiVectorKey& key = nodeAnim->mScalingKeys[k];
 						bone->addScalingKeyframe( a, (float) key.mTime, ai::get( key.mValue ) );
 					}
-				} catch ( const std::out_of_range& ) {
+				} else {
 					LOG_M << "Anim node " << ai::get(nodeAnim->mNodeName) << " is not a bone." << std::endl;
 				}
 			}

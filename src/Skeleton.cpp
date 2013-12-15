@@ -90,9 +90,13 @@ bool Skeleton::hasBone( const std::string& name ) const
 	return mBoneNames.find( name ) != mBoneNames.end();
 }
 
-const NodeRef& Skeleton::getBone( const std::string& name ) const
+NodeRef Skeleton::getBone( const std::string& name ) const
 {
-	return mBoneNames.at( name );
+	if( mBoneNames.count(name) > 0 ) {
+		return mBoneNames.at( name );
+	} else {
+		return nullptr;
+	}
 }
 
 NodeRef Skeleton::getNode(const std::string& name) const

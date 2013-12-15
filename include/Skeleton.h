@@ -55,7 +55,7 @@ public:
 	
 	int				findBoneIndex( const std::string& name ) const;
 	bool			hasBone( const std::string& name ) const;
-	const NodeRef&	getBone( const std::string& name ) const;
+	NodeRef			getBone( const std::string& name ) const;
 	int				getNumBones() { return mBoneNames.size(); }
 	
 	void			insertBone( const std::string& name, const NodeRef& bone );
