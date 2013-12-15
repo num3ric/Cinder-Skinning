@@ -2,6 +2,7 @@
 #include <unordered_map>
 
 #include "cinder/Timeline.h"
+#include "cinder/Tween.h"
 
 namespace model {
 
@@ -30,10 +31,10 @@ public:
 	virtual void	setPose( float time, int trackId = 0 ) = 0;
 	virtual void	setBlendedPose( float time, const std::unordered_map<int, float>& trackWeights ) = 0;
 	
-	void			playAnim( int trackId = 0 );
-	void			playAnim( const std::unordered_map<int, float>& trackWeights );
-	void			loopAnim( int trackId = 0 );
-	void			loopAnim( const std::unordered_map<int, float>& trackWeights );
+	void			playAnim( ci::Timeline& timeline, int trackId = 0 );
+	void			playAnim( ci::Timeline& timeline, const std::unordered_map<int, float>& trackWeights );
+	void			loopAnim( ci::Timeline& timeline, int trackId = 0 );
+	void			loopAnim( ci::Timeline& timeline, const std::unordered_map<int, float>& trackWeights );
 	void			stop();
 	
 //	void			setAnimSpeed( float factor );

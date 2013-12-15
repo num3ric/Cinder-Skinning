@@ -52,14 +52,14 @@ namespace model {
 		setBlendedPose( mAnimTime(), trackWeights );
 	}
 	
-	void  Actor::playAnim( int trackId )
+	void  Actor::playAnim( ci::Timeline& timeline, int trackId )
 	{
 		mAnimTime = 0.0f;
 		float d = mAnimInfoMap[ trackId ].mDuration;
-		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateUpdate, this, trackId ) );
+		timeline.apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateUpdate, this, trackId ) );
 	}
 	
-	void  Actor::playAnim( const std::unordered_map<int, float>& trackWeights )
+	void  Actor::playAnim( ci::Timeline& timeline, const std::unordered_map<int, float>& trackWeights )
 	{
 		mAnimTime = 0.0f;
 		float d = 0.0f;
@@ -67,19 +67,17 @@ namespace model {
 			if( kv.second.mDuration > d )
 				d = kv.second.mDuration;
 		}
-		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateBlendUpdate, this, trackWeights ) );
+		timeline.apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateBlendUpdate, this, trackWeights ) );
 	}
 	
-	void  Actor::loopAnim( int trackId )
+	void  Actor::loopAnim( ci::Timeline& timeline, int trackId )
 	{
 		mAnimTime = 0.0f;
 		float d = mAnimInfoMap[ trackId ].mDuration;
-		ci::app::timeline().apply(&mAnimTime, d, d )
-						   .updateFn( std::bind(&Actor::privateUpdate, this, trackId ) )
-						   .loop();
+		timeline.apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateUpdate, this, trackId ) ).loop();
 	}
 	
-	void  Actor::loopAnim( const std::unordered_map<int, float>& trackWeights )
+	void  Actor::loopAnim( ci::Timeline& timeline, const std::unordered_map<int, float>& trackWeights )
 	{
 		mAnimTime = 0.0f;
 		float d = 1.0f;
@@ -87,7 +85,7 @@ namespace model {
 			if( kv.second.mDuration > d )
 				d = kv.second.mDuration;
 		}
-		ci::app::timeline().apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateBlendUpdate, this, trackWeights ) ).loop();
+		timeline.apply(&mAnimTime, d, d ).updateFn( std::bind(&Actor::privateBlendUpdate, this, trackWeights ) ).loop();
 	}
 	
 	void  Actor::stop()
