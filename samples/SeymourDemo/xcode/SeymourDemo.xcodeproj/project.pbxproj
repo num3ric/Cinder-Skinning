@@ -28,8 +28,6 @@
 		B051926B1744ED95007A921C /* skinning_frag_no_normals.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B01F84971744EA1700AA62D4 /* skinning_frag_no_normals.glsl */; };
 		B05461B7174FAA0A007EB326 /* SkinningRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B05461B6174FAA0A007EB326 /* SkinningRenderer.cpp */; };
 		B0AB4C481760ABCD002B9DC6 /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0AB4C461760ABCD002B9DC6 /* AnimCurve.cpp */; };
-		B0D5425818494977002B2BA8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D5425718494977002B2BA8 /* main.cpp */; };
-		B0D5425A18494977002B2BA8 /* SkinningTests.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = B0D5425918494977002B2BA8 /* SkinningTests.1 */; };
 		B0D5425E18494A19002B2BA8 /* NodeTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0D5424E1849492C002B2BA8 /* NodeTest.cpp */; };
 		B0FF4252179A0F9D007CCE39 /* Treadmill.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0FF4250179A0F9D007CCE39 /* Treadmill.cpp */; };
 		B0FF4256179A2094007CCE39 /* treadmill_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B0FF4253179A205D007CCE39 /* treadmill_vert.glsl */; };
@@ -48,7 +46,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				B0D5425A18494977002B2BA8 /* SkinningTests.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -96,8 +93,6 @@
 		B0AB4C461760ABCD002B9DC6 /* AnimCurve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AnimCurve.cpp; path = ../../../src/AnimCurve.cpp; sourceTree = "<group>"; };
 		B0D5424E1849492C002B2BA8 /* NodeTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NodeTest.cpp; path = ../../../test/NodeTest.cpp; sourceTree = "<group>"; };
 		B0D5425518494977002B2BA8 /* SkinningTests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SkinningTests; sourceTree = BUILT_PRODUCTS_DIR; };
-		B0D5425718494977002B2BA8 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		B0D5425918494977002B2BA8 /* SkinningTests.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = SkinningTests.1; sourceTree = "<group>"; };
 		B0DB931E1799E0390010B8E1 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = ../../../include/Debug.h; sourceTree = "<group>"; };
 		B0FF4250179A0F9D007CCE39 /* Treadmill.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Treadmill.cpp; path = ../src/Treadmill.cpp; sourceTree = "<group>"; };
 		B0FF4253179A205D007CCE39 /* treadmill_vert.glsl */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = treadmill_vert.glsl; path = ../resources/treadmill_vert.glsl; sourceTree = "<group>"; };
@@ -195,7 +190,6 @@
 				29B97315FDCFA39411CA2CEA /* Headers */,
 				080E96DDFE201D6D7F000001 /* Source */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				B0D5425618494977002B2BA8 /* SkinningTests */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -290,15 +284,6 @@
 				B0D5424E1849492C002B2BA8 /* NodeTest.cpp */,
 			);
 			name = test;
-			sourceTree = "<group>";
-		};
-		B0D5425618494977002B2BA8 /* SkinningTests */ = {
-			isa = PBXGroup;
-			children = (
-				B0D5425718494977002B2BA8 /* main.cpp */,
-				B0D5425918494977002B2BA8 /* SkinningTests.1 */,
-			);
-			path = SkinningTests;
 			sourceTree = "<group>";
 		};
 		C7B58D5F1ACD433A938E9F30 /* Skinning */ = {
@@ -420,7 +405,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B0D5425818494977002B2BA8 /* main.cpp in Sources */,
 				B0D5425E18494A19002B2BA8 /* NodeTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,6 +442,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					$CINDER_PATH/lib/macosx/libboost_unit_test_framework.a,
+					$CINDER_PATH/lib/macosx/libboost_filesystem.a,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -486,6 +474,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = (
+					$CINDER_PATH/lib/macosx/libboost_unit_test_framework.a,
+					$CINDER_PATH/lib/macosx/libboost_filesystem.a,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -588,6 +580,7 @@
 				B0D5425D18494977002B2BA8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "SeymourDemo" */ = {
 			isa = XCConfigurationList;
