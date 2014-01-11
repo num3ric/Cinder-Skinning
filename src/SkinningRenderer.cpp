@@ -248,10 +248,11 @@ namespace model {
 	{
 		if( !node.hasParent() ) return;
 		ci::Vec3f currentPos = node.getAbsolutePosition();
-		ci::Vec3f parentPos = node.getParent().lock()->getAbsolutePosition();
 		ci::gl::color( node.isAnimated() ? ci::Color(1.0f, 0.0f, 0.0f) : ci::Color(0.0f, 1.0f, 0.0f) );
 		if( mode == Node::RenderMode::CONNECTED ) {
-			drawConnected( currentPos, parentPos);
+			if( auto parent = node.getParent().lock() ) {
+				drawConnected( currentPos, parent->getAbsolutePosition() );
+			}
 		} else if (mode == Node::RenderMode::JOINTS ) {
 			drawJoint( currentPos );
 		}
