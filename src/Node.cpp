@@ -125,6 +125,17 @@ namespace model {
 		}
 		return mAbsoluteScale;
 	}
+
+	void Node::setAbsolutePosition( const ci::Vec3f& pos )
+	{
+		mAbsolutePosition = pos;
+		std::shared_ptr<Node> parent( mParent.lock() );
+		if ( parent ) {
+			setRelativePosition( mAbsolutePosition - parent->getAbsolutePosition() );
+		} else {
+			setRelativePosition( mAbsolutePosition );
+		}
+	}
 	
 	void Node::setRelativePosition( const ci::Vec3f& pos )
 	{

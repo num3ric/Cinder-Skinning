@@ -51,13 +51,12 @@ namespace model {
 		void	drawAbsolute( std::shared_ptr<Skeleton> skeleton, const std::shared_ptr<Node>& node ) const;
 		
 		
-		void drawConnected( const ci::Vec3f& nodePos, const ci::Vec3f& parentPos ) const;
+		void drawBone( const ci::Vec3f& start, const ci::Vec3f& end ) const;
 		void drawJoint( const ci::Vec3f& nodePos ) const;
-		//! Optional argument for precomputed distance
-		void drawBone( const ci::Vec3f& start, const ci::Vec3f& end, float dist = -1.0f ) const;
-		void drawSkeletonNode( const Node& node, Node::RenderMode mode = Node::RenderMode::CONNECTED ) const;
-		void drawSkeletonNodeRelative( const Node& node, Node::RenderMode mode = Node::RenderMode::CONNECTED ) const;
-		void drawLabel( const Node& node, const ci::CameraPersp& camera, const ci::Matrix44f& mv ) const;
+
+		void drawSkeletonNode( const NodeRef& node, Node::RenderMode mode = Node::RenderMode::CONNECTED ) const;
+		void drawSkeletonNodeRelative( const NodeRef& node, Node::RenderMode mode = Node::RenderMode::CONNECTED ) const;
+		void drawLabel( const NodeRef& node, const ci::CameraPersp& camera, const ci::Matrix44f& mv ) const;
 		
 		ci::gl::GlslProgRef mSkinningShader;
 	};

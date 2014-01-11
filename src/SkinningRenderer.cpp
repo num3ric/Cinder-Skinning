@@ -127,7 +127,7 @@ namespace model {
 		
 		ci::gl::pushModelView();
 		if( isVisibleNode( skeleton, node ) ) {
-			drawSkeletonNodeRelative( *node, Node::RenderMode::JOINTS );
+			drawSkeletonNodeRelative( node, Node::RenderMode::JOINTS );
 		}
 		ci::gl::multModelView( currentTransformation );
 		for( NodeRef child : node->getChildren() ) {
@@ -141,7 +141,7 @@ namespace model {
 		skeleton->traverseNodes( node,
 					  [=] ( NodeRef n ) {
 						  if( isVisibleNode( skeleton, n ) ) {
-							  drawSkeletonNode( *n );
+							  drawSkeletonNode( n );
 						  }
 					  } );
 	}
@@ -175,7 +175,7 @@ namespace model {
 		skeleton->traverseNodes( skeleton->getRootNode(),
 								[=] ( NodeRef n ) {
 									if( isVisibleNode( skeleton, n ) ) {
-										drawLabel(*n, camera, mv );
+										drawLabel(n, camera, mv );
 									}
 								} );
 		ci::gl::popMatrices();
@@ -194,12 +194,12 @@ namespace model {
 		}
 	}
 	
-	
-	void SkinningRenderer::drawBone( const ci::Vec3f& start, const ci::Vec3f& end, float dist ) const
+	void SkinningRenderer::drawBone( const ci::Vec3f& start, const ci::Vec3f& end ) const
 	{
-		if( dist <= 0 ) {
-			dist = start.distance( end );
-		}
+		float dist = start.distance( end );
+		ci::gl::drawSphere( start, 0.1f * dist , 4);
+		ci::gl::color( ci::Color::white() );
+
 		float maxGirth = 0.07f * dist;
 		const int NUM_SEGMENTS = 4;
 		ci::Vec3f boneVerts[NUM_SEGMENTS+2];
@@ -227,14 +227,6 @@ namespace model {
 		glDisableClientState( GL_VERTEX_ARRAY );
 	}
 	
-	void SkinningRenderer::drawConnected( const ci::Vec3f& nodePos, const ci::Vec3f& parentPos ) const
-	{
-		float dist = nodePos.distance( parentPos );
-		ci::gl::drawSphere( nodePos, 0.1f * dist , 4);
-		ci::gl::color( ci::Color::white() );
-		drawBone( nodePos, parentPos, dist );
-	}
-	
 	void SkinningRenderer::drawJoint( const ci::Vec3f& nodePos ) const
 	{
 		float size = 0.2f;
@@ -244,39 +236,39 @@ namespace model {
 		ci::gl::drawLine( nodePos, nodePos + ci::Vec3f(0, size, 0) );
 	}
 	
-	void SkinningRenderer::drawSkeletonNode( const Node& node, Node::RenderMode mode ) const
+	void SkinningRenderer::drawSkeletonNode( const NodeRef& node, Node::RenderMode mode ) const
 	{
-		if( !node.hasParent() ) return;
-		ci::Vec3f currentPos = node.getAbsolutePosition();
-		ci::gl::color( node.isAnimated() ? ci::Color(1.0f, 0.0f, 0.0f) : ci::Color(0.0f, 1.0f, 0.0f) );
+		if( !node->hasParent() ) return;
+		ci::Vec3f currentPos = node->getAbsolutePosition();
+		ci::gl::color( node->isAnimated() ? ci::Color(1.0f, 0.0f, 0.0f) : ci::Color(0.0f, 1.0f, 0.0f) );
 		if( mode == Node::RenderMode::CONNECTED ) {
-			if( auto parent = node.getParent().lock() ) {
-				drawConnected( currentPos, parent->getAbsolutePosition() );
+			std::shared_ptr<Node> parent( node->getParent().lock() );
+			if( parent ) {
+				drawBone( currentPos, parent->getAbsolutePosition() );
 			}
 		} else if (mode == Node::RenderMode::JOINTS ) {
 			drawJoint( currentPos );
 		}
 	}
 	
-	void SkinningRenderer::drawSkeletonNodeRelative( const Node& node, Node::RenderMode mode ) const
+	void SkinningRenderer::drawSkeletonNodeRelative( const NodeRef& node, Node::RenderMode mode ) const
 	{
-		ci::Vec3f currentPos = node.getRelativePosition();
-		ci::Vec3f parentPos = ci::Vec3f::zero();
-		ci::gl::color( node.isAnimated() ? ci::Color(1.0f, 0.0f, 0.0f) : ci::Color(0.0f, 1.0f, 0.0f) );
+		ci::Vec3f currentPos = node->getRelativePosition();
+		ci::gl::color( node->isAnimated() ? ci::Color(1.0f, 0.0f, 0.0f) : ci::Color(0.0f, 1.0f, 0.0f) );
 		if( mode == Node::RenderMode::CONNECTED ) {
-			drawConnected( currentPos, parentPos);
+			drawBone( currentPos, ci::Vec3f::zero());
 		} else if (mode == Node::RenderMode::JOINTS ) {
 			drawJoint( currentPos );
 		}
 	}
 	
-	void SkinningRenderer::drawLabel( const Node& node, const ci::CameraPersp& camera, const ci::Matrix44f& mv ) const
+	void SkinningRenderer::drawLabel( const NodeRef& node, const ci::CameraPersp& camera, const ci::Matrix44f& mv ) const
 	{
-		ci::Vec3f eyeCoord = mv * node.getAbsolutePosition();
+		ci::Vec3f eyeCoord = mv * node->getAbsolutePosition();
 		ci::Vec3f ndc = camera.getProjectionMatrix().transformPoint( eyeCoord );
 		
 		ci::Vec2f pos( ( ndc.x + 1.0f ) / 2.0f *  ci::app::getWindowWidth(), ( 1.0f - ( ndc.y + 1.0f ) / 2.0f ) * ci::app::getWindowHeight() );
-		ci::gl::drawString( node.getName(), pos );
+		ci::gl::drawString( node->getName(), pos );
 	}
 	
 }

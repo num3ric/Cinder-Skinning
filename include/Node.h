@@ -37,7 +37,7 @@ public:
 	
 	int		getNumChildren() const { return mChildren.size(); }
 	bool	hasChildren() const { return !mChildren.empty(); }
-	bool	hasParent()   const { return mParent.expired(); }
+	bool	hasParent()   const { return !mParent.expired(); }
 	
 	const std::vector<NodeRef>& getChildren() const { return mChildren; }
 	std::vector<NodeRef>&		getChildren() { return mChildren; }
@@ -68,6 +68,9 @@ public:
 	ci::Vec3f&				getAbsoluteScale();
 	const ci::Vec3f&		getAbsoluteScale() const;
 	
+	// Setting absolute positions is a more expensive operation: we have to compute relative ones
+	void					setAbsolutePosition( const ci::Vec3f& pos );
+
 	void					setRelativePosition( const ci::Vec3f& pos );
 	void					setRelativeRotation( const ci::Quatf& rotation );
 	void					setRelativeScale( const ci::Vec3f& scale );
