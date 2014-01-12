@@ -10,9 +10,9 @@ xcuserdata/
 
 
 #Windows cruft
-/Debug
-/Release
-/ipch
+[Dd]ebug*/
+[Rr]elease*/
+ipch/
 *.opensdf
 *.sdf
 *.suo
