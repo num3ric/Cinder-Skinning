@@ -63,7 +63,7 @@ void Skeleton::setPose( float time, int animId )
 void Skeleton::setBlendedPose( float time, const std::unordered_map<int, float>& weights )
 {
 	traverseNodes( mRootNode,
-				  [=] ( NodeRef n ) {
+				  [&time, &weights] ( NodeRef n ) {
 					  n->blendAnimate( time, weights );
 				  } );
 }
