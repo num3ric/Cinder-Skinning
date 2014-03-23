@@ -16,8 +16,6 @@
 
 #include <vector>
 
-class Skeleton;
-
 namespace model {
 
 typedef std::shared_ptr<class SkinnedVboMesh> SkinnedVboMeshRef;

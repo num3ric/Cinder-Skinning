@@ -13,7 +13,6 @@ namespace model {
 	
 	class SkinnedMesh;
 	class SkinnedVboMesh;
-	class Skeleton;
 	
 	class SkinningRenderer {
 	public:

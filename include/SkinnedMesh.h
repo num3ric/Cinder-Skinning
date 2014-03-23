@@ -7,8 +7,6 @@
 #include <vector>
 #include <string>
 
-class model::Skeleton;
-
 namespace model {
 
 typedef std::shared_ptr< class SkinnedMesh > SkinnedMeshRef;

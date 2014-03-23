@@ -10,8 +10,6 @@
 
 #include <unordered_set>
 
-class model::Node;
-
 namespace ai {
 	
 	//! Assimp loader settings/flags.
