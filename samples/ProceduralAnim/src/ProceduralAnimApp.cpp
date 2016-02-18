@@ -1,30 +1,29 @@
-#include "cinder/app/AppNative.h"
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/gl/GlslProg.h"
 #include "cinder/ImageIo.h"
 #include "cinder/Camera.h"
-#include "cinder/MayaCamUI.h"
-#include "cinder/gl/Light.h"
+#include "cinder/CameraUi.h"
 #include "cinder/params/Params.h"
 #include "cinder/Rand.h"
 
 #include "Resources.h"
-#include "Node.h"
-#include "Skeleton.h"
-#include "SkinnedVboMesh.h"
-#include "ModelSourceAssimp.h"
-#include "SkinningRenderer.h"
+
+#include "model/AssimpLoader.h"
+#include "model/Node.h"
+#include "model/Skeleton.h"
+#include "model/SkeletalMesh.h"
+#include "model/Renderer.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-using namespace model;
-
 const int NB_CLOUD_PARTICLES = 20;
 const float SCENE_SIZE = 60.0f;
 
-class ProceduralAnimApp : public AppNative {
+class ProceduralAnimApp : public App {
   public:
 	void setup();
 	void mouseDown( MouseEvent event );
@@ -34,20 +33,21 @@ class ProceduralAnimApp : public AppNative {
 	void update();
 	void draw();
 private:
-	
-	MayaCamUI			mMayaCam;
+
+	CameraPersp			mCamera;
+	CameraUi			mCamUi;
 	float				mMouseHorizontalPos;
 	float				mRotationRadius;
-	Vec3f				mLightPos;
 	
-	SkinnedVboMeshRef	mSkinnedVboBird;
+	model::SkeletalMeshRef	mBird;
 	
 	params::InterfaceGl	mParams;
 	
 	bool mDrawSkeleton, mDrawLabels, mDrawMesh, mEnableWireframe;
 	float mAmplitude;
+	float mScaleFactor;
 	
-	vector<Vec3f> mDust;
+	vector<vec3> mDust;
 	gl::TextureRef dustParticleTex;
 	gl::GlslProgRef mDustShader;
 	
@@ -57,15 +57,14 @@ private:
 
 void ProceduralAnimApp::setup()
 {
-	mSkinnedVboBird = SkinnedVboMesh::create( loadModel( getAssetPath( "gannet rig2.DAE" ) ) );
-	
+	mBird = model::SkeletalMesh::create( model::AssimpLoader( loadAsset( "gannet rig2.DAE" ) ) );
+	mScaleFactor = 50.0f;
 	mRotationRadius = 20.0f;
-	mLightPos = Vec3f(0, 20.0f, 0);
 	mMouseHorizontalPos = 0;
 	
-	console() << *mSkinnedVboBird->getSkeleton();
+//	console() << *mBird->getSkeleton();
 	
-	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
+	mParams = params::InterfaceGl( "Parameters", ivec2( 200, 250 ) );
 	mDrawMesh = true;
 	mParams.addParam( "Draw Mesh", &mDrawMesh );
 	mDrawSkeleton = false;
@@ -84,11 +83,11 @@ void ProceduralAnimApp::setup()
 	mParams.addParam( "Shoulder angle", &mShoulderAngle, "min=-1.57 max=0.5 step=0.05 precision=2" );
 	
 	for( int i=0; i<NB_CLOUD_PARTICLES; ++i ) {
-		mDust.push_back( SCENE_SIZE * Vec3f( Rand::randFloat() - 0.5f,
+		mDust.push_back( SCENE_SIZE * vec3( Rand::randFloat() - 0.5f,
 									  Rand::randFloat() - 0.5f,
 									  Rand::randFloat() - 0.5f ) );
 	}
-	dustParticleTex = gl::Texture::create( loadImage( getAssetPath( "particle.png" ) ) );
+	dustParticleTex = gl::Texture::create( loadImage( loadAsset( "particle.png" ) ) );
 	try {
 		mDustShader = gl::GlslProg::create( app::loadResource(RES_CLOUD_VERT), app::loadResource(RES_CLOUD_FRAG) );
 	}
@@ -100,7 +99,7 @@ void ProceduralAnimApp::setup()
 
 void ProceduralAnimApp::mouseDown( MouseEvent event )
 {
-	mMayaCam.mouseDown( event.getPos() );
+	mCamUi.mouseDown( event.getPos() );
 }
 
 void ProceduralAnimApp::mouseDrag( MouseEvent event )
@@ -108,7 +107,7 @@ void ProceduralAnimApp::mouseDrag( MouseEvent event )
 	// Added support for international mac laptop keyboards.
 	bool middle = event.isMiddleDown() || ( event.isMetaDown() && event.isLeftDown() );
 	bool right = event.isRightDown() || ( event.isControlDown() && event.isLeftDown() );
-	mMayaCam.mouseDrag( event.getPos(), event.isLeftDown() && !middle && !right, middle, right );
+	mCamUi.mouseDrag( event.getPos(), event.isLeftDown() && !middle && !right, middle, right );
 }
 
 void ProceduralAnimApp::keyDown( KeyEvent event )
@@ -120,39 +119,40 @@ void ProceduralAnimApp::keyDown( KeyEvent event )
 
 void ProceduralAnimApp::resize()
 {
-	CameraPersp cam = mMayaCam.getCamera();
-	cam.setAspectRatio( getWindowAspectRatio() );
-	mMayaCam.setCurrentCam( cam );
+	mCamera.setAspectRatio( getWindowAspectRatio() );
+	mCamUi.setWindowSize( getWindowSize() );
 }
 
 void ProceduralAnimApp::update()
 {
-	mLightPos.x = mRotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
-	mLightPos.z = mRotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
+	model::Renderer::getLight()->position.x = mRotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
+	model::Renderer::getLight()->position.z = mRotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
 	
 	mFlapAngle += 0.01f * mFlapIncrement;
 	float h = mAmplitude * 0.5f * math<float>::sin( mFlapAngle );
-	float t = mAmplitude * 0.5f * math<float>::sin( mFlapAngle - M_PI / 2 );
-
-	SkeletonRef skeleton = mSkinnedVboBird->getSkeleton();		
+	float t = mAmplitude * 0.5f * math<float>::sin( mFlapAngle - float(M_PI / 2.0f) );
+	
+	using namespace model;
+	
+	SkeletonRef skeleton = mBird->getSkeleton();
 	NodeRef midL = skeleton->getBone("Gannet_Lwing_mid");
 	NodeRef midR = skeleton->getBone("Gannet_Rwing_mid");
 	NodeRef tipL = skeleton->getBone("Gannet_Lwing_tip");
 	NodeRef tipR = skeleton->getBone("Gannet_Rwing_tip");
-	midL->setRelativeRotation( midL->getInitialRelativeRotation() * Quatf( Vec3f::xAxis(), t ) * Quatf( Vec3f::zAxis(), mShoulderAngle ) );
-	midR->setRelativeRotation( midR->getInitialRelativeRotation() * Quatf( Vec3f::xAxis(), t ) * Quatf( Vec3f::zAxis(), mShoulderAngle ) );
-	tipL->setRelativeRotation( Quatf( Vec3f::yAxis(), h ) );
-	tipR->setRelativeRotation( Quatf( Vec3f::yAxis(), h ) );
+	midL->setRelativeRotation(  angleAxis( mShoulderAngle, vec3(0,0,1) ) * angleAxis( t, vec3(1,0,0) ) * midL->getInitialRelativeRotation() );
+	midR->setRelativeRotation( angleAxis( mShoulderAngle, vec3(0,0,1) ) * angleAxis( t, vec3(1,0,0) ) * midR->getInitialRelativeRotation() );
+	tipL->setRelativeRotation( angleAxis( h, vec3(0,1,0) ) );
+	tipR->setRelativeRotation( angleAxis( h, vec3(0,1,0) ) );
 	
 	NodeRef head = skeleton->getBone("Gannet_head");
-	head->setRelativeRotation( head->getInitialRelativeRotation().slerp(0.5f, mMayaCam.getCamera().getOrientation() )  );
+	head->setRelativeRotation( slerp( head->getInitialRelativeRotation(), mCamera.getOrientation(), 0.5f )  );
 	
-	skeleton->getBone("Gannet_body")->setRelativePosition( Vec3f(0, -t, 0) );
+	skeleton->getBone("Gannet_body")->setRelativePosition( vec3(0, -t, 0) );
 	
 	/* The mesh isn't automatically updated when the skeleton it contained is modified, so
 	 * an update call is necessary (for now). This may change since I don't find it very
 	 * intuitive... */
-	mSkinnedVboBird->update();
+	mBird->update();
 	
 	for( auto& d : mDust ) {
 		d.z -= 0.75f;
@@ -164,62 +164,50 @@ void ProceduralAnimApp::draw()
 {
 	// clear out the window with black
 	gl::clear( Color( 0.4f, 0.5f, 0.6f ) );
-	gl::setMatrices( mMayaCam.getCamera() );
+	gl::setMatrices( mCamera );
 	gl::enableDepthRead();
-	
-	gl::Light light( gl::Light::DIRECTIONAL, 0 );
-	light.setAmbient( Color::white() );
-	light.setDiffuse( Color::white() );
-	light.setSpecular( Color::white() );
-	light.lookAt( mLightPos, Vec3f::zero() );
-	light.update( mMayaCam.getCamera() );
-	light.enable();
+    gl::enableDepthWrite();
 	
 	gl::pushMatrices();
 	float e = (float)getElapsedSeconds();
-	gl::translate( math<float>::sin( 1.3f * e ), math<float>::cos( 2.7f * e ) );
-	gl::enable( GL_LIGHTING );
-	gl::enable( GL_NORMALIZE );
-		
+	gl::translate( sin( 1.3f * e ), cos( 2.7f * e ) );
+	gl::scale( vec3( mScaleFactor ) );
+	
 	if ( mEnableWireframe )
 		gl::enableWireframe();
 	if( mDrawMesh ) {
-		SkinningRenderer::draw( mSkinnedVboBird );
+		model::Renderer::draw( mBird );
 	}
 	if ( mEnableWireframe )
 		gl::disableWireframe();
 	
-	gl::disable( GL_LIGHTING );
-	gl::disable( GL_NORMALIZE );
-	
 	if( mDrawSkeleton) {
-		SkinningRenderer::draw( mSkinnedVboBird->getSkeleton() );
+		model::Renderer::draw( mBird->getSkeleton() );
 	}
 	
 	if( mDrawLabels ) {
-		SkinningRenderer::drawLabels( mSkinnedVboBird->getSkeleton(), mMayaCam.getCamera() );
+		model::Renderer::drawLabels( mBird->getSkeleton(), mCamera );
 	}
 
 	gl::popMatrices();
 	
-	Vec3f mRight, mUp;
-	mMayaCam.getCamera().getBillboardVectors(&mRight, &mUp);
+	vec3 mRight, mUp;
+	mCamera.getBillboardVectors(&mRight, &mUp);
 //	gl::disableDepthRead();
 	gl::disableDepthWrite();
 	gl::enableAlphaBlending();
-	dustParticleTex->enableAndBind();
+	dustParticleTex->bind();
 	
 	mDustShader->bind();
 	mDustShader->uniform( "tex", 0 );
 	for( const auto& d : mDust ) {
-		mDustShader->uniform( "transparency", 1.0f - math<float>::abs(d.z)/(SCENE_SIZE/2.0f) );
-		gl::drawBillboard(d, Vec2f(60.f, 60.f), 0.0f, mRight, mUp);
+		mDustShader->uniform( "transparency", 1.0f - abs(d.z)/(SCENE_SIZE/2.0f) );
+		gl::drawBillboard(d, vec2(60.f, 60.f), 0.0f, mRight, mUp);
 	}
-	mDustShader->unbind();
 	
 	dustParticleTex->unbind();
 
 	mParams.draw();
 }
 
-CINDER_APP_NATIVE( ProceduralAnimApp, RendererGl )
+CINDER_APP( ProceduralAnimApp, RendererGl )

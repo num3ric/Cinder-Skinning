@@ -1,0 +1,481 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0091D8F90E81B9330029341E /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0091D8F80E81B9330029341E /* OpenGL.framework */; };
+		00B784B30FF439BC000DE1D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784AF0FF439BC000DE1D7 /* Accelerate.framework */; };
+		00B784B40FF439BC000DE1D7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */; };
+		00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B10FF439BC000DE1D7 /* AudioUnit.framework */; };
+		00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B784B20FF439BC000DE1D7 /* CoreAudio.framework */; };
+		00FA87B10C9C496E8562604E /* Actor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CB3F89F2BC074393A3996D32 /* Actor.cpp */; };
+		144E21CC1BF8FB770054E8BE /* static_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = 144E21CB1BF8FB770054E8BE /* static_vert.glsl */; };
+		14E00D7F1BF8F53A00A64495 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E00D7E1BF8F53A00A64495 /* IOKit.framework */; };
+		14E00D811BF8F59E00A64495 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14E00D801BF8F59E00A64495 /* libz.a */; };
+		1F24A68BB584464388049635 /* ModelIo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2ADB8D37CA3B4EBBB9DBF0C6 /* ModelIo.cpp */; };
+		2DED667B5315447796A51571 /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A8102802CA494446A38D5D1F /* Renderer.cpp */; };
+		2E52A044500F4228AD4C52D0 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 65E4513C0FDE4A7CA2343CEC /* CinderApp.icns */; };
+		5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B10EAFCA74003A9687 /* CoreVideo.framework */; };
+		5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5323E6B50EAFCA7E003A9687 /* QTKit.framework */; };
+		548C0B2AAE7147E1B34519F8 /* SurfacePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5A262728E0234E8283AEEB41 /* SurfacePool.cpp */; };
+		5E558A1405144E2FA141545C /* Skeleton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3AB17923DD449C682EFB043 /* Skeleton.cpp */; };
+		60044F2632ED47C8A6C2C5E4 /* SkeletalMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96EF006BD5D4438AB3B2EBE7 /* SkeletalMesh.cpp */; };
+		79D32F6FE8BE4570831CEFB7 /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B7E39ED795A4E29BC2B3EB1 /* Node.cpp */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		9621D8B45D9543C39242C38E /* AssimpLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 06CC1B6FA1FA4D45A9421965 /* AssimpLoader.cpp */; };
+		B0033E391948A3CD009F1BE0 /* MorphedMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0033E371948A3CD009F1BE0 /* MorphedMesh.cpp */; };
+		B0033E3A1948A40C009F1BE0 /* morph_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B0033E361948A3B0009F1BE0 /* morph_vert.glsl */; };
+		B0033E3B1948A40F009F1BE0 /* model_frag.glsl in Resources */ = {isa = PBXBuildFile; fileRef = B0033E351948A3B0009F1BE0 /* model_frag.glsl */; };
+		B00FA17D19A9259A00DBC0D3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B00FA17C19A9259A00DBC0D3 /* CoreMedia.framework */; };
+		B00FA17F19A925A500DBC0D3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B00FA17E19A925A500DBC0D3 /* AVFoundation.framework */; };
+		BE9CAACF46AB4376B28F5BCF /* skinning_vert.glsl in Resources */ = {isa = PBXBuildFile; fileRef = AA295125EBB04408B62677D0 /* skinning_vert.glsl */; };
+		C841E7BCE89E42ECBD95E02C /* AnimCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DB5ADC6724BC4E60851BB849 /* AnimCurve.cpp */; };
+		CA91939EC52B488CA0D23B5F /* FacialMorphTargetsApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46172EC8F2234C42B9C737F4 /* FacialMorphTargetsApp.cpp */; };
+		D58A488A521647AB8E4EA582 /* SkeletalTriMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BD2BEFDCFF4C6BA26E5D27 /* SkeletalTriMesh.cpp */; };
+		FEA2397E5E0045B0BDC7A4A5 /* CustomIOStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 39F28C0568D644618F938D5E /* CustomIOStream.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0091D8F80E81B9330029341E /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		00B784AF0FF439BC000DE1D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		00B784B10FF439BC000DE1D7 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		00B784B20FF439BC000DE1D7 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		06CC1B6FA1FA4D45A9421965 /* AssimpLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = AssimpLoader.cpp; path = ../../../src/model/AssimpLoader.cpp; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1390BEF5B8D14748BBD0AE6C /* SkeletalTriMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkeletalTriMesh.h; path = ../../../src/model/SkeletalTriMesh.h; sourceTree = "<group>"; };
+		144E21CB1BF8FB770054E8BE /* static_vert.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = static_vert.glsl; path = ../../../resources/static_vert.glsl; sourceTree = "<group>"; };
+		14E00D7E1BF8F53A00A64495 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		14E00D801BF8F59E00A64495 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = ../../../../../lib/macosx/libz.a; sourceTree = "<group>"; };
+		16AEF6D3D4DD49C69F43CD78 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		2ADB8D37CA3B4EBBB9DBF0C6 /* ModelIo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = ModelIo.cpp; path = ../../../src/model/ModelIo.cpp; sourceTree = "<group>"; };
+		31F20BA4D69F4C21ACDE7601 /* Debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Debug.h; path = ../../../src/model/Debug.h; sourceTree = "<group>"; };
+		388686D561414EE3928283F1 /* AssimpLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AssimpLoader.h; path = ../../../src/model/AssimpLoader.h; sourceTree = "<group>"; };
+		39F28C0568D644618F938D5E /* CustomIOStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = CustomIOStream.cpp; path = ../../../src/model/CustomIOStream.cpp; sourceTree = "<group>"; };
+		3B7E39ED795A4E29BC2B3EB1 /* Node.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Node.cpp; path = ../../../src/model/Node.cpp; sourceTree = "<group>"; };
+		46172EC8F2234C42B9C737F4 /* FacialMorphTargetsApp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = FacialMorphTargetsApp.cpp; path = ../src/FacialMorphTargetsApp.cpp; sourceTree = "<group>"; };
+		4618742B86764CE7BCEC9B52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5323E6B10EAFCA74003A9687 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
+		5323E6B50EAFCA7E003A9687 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
+		5A262728E0234E8283AEEB41 /* SurfacePool.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SurfacePool.cpp; path = ../../../src/model/SurfacePool.cpp; sourceTree = "<group>"; };
+		65E4513C0FDE4A7CA2343CEC /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
+		6B0412442FC547CCB18D6458 /* FacialMorphTargets_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; path = FacialMorphTargets_Prefix.pch; sourceTree = "<group>"; };
+		7850DA75C3FC4B15B0CFB6CB /* CustomIOStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CustomIOStream.h; path = ../../../src/model/CustomIOStream.h; sourceTree = "<group>"; };
+		7CBDBED0F27542EE9D0087F4 /* Actor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Actor.h; path = ../../../src/model/Actor.h; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* FacialMorphTargets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacialMorphTargets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		96EF006BD5D4438AB3B2EBE7 /* SkeletalMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SkeletalMesh.cpp; path = ../../../src/model/SkeletalMesh.cpp; sourceTree = "<group>"; };
+		99BD2BEFDCFF4C6BA26E5D27 /* SkeletalTriMesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = SkeletalTriMesh.cpp; path = ../../../src/model/SkeletalTriMesh.cpp; sourceTree = "<group>"; };
+		A33D8A5BDDA74EE5BFF10C10 /* AnimTrack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimTrack.h; path = ../../../src/model/AnimTrack.h; sourceTree = "<group>"; };
+		A4C77B397C2647DA8F9CB8CB /* ModelIo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModelIo.h; path = ../../../src/model/ModelIo.h; sourceTree = "<group>"; };
+		A8102802CA494446A38D5D1F /* Renderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Renderer.cpp; path = ../../../src/model/Renderer.cpp; sourceTree = "<group>"; };
+		AA295125EBB04408B62677D0 /* skinning_vert.glsl */ = {isa = PBXFileReference; lastKnownFileType = "\"\""; name = skinning_vert.glsl; path = ../../../resources/skinning_vert.glsl; sourceTree = "<group>"; };
+		B0033E351948A3B0009F1BE0 /* model_frag.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; name = model_frag.glsl; path = ../../../resources/model_frag.glsl; sourceTree = "<group>"; };
+		B0033E361948A3B0009F1BE0 /* morph_vert.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; name = morph_vert.glsl; path = ../../../resources/morph_vert.glsl; sourceTree = "<group>"; };
+		B0033E371948A3CD009F1BE0 /* MorphedMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MorphedMesh.cpp; path = ../../../src/model/MorphedMesh.cpp; sourceTree = "<group>"; };
+		B0033E381948A3CD009F1BE0 /* MorphedMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MorphedMesh.h; path = ../../../src/model/MorphedMesh.h; sourceTree = "<group>"; };
+		B00FA17C19A9259A00DBC0D3 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		B00FA17E19A925A500DBC0D3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		BFDC25AA91D1471E822A4FBC /* AnimCurve.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AnimCurve.h; path = ../../../src/model/AnimCurve.h; sourceTree = "<group>"; };
+		C95E68E9C27D48109DAB8DBA /* SurfacePool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SurfacePool.h; path = ../../../src/model/SurfacePool.h; sourceTree = "<group>"; };
+		CB3F89F2BC074393A3996D32 /* Actor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Actor.cpp; path = ../../../src/model/Actor.cpp; sourceTree = "<group>"; };
+		DB5ADC6724BC4E60851BB849 /* AnimCurve.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = AnimCurve.cpp; path = ../../../src/model/AnimCurve.cpp; sourceTree = "<group>"; };
+		E52359D4266744D2B7B54D6C /* SkeletalMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SkeletalMesh.h; path = ../../../src/model/SkeletalMesh.h; sourceTree = "<group>"; };
+		E6B414D4DB904DEDBEDA5E40 /* AMeshSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AMeshSection.h; path = ../../../src/model/AMeshSection.h; sourceTree = "<group>"; };
+		E9BD7253847B4579BB4382AE /* Renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Renderer.h; path = ../../../src/model/Renderer.h; sourceTree = "<group>"; };
+		F3AB17923DD449C682EFB043 /* Skeleton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.cpp; name = Skeleton.cpp; path = ../../../src/model/Skeleton.cpp; sourceTree = "<group>"; };
+		FEA6DEF1F1CC422FB0729217 /* Skeleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Skeleton.h; path = ../../../src/model/Skeleton.h; sourceTree = "<group>"; };
+		FEBBB812197B49739355BB8C /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Node.h; path = ../../../src/model/Node.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				14E00D811BF8F59E00A64495 /* libz.a in Frameworks */,
+				14E00D7F1BF8F53A00A64495 /* IOKit.framework in Frameworks */,
+				B00FA17F19A925A500DBC0D3 /* AVFoundation.framework in Frameworks */,
+				B00FA17D19A9259A00DBC0D3 /* CoreMedia.framework in Frameworks */,
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				0091D8F90E81B9330029341E /* OpenGL.framework in Frameworks */,
+				5323E6B20EAFCA74003A9687 /* CoreVideo.framework in Frameworks */,
+				5323E6B60EAFCA7E003A9687 /* QTKit.framework in Frameworks */,
+				00B784B30FF439BC000DE1D7 /* Accelerate.framework in Frameworks */,
+				00B784B40FF439BC000DE1D7 /* AudioToolbox.framework in Frameworks */,
+				00B784B50FF439BC000DE1D7 /* AudioUnit.framework in Frameworks */,
+				00B784B60FF439BC000DE1D7 /* CoreAudio.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		01B97315FEAEA392516A2CEA /* Blocks */ = {
+			isa = PBXGroup;
+			children = (
+				B8147792982343DCA9FAC8C4 /* ModelSource */,
+			);
+			name = Blocks;
+			sourceTree = "<group>";
+		};
+		080E96DDFE201D6D7F000001 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				46172EC8F2234C42B9C737F4 /* FacialMorphTargetsApp.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				00B784AF0FF439BC000DE1D7 /* Accelerate.framework */,
+				00B784B00FF439BC000DE1D7 /* AudioToolbox.framework */,
+				00B784B10FF439BC000DE1D7 /* AudioUnit.framework */,
+				00B784B20FF439BC000DE1D7 /* CoreAudio.framework */,
+				5323E6B50EAFCA7E003A9687 /* QTKit.framework */,
+				5323E6B10EAFCA74003A9687 /* CoreVideo.framework */,
+				0091D8F80E81B9330029341E /* OpenGL.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* FacialMorphTargets.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* FacialMorphTargets */ = {
+			isa = PBXGroup;
+			children = (
+				01B97315FEAEA392516A2CEA /* Blocks */,
+				29B97315FDCFA39411CA2CEA /* Headers */,
+				080E96DDFE201D6D7F000001 /* Source */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = FacialMorphTargets;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				16AEF6D3D4DD49C69F43CD78 /* Resources.h */,
+				6B0412442FC547CCB18D6458 /* FacialMorphTargets_Prefix.pch */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				65E4513C0FDE4A7CA2343CEC /* CinderApp.icns */,
+				4618742B86764CE7BCEC9B52 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14E00D801BF8F59E00A64495 /* libz.a */,
+				14E00D7E1BF8F53A00A64495 /* IOKit.framework */,
+				B00FA17E19A925A500DBC0D3 /* AVFoundation.framework */,
+				B00FA17C19A9259A00DBC0D3 /* CoreMedia.framework */,
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		47F7D5A7D9AD4E2C94395076 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				144E21CB1BF8FB770054E8BE /* static_vert.glsl */,
+				B0033E351948A3B0009F1BE0 /* model_frag.glsl */,
+				B0033E361948A3B0009F1BE0 /* morph_vert.glsl */,
+				AA295125EBB04408B62677D0 /* skinning_vert.glsl */,
+			);
+			name = resources;
+			sourceTree = "<group>";
+		};
+		499F0C40F99D4C669D01DE71 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				7375AF9757AC4E028CF43A3D /* model */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
+		7375AF9757AC4E028CF43A3D /* model */ = {
+			isa = PBXGroup;
+			children = (
+				CB3F89F2BC074393A3996D32 /* Actor.cpp */,
+				DB5ADC6724BC4E60851BB849 /* AnimCurve.cpp */,
+				06CC1B6FA1FA4D45A9421965 /* AssimpLoader.cpp */,
+				39F28C0568D644618F938D5E /* CustomIOStream.cpp */,
+				2ADB8D37CA3B4EBBB9DBF0C6 /* ModelIo.cpp */,
+				3B7E39ED795A4E29BC2B3EB1 /* Node.cpp */,
+				A8102802CA494446A38D5D1F /* Renderer.cpp */,
+				96EF006BD5D4438AB3B2EBE7 /* SkeletalMesh.cpp */,
+				99BD2BEFDCFF4C6BA26E5D27 /* SkeletalTriMesh.cpp */,
+				B0033E371948A3CD009F1BE0 /* MorphedMesh.cpp */,
+				F3AB17923DD449C682EFB043 /* Skeleton.cpp */,
+				5A262728E0234E8283AEEB41 /* SurfacePool.cpp */,
+				7CBDBED0F27542EE9D0087F4 /* Actor.h */,
+				E6B414D4DB904DEDBEDA5E40 /* AMeshSection.h */,
+				BFDC25AA91D1471E822A4FBC /* AnimCurve.h */,
+				A33D8A5BDDA74EE5BFF10C10 /* AnimTrack.h */,
+				388686D561414EE3928283F1 /* AssimpLoader.h */,
+				7850DA75C3FC4B15B0CFB6CB /* CustomIOStream.h */,
+				31F20BA4D69F4C21ACDE7601 /* Debug.h */,
+				A4C77B397C2647DA8F9CB8CB /* ModelIo.h */,
+				FEBBB812197B49739355BB8C /* Node.h */,
+				E9BD7253847B4579BB4382AE /* Renderer.h */,
+				E52359D4266744D2B7B54D6C /* SkeletalMesh.h */,
+				1390BEF5B8D14748BBD0AE6C /* SkeletalTriMesh.h */,
+				B0033E381948A3CD009F1BE0 /* MorphedMesh.h */,
+				FEA6DEF1F1CC422FB0729217 /* Skeleton.h */,
+				C95E68E9C27D48109DAB8DBA /* SurfacePool.h */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
+		B8147792982343DCA9FAC8C4 /* ModelSource */ = {
+			isa = PBXGroup;
+			children = (
+				499F0C40F99D4C669D01DE71 /* src */,
+				47F7D5A7D9AD4E2C94395076 /* resources */,
+			);
+			name = ModelSource;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* FacialMorphTargets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "FacialMorphTargets" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FacialMorphTargets;
+			productInstallPath = "$(HOME)/Applications";
+			productName = FacialMorphTargets;
+			productReference = 8D1107320486CEB800E47090 /* FacialMorphTargets.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FacialMorphTargets" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* FacialMorphTargets */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D1107260486CEB800E47090 /* FacialMorphTargets */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E52A044500F4228AD4C52D0 /* CinderApp.icns in Resources */,
+				144E21CC1BF8FB770054E8BE /* static_vert.glsl in Resources */,
+				BE9CAACF46AB4376B28F5BCF /* skinning_vert.glsl in Resources */,
+				B0033E3A1948A40C009F1BE0 /* morph_vert.glsl in Resources */,
+				B0033E3B1948A40F009F1BE0 /* model_frag.glsl in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA91939EC52B488CA0D23B5F /* FacialMorphTargetsApp.cpp in Sources */,
+				00FA87B10C9C496E8562604E /* Actor.cpp in Sources */,
+				C841E7BCE89E42ECBD95E02C /* AnimCurve.cpp in Sources */,
+				9621D8B45D9543C39242C38E /* AssimpLoader.cpp in Sources */,
+				FEA2397E5E0045B0BDC7A4A5 /* CustomIOStream.cpp in Sources */,
+				1F24A68BB584464388049635 /* ModelIo.cpp in Sources */,
+				79D32F6FE8BE4570831CEFB7 /* Node.cpp in Sources */,
+				2DED667B5315447796A51571 /* Renderer.cpp in Sources */,
+				60044F2632ED47C8A6C2C5E4 /* SkeletalMesh.cpp in Sources */,
+				B0033E391948A3CD009F1BE0 /* MorphedMesh.cpp in Sources */,
+				D58A488A521647AB8E4EA582 /* SkeletalTriMesh.cpp in Sources */,
+				5E558A1405144E2FA141545C /* Skeleton.cpp in Sources */,
+				548C0B2AAE7147E1B34519F8 /* SurfacePool.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = FacialMorphTargets_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(CINDER_PATH)/lib/macosx\"",
+				);
+				OTHER_LDFLAGS = (
+					"\"$(CINDER_PATH)/lib/libcinder_d.a\"",
+					../../../lib/macosx/libassimp.a,
+				);
+				PRODUCT_NAME = FacialMorphTargets;
+				SYMROOT = ./build;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_FAST_MATH = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = FacialMorphTargets_Prefix.pch;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(CINDER_PATH)/lib/macosx\"",
+				);
+				OTHER_LDFLAGS = (
+					"\"$(CINDER_PATH)/lib/libcinder.a\"",
+					../../../lib/macosx/libassimp.a,
+				);
+				PRODUCT_NAME = FacialMorphTargets;
+				STRIP_INSTALLED_PRODUCT = YES;
+				SYMROOT = ./build;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CINDER_PATH = ../../../../..;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../src/model ../../../src";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CINDER_PATH = ../../../../..;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/boost\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "\"$(CINDER_PATH)/include\" ../include ../../../src/model ../../../src";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "FacialMorphTargets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "FacialMorphTargets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

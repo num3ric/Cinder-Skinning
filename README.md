@@ -1,28 +1,26 @@
-Cinder-Skinning Block
+ModelSource Block
 ================================
 
-This block aims to facilitate asset loading, skeletal animations and cpu/gpu mesh skinning. 
+This block aims to facilitate game-ready asset loading in Cinder. 
 
 Installation
 -------------------------
 1. Clone inside the Cinder block folder:
 
         cd [Cinder]/blocks/
-        git clone https://github.com/num3ric/Cinder-Skinning.git
+        git clone https://github.com/num3ric/ModelSource.git
 
 
-2. Download the compiled assimp static libraries here:  https://dl.dropbox.com/u/29102565/lib/lib.zip
-
-3. Extract the `lib/` folder and place it insider the **Cinder-Skinning** block folder. You should have the following folder hierarchy: `../blocks/Cinder-Skinning/lib/macosx/libassimp.a`, etc.
+2. Run the `INSTALL.sh` script, which downloads and extracts the compiled Assimp static libraries (for Mac, Windows & iOS) into a `lib/` folder.
 
 -------------------------
-Alternatively, you can compile Assimp from source by using the latest version on available here: https://github.com/assimp/assimp.git We used the following command to compile it: 
+Alternatively, you can compile Assimp from source by using the latest version on available here: https://github.com/assimp/assimp.git On Mac, we used the following command to compile it: 
 
 ```
 cmake -G "Unix Makefiles" -DBOOST_ROOT="../cinder_master/boost" -DCMAKE_CXX_FLAGS="-stdlib=libc++ -fvisibility-inlines-hidden" -DCMAKE_BUILD_TYPE=Release -DASSIMP_BUILD_STATIC_LIB=true -DCMAKE_OSX_ARCHITECTURES="i386;x86_64"
 ```
 -------------------------
-To create a new project which uses **Cinder-Skinning**, use TinderBox to link your project against this block.
+To create a new project which uses **ModelSource**, use TinderBox to link your project against this block.
 
 Samples Overview
 -------------------------
@@ -30,11 +28,11 @@ Samples Overview
 
 ![01](https://dl.dropboxusercontent.com/u/29102565/block_img/seymour.png "SeymourDemo")
 -------------------------
-**CustomShaderDemo**: illustrates how it is possible to use custom shaders instead of calling *SkinningRenderer::draw*. Note however that any custom shader must maintain some skinning code (especially the vertex shader).
+**CustomShaderDemo**: illustrates how it is possible to use custom shaders instead of calling *model::Renderer::draw*. Note however that any custom shader must maintain some skinning code (especially the vertex shader).
 
 ![02](https://dl.dropboxusercontent.com/u/29102565/block_img/customShader.png "CustomShaderDemo")
 -------------------------
-**ArmyDemo**: shows how it is possible to instantiate multiple instances of an asset, where each skinned mesh can individually have different animation poses.
+**ArmyDemo**: shows how it is possible to instantiate multiple instances of an asset, where each skeletal mesh can individually have different animation poses.
 
 ![03](https://dl.dropboxusercontent.com/u/29102565/block_img/army.png "ArmyDemo")
 -------------------------
@@ -51,20 +49,17 @@ Samples Overview
 Common Use
 -------------------------
 
-Storing and loading a `SkinnedVboMeshRef` called `mCharacter` can be done with the following assignment : `mCharacter = SkinnedVboMesh::create( loadModel( getAssetPath( ... ) ) );`
-or equivalently via
-`mCharacter = SkinnedVboMesh::create( loadModel( loadResource( ... ) ) );`
+For example, storing and loading a `model::SkeletalMeshRef` called `mCharacter` can be done with the following assignment : `mCharacter = model::SkeletalMesh::create( model::AssimpLoader( loadAsset( ... ) ) );`.
 
-Use the `SkinnedMesh` class instead of `SkinnedVboMesh` to use `ci::TriMesh`
-instead of a `ci::VboMesh`.
+Use the `model::SkeletalTriMesh` class instead of `model::SkeletalMesh` to hold the mesh data on the CPU with `ci::TriMesh` section(s).
 
 The animation is done at the skeleton level, for example: `mCharacter->getSkeleton()->setPose( time );`
 
-However, animating the skeleton doesn't automatically animate a skinned mesh containing it (for the moment at least) so a `mCharacter->update();` is necessary.
+However, animating the skeleton doesn't automatically animate a skeletal mesh containing it (for the moment at least) so a `mCharacter->update();` is necessary.
 
-Rendering can be done via our default renderer implementation: `SkinningRenderer::draw( mCharacter )`
+Rendering can be done via our default renderer implementation: `model::Renderer::draw( mCharacter )`
 
-Architecture
+Architecture [OUT OF DATE]
 -------------------------
 ![06](https://dl.dropboxusercontent.com/u/29102565/block_img/architecture.png "Architecture diagram")
 
@@ -80,5 +75,4 @@ In general:
 * Finish Kinect sample (skeleton remapping?)
 * Samples are great, but tests would help, especially for the anim curves code
 * Assimp independance so that models can be saved and loaded (via a standard format) without it
-* Integrate Obj-loader as a ModelSource
 

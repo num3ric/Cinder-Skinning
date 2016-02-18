@@ -1,6 +1,13 @@
+#version 150
+
+in vec4 ciPosition;
+in vec2 ciTexCoord0;
+uniform mat4 ciModelViewProjection;
+
+out vec2 tex_coord;
 
 void main()
 {
-	gl_TexCoord[0] = gl_MultiTexCoord0;
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+	tex_coord = ciTexCoord0;
+	gl_Position = ciModelViewProjection * ciPosition;
 }

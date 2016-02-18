@@ -1,8 +1,8 @@
 #pragma once
 #include "cinder/CinderResources.h"
 
-#define RES_SKINNING_VERT				CINDER_RESOURCE( ../../../resources/, skinning_vert_normals.glsl, 128, GLSL  )
-#define RES_SKINNING_FRAG				CINDER_RESOURCE( ../../../resources/, skinning_frag_normals.glsl, 129, GLSL  )
+#define RES_STATIC_VERT			CINDER_RESOURCE( ../../../resources/, static_vert.glsl, 128, GLSL )
+#define RES_SKINNING_VERT		CINDER_RESOURCE( ../../../resources/, skinning_vert.glsl, 129, GLSL )
+#define RES_MORPH_VERT			CINDER_RESOURCE( ../../../resources/, morph_vert.glsl, 130, GLSL  )
+#define RES_MODEL_FRAG			CINDER_RESOURCE( ../../../resources/, model_frag.glsl, 131, GLSL )
 
-#define RES_TMILL_VERT				CINDER_RESOURCE( ../resources/, treadmill_vert.glsl, 130, GLSL  )
-#define RES_TMILL_FRAG				CINDER_RESOURCE( ../resources/, treadmill_frag.glsl, 131, GLSL  )

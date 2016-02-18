@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Blocks">
+      <UniqueIdentifier>{AFB18E11-5C14-4FD4-812B-73D9F736D2FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\ModelSource">
+      <UniqueIdentifier>{5FB13A90-D382-4ED4-9D31-A04EF02FC9D2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\ModelSource\src">
+      <UniqueIdentifier>{23CD4224-F4C8-4469-A1A0-5BFDB2EA79C9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Blocks\ModelSource\include">
+      <UniqueIdentifier>{33AD98F6-BA35-4E5B-B4D4-A92BD3B58518}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\CustomShaderDemoApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CustomShaderDemoApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\..\src\model\CustomIOStream.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\ModelIo.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\Node.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\Renderer.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\Skeleton.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\Actor.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\AnimCurve.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\AssimpLoader.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\SurfacePool.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\SkeletalMesh.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\model\SkeletalTriMesh.cpp">
+      <Filter>Blocks\ModelSource\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\AMeshSection.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\AnimCurve.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\AnimTrack.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\AssimpLoader.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\CustomIOStream.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\Debug.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\ModelIo.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\Node.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\Renderer.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\Skeleton.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\Actor.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\SurfacePool.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\SkeletalMesh.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\model\SkeletalTriMesh.h">
+      <Filter>Blocks\ModelSource\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

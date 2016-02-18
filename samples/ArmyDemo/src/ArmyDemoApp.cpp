@@ -1,4 +1,7 @@
-#include "cinder/app/AppNative.h"
+#include "model/AssimpLoader.h"
+
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 
 using namespace ci;
@@ -6,23 +9,19 @@ using namespace ci::app;
 using namespace std;
 
 #include "cinder/Camera.h"
-#include "cinder/MayaCamUI.h"
-#include "cinder/gl/Light.h"
+#include "cinder/CameraUi.h"
 #include "cinder/params/Params.h"
 
-#include "ModelSourceAssimp.h"
-#include "SkinnedMesh.h"
-#include "SkinnedVboMesh.h"
-#include "Skeleton.h"
-#include "SkinningRenderer.h"
+
+#include "model/SkeletalMesh.h"
+#include "model/Skeleton.h"
+#include "model/Renderer.h"
 
 const int ROW_LEN = 10;
 const int NUM_MONSTERS = ROW_LEN * ROW_LEN;
 const float SPACING = 85.0f;
 
-using namespace model;
-
-class ArmyDemoApp : public AppNative {
+class ArmyDemoApp : public App {
 public:
 	void setup();
 	
@@ -36,12 +35,12 @@ public:
 	void update();
 	void draw();
 private:
-	SkinnedVboMeshRef				mSkinnedVboMesh;
+	model::SkeletalMeshRef			mSkeletalMesh;
 	
-	MayaCamUI						mMayaCam;
+	CameraPersp						mCamera;
+	CameraUi						mCamUi;
 	float							mMouseHorizontalPos;
-	float							rotationRadius;
-	Vec3f							mLightPos;
+	vec3							mLightPos;
 	
 	int								mMeshIndex;
 	float							mTime, mFps;
@@ -51,13 +50,12 @@ private:
 
 void ArmyDemoApp::setup()
 {
-	model::Skeleton::mRenderMode = model::Skeleton::RenderMode::CLEANED;
+	model::Skeleton::sRenderMode = model::Skeleton::RenderMode::CLEANED;
 
-	rotationRadius = 20.0f;
-	mLightPos = Vec3f(10.0f, 20.0f, 20.0f);
+	mLightPos = vec3(10.0f, 20.0f, 20.0f);
 	mMouseHorizontalPos = 0;
 	mMeshIndex = 0;
-	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
+	mParams = params::InterfaceGl( "Parameters", ivec2( 200, 250 ) );
 	mParams.addParam( "Fps", &mFps, "", true );
 	mParams.addSeparator();
 	mDrawMesh = true;
@@ -73,14 +71,13 @@ void ArmyDemoApp::setup()
 	gl::enableDepthRead();
 	gl::enableAlphaBlending();
 	
-	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "maggot3.md5mesh" ) ) );
+	mSkeletalMesh = model::SkeletalMesh::create( model::AssimpLoader( loadAsset( "maggot3.md5mesh" ) ) );
 }
 
 void ArmyDemoApp::fileDrop( FileDropEvent event )
 {
 	try {
-		fs::path modelFile = event.getFile( 0 );
-		mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( modelFile ) );
+		mSkeletalMesh = model::SkeletalMesh::create( model::AssimpLoader( loadFile( event.getFile(0) ) ) );
 	}
 	catch( ... ) {
 		console() << "unable to load the asset!" << std::endl;
@@ -107,19 +104,18 @@ void ArmyDemoApp::mouseMove( MouseEvent event )
 
 void ArmyDemoApp::mouseDown( MouseEvent event )
 {
-	mMayaCam.mouseDown( event.getPos() );
+	mCamUi.mouseDown( event.getPos() );
 }
 
 void ArmyDemoApp::mouseDrag( MouseEvent event )
 {
-	mMayaCam.mouseDrag( event.getPos(), event.isLeftDown(), event.isMiddleDown(), event.isRightDown() );
+	mCamUi.mouseDrag( event.getPos(), event.isLeftDown(), event.isMiddleDown(), event.isRightDown() );
 }
 
 void ArmyDemoApp::resize()
 {
-	CameraPersp cam = mMayaCam.getCamera();
-	cam.setAspectRatio( getWindowAspectRatio() );
-	mMayaCam.setCurrentCam( cam );
+	mCamUi.setWindowSize( getWindowSize() );
+	mCamera.setAspectRatio( getWindowAspectRatio() );
 	gl::enableDepthWrite();
 	gl::enableDepthRead();
 }
@@ -127,44 +123,31 @@ void ArmyDemoApp::resize()
 void ArmyDemoApp::update()
 {
 	mFps = getAverageFps();
-	mTime = 0.05f * mSkinnedVboMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
+	mTime = 0.05f * mSkeletalMesh->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
 }
 
 void ArmyDemoApp::draw()
 {
 	gl::clear( Color::black() );
-	gl::setMatrices( mMayaCam.getCamera() );
-	gl::translate(0, -5.0f, 0.0f);
-	
-	gl::Light light( gl::Light::DIRECTIONAL, 0 );
-	light.setAmbient( Color::white() );
-	light.setDiffuse( Color::white() );
-	light.setSpecular( Color::white() );
-	light.lookAt( mLightPos, Vec3f::zero() );
-	light.update( mMayaCam.getCamera() );
-	light.enable();
-
-	gl::enable( GL_LIGHTING );
-	gl::enable( GL_NORMALIZE );
-
-	gl::scale(0.1f, 0.1f, 0.1f);
+	gl::setMatrices( mCamera );
+	gl::translate( 0, -5.0f, 0.0f );
+	gl::scale( vec3( 0.1f ) );
 	
 	if ( mEnableWireframe )
 		gl::enableWireframe();
 	
 	for(int i=0; i < ROW_LEN; ++i) {
 		for(int j=0; j < ROW_LEN; ++j ) {
-			gl::pushModelView();
+			gl::pushModelMatrix();
 			gl::translate(SPACING * (i - 0.5f * ROW_LEN), 0, SPACING * (j - 0.5f * ROW_LEN));
-			mSkinnedVboMesh->getSkeleton()->setPose( mTime + 2.0f*( i * j )/NUM_MONSTERS );
+			mSkeletalMesh->setPose( mTime + 2.0f*( i * j )/NUM_MONSTERS );
 			if( mDrawMesh ) {
-				mSkinnedVboMesh->update();
-				SkinningRenderer::draw( mSkinnedVboMesh );
+				model::Renderer::draw( mSkeletalMesh );
 			}
 			if( mDrawSkeleton) {
-				SkinningRenderer::draw( mSkinnedVboMesh->getSkeleton(), mDrawAbsolute );
+				model::Renderer::draw( mSkeletalMesh->getSkeleton() );
 			}
-			gl::popModelView();
+			gl::popModelMatrix();
 		}
 	}
 	
@@ -175,4 +158,4 @@ void ArmyDemoApp::draw()
 	
 }
 
-CINDER_APP_NATIVE( ArmyDemoApp, RendererGl )
+CINDER_APP( ArmyDemoApp, RendererGl )

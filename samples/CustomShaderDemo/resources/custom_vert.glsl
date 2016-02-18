@@ -1,39 +1,45 @@
+
+
+#version 150
+
 const int MAXBONES = 92;
 
-attribute vec3 position;
-attribute vec3 normal;
-attribute vec2 texcoord;
-attribute vec4 boneWeights;
-attribute vec4 boneIndices;
+in vec4 ciPosition;
+in vec3 ciNormal;
+in vec2 ciTexCoord0;
+in vec4 ciBoneWeight;
+in vec4 ciBoneIndex;
 
+uniform mat4 ciModelViewProjection;
+uniform mat4 ciModelView;
+uniform mat3 ciNormalMatrix;
+
+uniform vec3 lightPos;
 uniform mat4 boneMatrices[MAXBONES];
 uniform mat4 invTransposeMatrices[MAXBONES];
 
-varying vec2 Tc;
-varying vec3 V, N, L;
+out vec2 Tc;
+out vec3 V, N, L;
 
 void main()
-{	
-	vec4 pos = vec4(position, 1.0);
-	vec4 norm = vec4(normal, 1.0);
+{
+	vec4 pos = ciPosition;
+	vec4 norm = vec4(ciNormal, 1.0);
+	pos = boneMatrices[int(ciBoneIndex.x)] * pos * ciBoneWeight.x +
+	boneMatrices[int(ciBoneIndex.y)] * pos * ciBoneWeight.y +
+	boneMatrices[int(ciBoneIndex.z)] * pos * ciBoneWeight.z +
+	boneMatrices[int(ciBoneIndex.w)] * pos * ciBoneWeight.w ;
 	
-	pos = boneMatrices[int(boneIndices.x)] * pos * boneWeights.x +
-		  boneMatrices[int(boneIndices.y)] * pos * boneWeights.y +
-		  boneMatrices[int(boneIndices.z)] * pos * boneWeights.z +
-		  boneMatrices[int(boneIndices.w)] * pos * boneWeights.w ;
-	
-	norm = invTransposeMatrices[int(boneIndices.x)] * norm * boneWeights.x +
-		   invTransposeMatrices[int(boneIndices.y)] * norm * boneWeights.y +
-		   invTransposeMatrices[int(boneIndices.z)] * norm * boneWeights.z +
-		   invTransposeMatrices[int(boneIndices.w)] * norm * boneWeights.w ;
-	
+	norm = invTransposeMatrices[int(ciBoneIndex.x)] * norm * ciBoneWeight.x +
+	invTransposeMatrices[int(ciBoneIndex.y)] * norm * ciBoneWeight.y +
+	invTransposeMatrices[int(ciBoneIndex.z)] * norm * ciBoneWeight.z +
+	invTransposeMatrices[int(ciBoneIndex.w)] * norm * ciBoneWeight.w ;
 	pos.w = 1.0;
 	norm.w = 0.0;
-	
-	V = (gl_ModelViewMatrix * pos).xyz;
-	N = normalize(gl_NormalMatrix * norm.xyz);
-	L = normalize(vec3(gl_LightSource[0].position));
-	Tc = texcoord;
-	
-	gl_Position = gl_ModelViewProjectionMatrix * pos;
+
+	V = (ciModelView * pos).xyz;
+	N = -normalize(ciNormalMatrix * norm.xyz);
+	L = normalize(lightPos);
+	Tc = ciTexCoord0;
+	gl_Position = ciModelViewProjection * pos;
 }

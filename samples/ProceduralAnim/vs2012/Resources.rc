@@ -1,0 +1,6 @@
+#include "../include/Resources.h"
+
+RES_SKINNING_VERT
+RES_SKINNING_FRAG
+RES_CLOUD_VERT
+RES_CLOUD_FRAG

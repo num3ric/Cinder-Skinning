@@ -1,0 +1,6 @@
+#include "../include/Resources.h"
+
+1	ICON	"..\\resources\\cinder_app_icon.ico"
+RES_SKINNING_VERT
+RES_MORPH_VERT
+RES_MODEL_FRAG

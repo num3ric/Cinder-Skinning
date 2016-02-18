@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <cinder>
     <block
-	name="Skinning"
+	name="ModelSource"
 	id="org.libcinder.skinning"
 	author="Éric Renaud-Houde"
 	license="BSD"
@@ -11,24 +11,48 @@
 	libraryUrl="www.libcinder.org"
     >
 
-	<sourcePattern>src/*.cpp</sourcePattern>
-	<headerPattern>include/*.h</headerPattern>
-    <includePath>include/</includePath>
-    <includePath>include/assimp</includePath>
-    <resource name="RES_SKINNING_VERT" type="GLSL">resources/skinning_vert_normals.glsl</resource>
-    <resource name="RES_SKINNING_FRAG" type="GLSL">resources/skinning_frag_normals.glsl</resource>
+    <sourcePattern>src/model/*.cpp</sourcePattern>
+    <headerPattern>src/model/*.h</headerPattern>
+    <includePath>src/model</includePath>
+    <includePath>src</includePath>
     
     <platform os="macosx">
         <staticLibrary>lib/macosx/libassimp.a</staticLibrary>
     </platform>
+	<platform os="ios">
+		<platform config="debug">
+			<platform sdk="simulator">
+				<staticLibrary>lib/ios/debug/libassimp-ios_sim.a</staticLibrary>
+			</platform>
+			<platform sdk="device">
+				<staticLibrary>lib/ios/debug/libassimp-ios.a</staticLibrary>
+			</platform>
+		</platform>
+		<platform config="release">
+			<platform sdk="simulator">
+				<staticLibrary>lib/ios/release/libassimp-ios_sim.a</staticLibrary>
+			</platform>
+			<platform sdk="device">
+				<staticLibrary>lib/ios/release/libassimp-ios.a</staticLibrary>
+			</platform>
+		</platform>
+		<resource name="RES_SKINNING_VERT" type="GLSL">resources/skinning_vert_ios.glsl</resource>
+		<resource name="RES_SKINNING_FRAG" type="GLSL">resources/skinning_frag_ios.glsl</resource>
+	</platform>
     <platform os="msw">
         <platform config="debug">
-            <staticLibrary>lib/msw/assimp3.0D.lib</staticLibrary>
+            <staticLibrary>lib/msw/$(PlatformTarget)/assimpd.lib</staticLibrary>
+	    <buildCopy>lib/msw/$(PlatformTarget)/assimpd.dll</buildCopy>
         </platform>
 
         <platform config="release">
-            <staticLibrary>lib/msw/assimp3.0.lib</staticLibrary>
+            <staticLibrary>lib/msw/$(PlatformTarget)/assimp.lib</staticLibrary>
+	    <buildCopy>lib/msw/$(PlatformTarget)/assimp.dll</buildCopy>
         </platform>
     </platform>
+   	<resource name="RES_STATIC_VERT" type="GLSL">resources/static_vert.glsl</resource>
+	<resource name="RES_SKINNING_VERT" type="GLSL">resources/skinning_vert.glsl</resource>
+	<resource name="RES_MORPH_VERT" type="GLSL">resources/morph_vert.glsl</resource>
+	<resource name="RES_MODEL_FRAG" type="GLSL">resources/model_frag.glsl</resource>
 </block>
 </cinder>

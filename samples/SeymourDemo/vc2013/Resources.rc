@@ -1,0 +1,6 @@
+#include "../include/Resources.h"
+
+RES_STATIC_VERT
+RES_SKINNING_VERT
+RES_MORPH_VERT
+RES_MODEL_FRAG

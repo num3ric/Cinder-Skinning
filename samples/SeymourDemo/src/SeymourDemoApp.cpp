@@ -1,104 +1,102 @@
-#include "cinder/app/AppNative.h"
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+#include "cinder/gl/Shader.h"
+#include "cinder/Camera.h"
+#include "cinder/CameraUi.h"
+#include "cinder/params/Params.h"
+#include "cinder/Log.h"
+
+#include "model/AssimpLoader.h"
+#include "model/SkeletalMesh.h"
+#include "model/SkeletalTriMesh.h"
+#include "model/Skeleton.h"
+#include "model/Renderer.h"
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-#include "cinder/Camera.h"
-#include "cinder/MayaCamUI.h"
-#include "cinder/gl/Light.h"
-#include "cinder/params/Params.h"
-
-#include "ModelSourceAssimp.h"
-#include "SkinnedMesh.h"
-#include "SkinnedVboMesh.h"
-#include "Skeleton.h"
-#include "SkinningRenderer.h"
-
-#include "Treadmill.h"
-
-using namespace model;
-
-class SeymourDemo : public AppNative {
+class SeymourDemo : public App {
 public:
-	void setup();
-	
-	void resize();
-	void keyDown( KeyEvent event );
-	void mouseMove( MouseEvent event );
-	void mouseDown( MouseEvent event );
-	void mouseDrag( MouseEvent event );
-	void mouseWheel( MouseEvent event );
-	void fileDrop( FileDropEvent event );
-	
-	void update();
-	void draw();
+	void setup() override;
+	void resize() override;
+	void keyDown( KeyEvent event ) override;
+	void mouseMove( MouseEvent event ) override;
+	void mouseDown( MouseEvent event ) override;
+	void mouseDrag( MouseEvent event ) override;
+	void fileDrop( FileDropEvent event ) override;
+	void update() override;
+	void draw() override;
 private:
-	SkinnedMeshRef					mSkinnedMesh;
-	SkinnedVboMeshRef				mSkinnedVboMesh;
-	
-	MayaCamUI						mMayaCam;
+	model::SkeletalTriMeshRef		mSkeletalTriMesh;
+	model::SkeletalMeshRef			mSkeletalMesh;
+
+	CameraPersp						mCamera;
+	CameraUi						mCamUi;
 	float							mMouseHorizontalPos;
-	float							rotationRadius;
-	Vec3f							mLightPos;
+	float							mRotationRadius;
 	
 	float							mFps;
+	float							mScaleFactor;
+	float							mBgColor;
 	params::InterfaceGl				mParams;
-	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mDrawAbsolute, mEnableWireframe;
-	bool mDrawTreadmill;
-	
-	std::unique_ptr<Treadmill> mTreadmill;
+	bool mUseVbo, mDrawSkeleton, mDrawLabels, mDrawMesh, mEnableWireframe, mBoundingBox, mDrawAllSections;
+	int mSectionId;
 };
 
 void SeymourDemo::setup()
 {
-	model::Skeleton::mRenderMode = model::Skeleton::RenderMode::CLEANED;
-	
-	mDrawTreadmill = true;
-	mTreadmill = std::unique_ptr<Treadmill>( new Treadmill() );
-
-	rotationRadius = 20.0f;
-	mLightPos = Vec3f(0, 20.0f, 0);
+	mRotationRadius = 20.0f;
 	mMouseHorizontalPos = 0;
 	mUseVbo = true;
-	mParams = params::InterfaceGl( "Parameters", Vec2i( 200, 250 ) );
+	mParams = params::InterfaceGl( "Parameters", ivec2( 200, 250 ) );
 	mParams.addParam( "Fps", &mFps, "", true );
+	mBgColor = 0.45f;
+	mParams.addParam( "Bg color", &mBgColor ).step( 0.05).min( 0.0 ).max( 1.0 );
+	// Latest assimp build requires a scaling factor of 100.0f. Don't ask.
+	mScaleFactor = 100.0f;
+	mParams.addParam( "Scale factor", &mScaleFactor ).step( 0.1 );
 	mParams.addSeparator();
 	mParams.addParam( "Use VboMesh", &mUseVbo );
 	mDrawMesh = true;
 	mParams.addParam( "Draw Mesh", &mDrawMesh );
+	mDrawAllSections = true;
+	mParams.addParam( "Draw all mesh sections", &mDrawAllSections );
+	mSectionId = 0;
+	mParams.addParam( "Section index", &mSectionId ).min(0.0);
 	mDrawSkeleton = false;
 	mParams.addParam( "Draw Skeleton", &mDrawSkeleton );
 	mDrawLabels = false;
 	mParams.addParam( "Draw Labels", &mDrawLabels );
-	mDrawAbsolute = true;
-	mParams.addParam( "Abolute skeleton", &mDrawAbsolute );
 	mEnableWireframe = false;
 	mParams.addParam( "Wireframe", &mEnableWireframe );
-	
-	//	gl::enableDepthWrite();
+	mBoundingBox = false;
+	mParams.addParam( "Bounding Box", &mBoundingBox );
+		
+	const auto& loader = model::AssimpLoader( loadAsset( "astroboy_walk.dae" ) );
+	mSkeletalTriMesh = model::SkeletalTriMesh::create( loader );
+	mSkeletalMesh = model::SkeletalMesh::create( loader, mSkeletalTriMesh->getSkeleton() );
+
+	mCamera.lookAt( vec3( 30.0f, 15.0f, 40.0f ), vec3( 0.0f ) );
+	mCamUi = CameraUi( &mCamera );
+
+	gl::getStockShader( gl::ShaderDef().color() )->bind();
+	gl::enableDepthWrite();
 	gl::enableDepthRead();
 	gl::enableAlphaBlending();
-	
-	mSkinnedMesh = SkinnedMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ) );
-//	app::console() << *mSkinnedMesh->getSkeleton();
-	mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( getAssetPath( "astroboy_walk.dae" ) ), mSkinnedMesh->getSkeleton(), nullptr );
-	
-//	mSkinnedMesh->getSkeleton()->loopAnim();
 }
 
 void SeymourDemo::fileDrop( FileDropEvent event )
 {
-//	try {
-		fs::path modelFile = event.getFile( 0 );
-		mSkinnedMesh = SkinnedMesh::create( loadModel( modelFile ) );
-		mSkinnedVboMesh = SkinnedVboMesh::create( loadModel( modelFile ), mSkinnedMesh->getSkeleton() );
-//	}
-//	catch( ... ) {
-//		console() << "unable to load the asset!" << std::endl;
-//	};
-	mDrawTreadmill = false;
+	try {
+		const auto& loader = model::AssimpLoader( loadFile( event.getFile( 0 ) ),  model::AssimpLoader::Settings().loadAnims(false) );
+		mSkeletalTriMesh = model::SkeletalTriMesh::create( loader );
+		mSkeletalMesh = model::SkeletalMesh::create( loader, mSkeletalTriMesh->getSkeleton() );		
+	}
+	catch( ... ) {
+		CI_LOG_E( "Unable to load the asset." );
+	};
 }
 
 void SeymourDemo::keyDown( KeyEvent event )
@@ -115,7 +113,7 @@ void SeymourDemo::mouseMove( MouseEvent event )
 
 void SeymourDemo::mouseDown( MouseEvent event )
 {
-	mMayaCam.mouseDown( event.getPos() );
+	mCamUi.mouseDown( event.getPos() );
 }
 
 void SeymourDemo::mouseDrag( MouseEvent event )
@@ -123,88 +121,72 @@ void SeymourDemo::mouseDrag( MouseEvent event )
 	// Added support for international mac laptop keyboards.
 	bool middle = event.isMiddleDown() || ( event.isMetaDown() && event.isLeftDown() );
 	bool right = event.isRightDown() || ( event.isControlDown() && event.isLeftDown() );
-	mMayaCam.mouseDrag( event.getPos(), event.isLeftDown() && !middle && !right, middle, right );
-}
-
-void SeymourDemo::mouseWheel( MouseEvent event )
-{
-//	mMayaCam.mouseWheel( event.getWheelIncrement() );
+	mCamUi.mouseDrag( event.getPos(), event.isLeftDown() && !middle && !right, middle, right );
 }
 
 void SeymourDemo::resize()
 {
-	CameraPersp cam = mMayaCam.getCamera();
-	cam.setAspectRatio( getWindowAspectRatio() );
-	mMayaCam.setCurrentCam( cam );
+	mCamUi.setWindowSize( getWindowSize() );
+	mCamera.setAspectRatio( getWindowAspectRatio() );
 	gl::enableDepthRead();
 }
 
 void SeymourDemo::update()
 {
-	if( mUseVbo && mSkinnedVboMesh->hasSkeleton() ) {
-		float time = mSkinnedVboMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
-		mSkinnedVboMesh->getSkeleton()->setPose( time );
-		mSkinnedVboMesh->update();
-	} else if( mSkinnedMesh->hasSkeleton() ) {
-		float time = mSkinnedMesh->getSkeleton()->getAnimDuration() * mMouseHorizontalPos / getWindowWidth();
-		mSkinnedMesh->getSkeleton()->setPose( time );
-		mSkinnedMesh->update();
+	if( mSkeletalMesh->hasAnimations() ) {
+		float time = mSkeletalMesh->getAnimDuration() * mMouseHorizontalPos / math<float>::max( 200.0f, getWindowWidth() );
+		mSkeletalMesh->setPose( time );
+		mSkeletalTriMesh->setPose( time );
 	}
+
 	mFps = getAverageFps();
-	mLightPos.x = rotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
-	mLightPos.z = rotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
+	model::Renderer::getLight()->position.x = mRotationRadius * math<float>::sin( float( app::getElapsedSeconds() ) );
+	model::Renderer::getLight()->position.z = mRotationRadius * math<float>::cos( float( app::getElapsedSeconds() ) );
 }
 
 void SeymourDemo::draw()
 {
-	// clear out the window with black
-	gl::clear( Color(0.45f, 0.5f, 0.55f) );
-	gl::setMatrices( mMayaCam.getCamera() );
+	gl::clear( Color( mBgColor * 0.9, mBgColor, mBgColor * 1.1 ) );
+	gl::setMatrices( mCamera );
 	gl::translate(0, -5.0f, 0.0f);
-	
-	gl::Light light( gl::Light::DIRECTIONAL, 0 );
-	light.setAmbient( Color::white() );
-	light.setDiffuse( Color::white() );
-	light.setSpecular( Color::white() );
-	light.lookAt( mLightPos, Vec3f::zero() );
-	light.update( mMayaCam.getCamera() );
-	light.enable();
-	
-	
-//	gl::drawVector(mLightPos, Vec3f::zero() );
-	
-	gl::enable( GL_LIGHTING );
-	gl::enable( GL_NORMALIZE );
-	
-	if ( mEnableWireframe )
-		gl::enableWireframe();
+	gl::scale( vec3( mScaleFactor ) );
+
 	if( mDrawMesh ) {
+		if ( mEnableWireframe )
+			gl::enableWireframe();
 		if( mUseVbo ) {
-			SkinningRenderer::draw( mSkinnedVboMesh );
+			if( mDrawAllSections ) {
+				model::Renderer::draw( mSkeletalMesh );
+			} else {
+				if( mSectionId < mSkeletalMesh->getSections().size() ) {
+					model::Renderer::draw( mSkeletalMesh, mSectionId );
+				}
+			}
 		} else {
-			SkinningRenderer::draw( mSkinnedMesh );
+			model::Renderer::draw( mSkeletalTriMesh );
 		}
+		if ( mEnableWireframe )
+			gl::disableWireframe();
 	}
-	if ( mEnableWireframe )
-		gl::disableWireframe();
 	
-	if( mSkinnedVboMesh->getSkeleton() ) {
+	if( mSkeletalMesh->getSkeleton() ) {
 		if( mDrawSkeleton) {
-			SkinningRenderer::draw( mSkinnedVboMesh->getSkeleton(), mDrawAbsolute );
+			model::Renderer::draw( mSkeletalMesh->getSkeleton() );
 		}
 		
 		if( mDrawLabels ) {
-			SkinningRenderer::drawLabels( mSkinnedVboMesh->getSkeleton(),  mMayaCam.getCamera() );
+			model::Renderer::drawLabels( mSkeletalMesh->getSkeleton(),  mCamera );
+		}
+		
+		if( mBoundingBox ) {
+			const auto& box = mSkeletalMesh->getSkeleton()->calcBoundingBox();
+			gl::enableWireframe();
+			gl::drawColorCube( box.getCenter(), box.getSize() );
+			gl::disableWireframe();
 		}
 	}
 	
-	if( mDrawTreadmill ) {
-		gl::disable( GL_CULL_FACE );
-		mTreadmill->draw( mMouseHorizontalPos / getWindowWidth() );
-	}
-	
 	mParams.draw();
-	
 }
 
-CINDER_APP_NATIVE( SeymourDemo, RendererGl )
+CINDER_APP( SeymourDemo, RendererGl )
